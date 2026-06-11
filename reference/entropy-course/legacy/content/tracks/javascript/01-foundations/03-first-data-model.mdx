@@ -1,0 +1,112 @@
+---
+slug: 03-first-data-model
+title: The first TaskForge data model
+order_index: 3
+estimated_minutes: 25
+objectives:
+  - Represent users, projects, and tasks as plain JavaScript objects.
+  - Group tasks by status with a single pass over the array.
+  - Print a readable summary of TaskForge state to the console.
+prerequisites:
+  - 02-values-and-types
+status: draft
+video:
+  provider: null
+  asset_id: null
+tags: [foundations, modeling, arrays]
+---
+
+You now know enough about values to model the TaskForge world. We will use
+nothing but plain objects and arrays — no classes, no libraries, no
+databases. The goal is to make the *shape* of the data obvious before we
+worry about anything else.
+
+## A starting shape
+
+```js
+const user = {
+  id: "u_001",
+  name: "Stephen",
+};
+
+const project = {
+  id: "p_001",
+  name: "Launch TaskForge",
+  ownerId: user.id,
+};
+
+const tasks = [
+  { id: "t_001", projectId: "p_001", title: "Set up repo",        status: "done" },
+  { id: "t_002", projectId: "p_001", title: "Draft README",       status: "doing" },
+  { id: "t_003", projectId: "p_001", title: "Sketch UI",          status: "todo" },
+  { id: "t_004", projectId: "p_001", title: "Wire up Node.js API", status: "todo" },
+  { id: "t_005", projectId: "p_001", title: "Deploy demo",        status: "todo" },
+];
+```
+
+Three small choices in there are worth noticing. **IDs are strings, not
+numbers**, which keeps them sortable as text and avoids accidental
+arithmetic. **Relationships use IDs, not nested objects** — `task.projectId`
+instead of `task.project`. That keeps each list flat and easy to update.
+**Status is a string from a fixed set** (`todo`, `doing`, `done`). In a
+later stage we will harden that into a proper validated value.
+
+## Group by status
+
+A common dashboard view is *how many tasks are in each status?* In one pass:
+
+```js
+const counts = {};
+for (const task of tasks) {
+  counts[task.status] = (counts[task.status] ?? 0) + 1;
+}
+console.log(counts);
+// → { done: 1, doing: 1, todo: 3 }
+```
+
+If `counts[task.status]` is `undefined`, the `??` operator falls back to `0`
+and we add one. The same idea works for grouping the tasks themselves:
+
+```js
+const byStatus = {};
+for (const task of tasks) {
+  (byStatus[task.status] ??= []).push(task);
+}
+```
+
+`??=` assigns `[]` only if the slot is currently nullish. Read that line a
+few times — it is dense, but it is also the kind of small idiom that
+shortens TaskForge code a lot over the next few stages.
+
+## A readable summary
+
+```js
+function summarise(user, project, tasks) {
+  const counts = {};
+  for (const t of tasks) counts[t.status] = (counts[t.status] ?? 0) + 1;
+
+  return [
+    `Project: ${project.name}  (owner: ${user.name})`,
+    `  todo:  ${counts.todo  ?? 0}`,
+    `  doing: ${counts.doing ?? 0}`,
+    `  done:  ${counts.done  ?? 0}`,
+  ].join("\n");
+}
+
+console.log(summarise(user, project, tasks));
+```
+
+Run it under Node.js *and* in the browser. Same code, same output, two
+runtimes — exactly the point we proved in lesson one.
+
+## Where this is going
+
+In the next stage, this data starts moving from constants in a file to a
+real user interface — forms, lists, and buttons. The plain-object shape we
+chose here is going to keep paying us back: every later concept (rendering,
+validation, persistence, sync) will lean on this exact model.
+
+<Callout type="check">
+You finished this lesson when your `main.js` prints a TaskForge summary in
+both Node.js (`node main.js`) and the browser console.
+</Callout>

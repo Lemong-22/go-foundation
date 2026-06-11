@@ -1,0 +1,959 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Course CLI Playground</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%234f8cff'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-family='monospace' font-size='16' font-weight='700' fill='white'%3EC%3C/text%3E%3C/svg%3E">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  :root {
+    --bg: #101214;
+    --bg-2: #171a1d;
+    --bg-3: #1f2327;
+    --bg-4: #272d32;
+    --border: #30363d;
+    --border-2: #3c444d;
+    --text-1: #edf2f7;
+    --text-2: #a9b4bf;
+    --text-3: #707b86;
+    --accent: #4f8cff;
+    --accent-2: #78a8ff;
+    --accent-bg: #14213a;
+    --green: #5fd48b;
+    --green-bg: #12271c;
+    --yellow: #e7c86f;
+    --red: #ff6b6b;
+    --red-bg: #2b1517;
+    --mono: "SFMono-Regular", "JetBrains Mono", "Fira Code", Consolas, monospace;
+    --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --sidebar-w: 232px;
+    --docs-w: 456px;
+  }
+  html, body { height: 100%; margin: 0; background: var(--bg); color: var(--text-1); font: 13px/1.5 var(--sans); overflow: hidden; }
+  button, input, select, textarea { font: inherit; }
+  [hidden] { display: none !important; }
+  .topbar { height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 14px; background: var(--bg-2); border-bottom: 1px solid var(--border); }
+  .brand { display: flex; align-items: center; gap: 8px; min-width: 0; font-weight: 700; }
+  .brand-mark { width: 24px; height: 24px; display: grid; place-items: center; border-radius: 6px; color: white; background: var(--accent); font: 800 12px/1 var(--mono); }
+  .brand-sub, .topbar-host, .topbar-db { color: var(--text-3); font-size: 11px; }
+  .topbar-tag { color: var(--green); background: var(--green-bg); border: 1px solid #285c3d; border-radius: 4px; padding: 2px 7px; font: 700 10px var(--mono); }
+  .import-console-btn { height: 28px; color: var(--text-2); background: var(--bg-3); border: 1px solid var(--border); border-radius: 6px; padding: 0 10px; font-weight: 650; cursor: pointer; }
+  .import-console-btn:hover, .import-console-btn.active { color: var(--text-1); border-color: var(--accent); background: var(--accent-bg); }
+  .topbar-spacer { flex: 1; }
+  .topbar-db { display: flex; align-items: center; gap: 6px; font-family: var(--mono); white-space: nowrap; }
+  .topbar-db-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+  .shell { display: flex; height: calc(100vh - 44px); min-height: 0; }
+  .sidebar { width: var(--sidebar-w); flex: 0 0 var(--sidebar-w); display: flex; flex-direction: column; background: var(--bg-2); border-right: 1px solid var(--border); min-width: 0; min-height: 0; }
+  .sidebar-search { padding: 10px; border-bottom: 1px solid var(--border); }
+  .sidebar-search input, .field-control { width: 100%; color: var(--text-1); background: var(--bg); border: 1px solid var(--border); border-radius: 6px; outline: none; }
+  .sidebar-search input { height: 31px; padding: 0 9px; font-size: 12px; }
+  .sidebar-search input:focus, .field-control:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(79, 140, 255, 0.14); }
+  .sidebar-nav { flex: 1; overflow-y: auto; padding: 6px 0 16px; }
+  .nav-group-label, .section-label, .output-label, .code-lang { color: var(--text-3); font-size: 10px; font-weight: 700; letter-spacing: 0; text-transform: uppercase; }
+  .nav-group-label { padding: 9px 12px 4px; }
+  .nav-item { position: relative; width: 100%; display: flex; align-items: center; gap: 9px; padding: 7px 12px; color: var(--text-2); background: transparent; border: 0; cursor: pointer; text-align: left; }
+  .nav-item:hover { background: var(--bg-3); color: var(--text-1); }
+  .nav-item.active { background: var(--accent-bg); color: var(--text-1); }
+  .nav-item.active::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 2px; background: var(--accent); }
+  .nav-dot { width: 7px; height: 7px; border-radius: 50%; flex: 0 0 7px; background: var(--accent); }
+  .nav-label { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }
+  .nav-badge { margin-left: auto; color: var(--text-3); background: var(--bg-4); border-radius: 3px; padding: 1px 5px; font: 700 9px var(--mono); }
+  .docs-pane { width: var(--docs-w); flex: 0 0 var(--docs-w); display: flex; flex-direction: column; border-right: 1px solid var(--border); min-width: 0; min-height: 0; }
+  .pane-header { padding: 14px 18px 11px; border-bottom: 1px solid var(--border); }
+  .title-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+  .cmd-chip { color: var(--accent-2); background: var(--accent-bg); border: 1px solid #27406e; border-radius: 4px; padding: 2px 7px; font: 700 10px var(--mono); }
+  .pane-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 15px; font-weight: 650; }
+  .pane-about { color: var(--text-3); font: 12px var(--mono); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .docs-body { flex: 1; overflow-y: auto; padding: 16px 18px 24px; }
+  .doc-section { margin-bottom: 22px; }
+  .section-label { margin-bottom: 9px; }
+  .doc-copy { max-width: 58ch; color: var(--text-2); line-height: 1.65; }
+  .param-table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 12px; }
+  .param-table th, .param-table td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .param-table th:nth-child(1) { width: 38%; }
+  .param-table th:nth-child(2) { width: 24%; }
+  .param-table th:nth-child(3) { width: 38%; }
+  .param-name, .field-name { color: var(--text-1); font: 650 11.5px var(--mono); }
+  .param-kind { color: var(--yellow); font: 10.5px var(--mono); }
+  .required { color: var(--red); font-size: 10px; font-weight: 700; }
+  .optional, .field-hint { color: var(--text-3); font-size: 10px; }
+  .param-desc { color: var(--text-2); }
+  .code-block { background: var(--bg); border: 1px solid var(--border); border-radius: 7px; overflow: hidden; }
+  .code-header, .output-bar { display: flex; align-items: center; justify-content: space-between; background: var(--bg-2); border-bottom: 1px solid var(--border); padding: 7px 12px; }
+  .copy-btn { color: var(--text-3); background: none; border: 0; cursor: pointer; padding: 2px 6px; border-radius: 4px; font-size: 11px; }
+  .copy-btn:hover { color: var(--text-1); background: var(--bg-4); }
+  pre { margin: 0; padding: 13px 14px; color: var(--text-2); font: 12px/1.65 var(--mono); overflow-x: auto; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .run-pane { flex: 1; min-width: 0; display: flex; flex-direction: column; min-height: 0; }
+  .run-bar { display: flex; align-items: center; gap: 8px; padding: 10px 16px; border-bottom: 1px solid var(--border); }
+  .run-preview { flex: 1; min-width: 0; padding: 7px 11px; color: var(--text-2); background: var(--bg-2); border: 1px solid var(--border); border-radius: 6px; font: 11.5px var(--mono); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .run-preview span { color: var(--accent-2); }
+  .run-btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-width: 88px; height: 33px; color: white; background: var(--accent); border: 0; border-radius: 6px; padding: 0 16px; font-weight: 650; cursor: pointer; }
+  .run-btn:disabled { opacity: .6; cursor: not-allowed; }
+  .spinner { display: none; width: 13px; height: 13px; border: 2px solid rgba(255,255,255,.3); border-top-color: white; border-radius: 50%; animation: spin .6s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .form-scroll { flex: 0 0 auto; max-height: 54%; overflow-y: auto; }
+  .form-area { padding: 14px 16px 18px; }
+  .field-group { margin-bottom: 12px; }
+  .field-group.is-hidden { display: none; }
+  .field-label { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 5px; }
+  .field-control { min-height: 32px; padding: 6px 10px; background: var(--bg-2); resize: vertical; }
+  textarea.field-control { min-height: 82px; }
+  .checkbox-label { display: flex; align-items: center; gap: 9px; color: var(--text-2); cursor: pointer; user-select: none; }
+  .checkbox-label input { width: 15px; height: 15px; accent-color: var(--accent); }
+  .output-pane { flex: 1; min-height: 0; display: flex; flex-direction: column; border-top: 1px solid var(--border); overflow: hidden; }
+  .output-bar { justify-content: flex-start; gap: 8px; padding: 8px 16px; }
+  .status-chip { display: inline-flex; align-items: center; gap: 5px; border-radius: 20px; padding: 2px 8px; font-size: 11px; font-weight: 650; margin-left: auto; }
+  .status-chip.ok { color: var(--green); background: var(--green-bg); }
+  .status-chip.error { color: var(--red); background: var(--red-bg); }
+  .chip-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+  .elapsed { color: var(--text-3); font: 11px var(--mono); }
+  .output-body { flex: 1; overflow-y: auto; }
+  .output-empty { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; color: var(--text-3); text-align: center; font-size: 12px; }
+  .output-empty-icon { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 8px; background: var(--bg-3); color: var(--text-2); font: 700 14px var(--mono); }
+  .output-pre.error { color: var(--red); }
+  .import-drop { display: grid; gap: 10px; place-items: center; min-height: 174px; padding: 24px; color: var(--text-2); background: var(--bg-2); border: 1px dashed var(--border-2); border-radius: 8px; text-align: center; cursor: pointer; }
+  .import-drop.dragover { border-color: var(--accent); background: var(--accent-bg); color: var(--text-1); }
+  .import-drop input { position: absolute; inline-size: 1px; block-size: 1px; opacity: 0; pointer-events: none; }
+  .import-drop-mark { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 8px; color: var(--accent-2); background: var(--accent-bg); font: 800 15px var(--mono); }
+  .import-drop-name { color: var(--text-1); font-weight: 650; overflow-wrap: anywhere; }
+  .import-toolbar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .secondary-btn { height: 31px; color: var(--text-2); background: var(--bg-3); border: 1px solid var(--border); border-radius: 6px; padding: 0 10px; cursor: pointer; }
+  .secondary-btn:hover { color: var(--text-1); border-color: var(--border-2); }
+  .secondary-btn:disabled { opacity: .55; cursor: not-allowed; }
+  .import-note { color: var(--text-3); font: 11px var(--mono); }
+  .import-panel { padding: 16px; display: grid; gap: 14px; }
+  .import-summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+  .summary-tile { background: var(--bg-2); border: 1px solid var(--border); border-radius: 7px; padding: 10px; min-width: 0; }
+  .summary-value { color: var(--text-1); font: 750 20px var(--mono); }
+  .summary-label { color: var(--text-3); font: 10px var(--mono); text-transform: uppercase; letter-spacing: 0; }
+  .aggregate-group { background: var(--bg-2); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .aggregate-head { display: flex; justify-content: space-between; gap: 10px; padding: 9px 11px; border-bottom: 1px solid var(--border); color: var(--text-2); font: 650 11px var(--mono); overflow-wrap: anywhere; }
+  .operation-list { display: grid; gap: 6px; padding: 10px; }
+  .operation-row, .conflict-row { display: grid; grid-template-columns: minmax(80px, 1fr) auto; gap: 10px; align-items: center; min-width: 0; }
+  .operation-ref { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-2); font: 11.5px var(--mono); }
+  .operation-chip { justify-self: end; border-radius: 999px; padding: 2px 8px; font: 750 10px var(--mono); text-transform: uppercase; }
+  .operation-chip.create { color: var(--green); background: var(--green-bg); }
+  .operation-chip.update { color: var(--accent-2); background: var(--accent-bg); }
+  .operation-chip.noop { color: var(--text-3); background: var(--bg-4); }
+  .operation-chip.skip { color: var(--yellow); background: #2a2515; }
+  .conflict-section { display: grid; gap: 10px; }
+  .conflict-row { padding: 10px; background: var(--red-bg); border: 1px solid #623035; border-radius: 8px; }
+  .conflict-meta { min-width: 0; color: var(--text-2); font: 11.5px var(--mono); overflow-wrap: anywhere; }
+  .conflict-controls { display: flex; align-items: center; gap: 7px; justify-self: end; min-width: min(360px, 100%); }
+  .conflict-controls select { height: 30px; color: var(--text-1); background: var(--bg); border: 1px solid var(--border-2); border-radius: 6px; }
+  .conflict-controls .candidate-select { min-width: 0; flex: 1; }
+  .import-error { color: var(--red); background: var(--red-bg); border: 1px solid #623035; border-radius: 7px; padding: 12px 14px; }
+  @media (max-width: 720px) {
+    .import-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .operation-row, .conflict-row { grid-template-columns: 1fr; }
+    .operation-chip, .conflict-controls { justify-self: start; }
+  }
+  @media (max-width: 980px) {
+    html, body { height: auto; min-height: 100%; overflow: auto; }
+    .topbar { position: sticky; top: 0; z-index: 20; height: auto; min-height: 44px; flex-wrap: wrap; padding: 8px 10px; }
+    .shell { flex-direction: column; height: auto; min-height: 0; overflow: visible; }
+    .sidebar { width: 100%; flex-basis: auto; max-height: 248px; border-right: 0; border-bottom: 1px solid var(--border); }
+    .docs-pane { width: 100%; flex-basis: auto; border-right: 0; border-bottom: 1px solid var(--border); }
+    .docs-body, .form-scroll, .run-pane { overflow: visible; }
+    .run-pane { min-height: 580px; }
+  }
+  @media (max-width: 600px) {
+    .topbar-host, .topbar-db { display: none; }
+    .run-bar { flex-wrap: wrap; align-items: stretch; }
+    .run-preview, .run-btn { width: 100%; flex-basis: 100%; }
+    .docs-pane, .pane-header, .docs-body, .doc-section { width: 100%; max-width: 100vw; }
+    .pane-about { white-space: normal; }
+    .doc-copy, .code-block { width: 100%; max-width: calc(100vw - 36px); overflow-wrap: anywhere; }
+    .param-table, .param-table tbody, .param-table tr, .param-table td { display: block; width: 100%; }
+    .param-table thead { display: none; }
+    .param-table tr { padding: 8px 0; border-bottom: 1px solid var(--border); }
+    .param-table td { padding: 2px 0; border-bottom: 0; overflow-wrap: anywhere; }
+  }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><div class="brand-mark">C</div><span>course-cli</span><span class="brand-sub">playground</span></div>
+  <span class="topbar-tag">loopback</span>
+  <span class="topbar-host" id="hostHint">127.0.0.1</span>
+  <button class="import-console-btn" id="importConsoleButton" type="button">Import</button>
+  <div class="topbar-spacer"></div>
+  <div class="topbar-db"><span class="topbar-db-dot"></span><span>REST API runs separately on 127.0.0.1:8788</span></div>
+</header>
+<main class="shell">
+  <nav class="sidebar" aria-label="Commands">
+    <div class="sidebar-search"><input id="searchInput" type="search" placeholder="Search commands..." autocomplete="off"></div>
+    <div class="sidebar-nav" id="sidebarNav"></div>
+  </nav>
+  <section class="docs-pane" aria-label="Command documentation">
+    <div class="pane-header">
+      <div class="title-row"><span class="cmd-chip" id="docsChip"></span><span class="pane-title" id="docsTitle"></span></div>
+      <div class="pane-about" id="docsAbout"></div>
+    </div>
+    <div class="docs-body" id="docsBody"></div>
+  </section>
+  <section class="run-pane" aria-label="Command runner">
+    <div class="run-bar">
+      <div class="run-preview">$ <span id="runPreview"></span></div>
+      <button class="run-btn" id="runButton" type="button"><span id="runLabel">Run</span><span class="spinner" id="runSpinner"></span></button>
+    </div>
+    <div class="form-scroll"><form class="form-area" id="commandForm"></form></div>
+    <div class="output-pane">
+      <div class="output-bar">
+        <span class="output-label">Output</span>
+        <span class="status-chip ok" id="outputStatus" hidden><span class="chip-dot"></span><span id="outputStatusText">ok</span></span>
+        <span class="elapsed" id="outputElapsed" hidden></span>
+      </div>
+      <div class="output-body" id="outputBody"></div>
+    </div>
+  </section>
+</main>
+<script>
+const COMMANDS = {{ .CatalogJSON }};
+const commandById = Object.fromEntries(COMMANDS.map((command) => [command.id, command]));
+let currentCommandId = COMMANDS[0]?.id;
+let currentMode = "command";
+const importState = {
+  file: null,
+  plan: null,
+  decisions: {},
+  applyResult: null,
+  error: ""
+};
+
+const elements = {
+  hostHint: document.getElementById("hostHint"),
+  importConsoleButton: document.getElementById("importConsoleButton"),
+  searchInput: document.getElementById("searchInput"),
+  sidebarNav: document.getElementById("sidebarNav"),
+  docsChip: document.getElementById("docsChip"),
+  docsTitle: document.getElementById("docsTitle"),
+  docsAbout: document.getElementById("docsAbout"),
+  docsBody: document.getElementById("docsBody"),
+  commandForm: document.getElementById("commandForm"),
+  runPreview: document.getElementById("runPreview"),
+  runButton: document.getElementById("runButton"),
+  runLabel: document.getElementById("runLabel"),
+  runSpinner: document.getElementById("runSpinner"),
+  outputStatus: document.getElementById("outputStatus"),
+  outputStatusText: document.getElementById("outputStatusText"),
+  outputElapsed: document.getElementById("outputElapsed"),
+  outputBody: document.getElementById("outputBody")
+};
+
+function renderNav() {
+  const groups = new Map();
+  for (const command of COMMANDS) {
+    if (!groups.has(command.group)) groups.set(command.group, []);
+    groups.get(command.group).push(command);
+  }
+  elements.sidebarNav.innerHTML = Array.from(groups.entries()).map(([group, commands]) => `
+    <div class="nav-group">
+      <div class="nav-group-label">${escapeHTML(group)}</div>
+      ${commands.map((command) => `
+        <button class="nav-item ${currentMode === "command" && command.id === currentCommandId ? "active" : ""}" type="button" data-command-id="${escapeHTML(command.id)}">
+          <span class="nav-dot"></span>
+          <span class="nav-label">${escapeHTML(command.command)}</span>
+          <span class="nav-badge">${parameterCount(command)}</span>
+        </button>
+      `).join("")}
+    </div>
+  `).join("");
+  syncModeControls();
+}
+
+function renderDocs() {
+  const command = currentCommand();
+  elements.docsChip.textContent = command.command;
+  elements.docsTitle.textContent = command.title;
+  elements.docsAbout.textContent = command.about;
+  elements.docsBody.innerHTML = `
+    <div class="doc-section">
+      <div class="section-label">Description</div>
+      <p class="doc-copy">${escapeHTML(command.description)}</p>
+    </div>
+    <div class="doc-section">
+      <div class="section-label">Parameters</div>
+      ${renderParameters(command)}
+    </div>
+    <div class="doc-section">
+      <div class="section-label">CLI example</div>
+      ${renderCodeBlock("shell", "$ " + command.example.command)}
+    </div>
+    <div class="doc-section">
+      <div class="section-label">Expected output</div>
+      ${renderCodeBlock("stdout", command.example.output)}
+    </div>
+  `;
+}
+
+function renderParameters(command) {
+  const fields = command.fields.filter(isCommandParameter);
+  if (!fields.length) {
+    return `<p class="doc-copy" style="color: var(--text-3)">No parameters required.</p>`;
+  }
+  return `
+    <table class="param-table">
+      <thead><tr><th>Name</th><th>Type</th><th>Required</th></tr></thead>
+      <tbody>
+        ${fields.map((field) => `
+          <tr>
+            <td><span class="param-name">${escapeHTML(field.label)}</span></td>
+            <td><span class="param-kind">${escapeHTML(field.kind)}</span></td>
+            <td>${requirementLabel(field)}${field.default ? ` <span class="optional">default ${escapeHTML(field.default)}</span>` : ""}</td>
+          </tr>
+        `).join("")}
+      </tbody>
+    </table>
+  `;
+}
+
+function renderCodeBlock(language, code) {
+  return `
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">${escapeHTML(language)}</span><button class="copy-btn" type="button">Copy</button></div>
+      <pre>${escapeHTML(code)}</pre>
+    </div>
+  `;
+}
+
+function renderForm() {
+  if (currentMode === "import") {
+    renderImportForm();
+    return;
+  }
+  const command = currentCommand();
+  if (!command.fields.length) {
+    elements.commandForm.innerHTML = `<div class="output-empty" style="min-height: 120px"><div class="output-empty-icon">&gt;</div><span>No parameters required.</span></div>`;
+    updatePreview();
+    return;
+  }
+  elements.commandForm.innerHTML = command.fields.map((field) => {
+    if (field.kind === "checkbox") {
+      return `
+        <div ${fieldGroupAttributes(field)}>
+          <label class="checkbox-label">
+            <input id="field_${escapeAttribute(field.key)}" name="${escapeAttribute(field.key)}" type="checkbox">
+            <span class="field-name">${escapeHTML(field.label)}</span>
+            <span class="field-hint">optional flag</span>
+          </label>
+        </div>
+      `;
+    }
+    if (field.kind === "select") {
+      return `
+        <div ${fieldGroupAttributes(field)}>
+          <label class="field-label" for="field_${escapeAttribute(field.key)}">
+            <span class="field-name">${escapeHTML(field.label)}</span>
+            ${requirementLabel(field)}
+          </label>
+          <select class="field-control" id="field_${escapeAttribute(field.key)}" name="${escapeAttribute(field.key)}">
+            ${field.options.map((option) => `<option value="${escapeAttribute(option)}" ${option === field.default ? "selected" : ""}>${escapeHTML(option || "any")}</option>`).join("")}
+          </select>
+        </div>
+      `;
+    }
+    const tag = field.kind === "textarea" ? "textarea" : "input";
+    const inputType = field.kind === "number" ? "number" : "text";
+    const close = tag === "textarea" ? `</textarea>` : "";
+    const allowEmpty = field.binding?.allowEmpty === true;
+    return `
+      <div ${fieldGroupAttributes(field)}>
+        <label class="field-label" for="field_${escapeAttribute(field.key)}">
+          <span class="field-name">${escapeHTML(field.label)}</span>
+          ${requirementLabel(field)}
+        </label>
+        <${tag} class="field-control" id="field_${escapeAttribute(field.key)}" name="${escapeAttribute(field.key)}" type="${inputType}" placeholder="${escapeAttribute(field.placeholder || "")}" data-allow-empty="${allowEmpty ? "true" : "false"}" data-dirty="false">${close}
+      </div>
+    `;
+  }).join("");
+  syncConditionalFields();
+  updatePreview();
+}
+
+function updatePreview() {
+  const formValues = collectValues();
+  const command = currentCommand();
+  const parts = ["course-cli", ...command.command.split(" ")];
+  for (const field of command.fields) {
+    if (!isCommandParameter(field)) continue;
+    const value = formValues[field.key];
+    const binding = field.binding || {};
+    if (binding.boolFlag) {
+      if (value === "true") parts.push(binding.flag || "--" + field.key);
+      continue;
+    }
+    if (!value) continue;
+    if (binding.argument) {
+      parts.push(value);
+      continue;
+    }
+    if (binding.flag && binding.multiValue) {
+      for (const item of splitMultiValue(value, binding.separator || ",")) {
+        parts.push(binding.flag, quotePreview(item));
+      }
+      continue;
+    }
+    if (binding.flag) parts.push(binding.flag, quotePreview(value));
+  }
+  elements.runPreview.textContent = parts.join(" ");
+}
+
+function splitMultiValue(value, separator) {
+  return value.split(separator).map((item) => item.trim()).filter(Boolean);
+}
+
+function fieldGroupAttributes(field) {
+  const condition = field.requiredWhen ? ` data-required-when="${escapeAttribute(field.requiredWhen)}"` : "";
+  const visibility = field.visibleWhen ? ` data-visible-when="${escapeAttribute(field.visibleWhen)}"` : "";
+  return `class="field-group" id="fieldgroup_${escapeAttribute(field.key)}" data-field-key="${escapeAttribute(field.key)}"${condition}${visibility}`;
+}
+
+function syncConditionalFields() {
+  for (const field of currentCommand().fields) {
+    const group = document.getElementById("fieldgroup_" + field.key);
+    const control = document.getElementById("field_" + field.key);
+    if (!group) continue;
+    const visible = isFieldVisible(field);
+    group.classList.toggle("is-hidden", !visible);
+    group.hidden = !visible;
+    if (control) {
+      if (visible && (field.required || field.requiredWhen)) {
+        control.setAttribute("aria-required", "true");
+      } else {
+        control.removeAttribute("aria-required");
+      }
+    }
+  }
+}
+
+function isFieldVisible(field) {
+  const condition = field.visibleWhen || field.requiredWhen;
+  if (!condition) return true;
+  return conditionMatches(condition);
+}
+
+function conditionMatches(condition) {
+  const [key, expected] = String(condition).split("=");
+  if (!key || expected === undefined) return true;
+  const control = document.getElementById("field_" + key.trim());
+  if (!control) return true;
+  const value = control.type === "checkbox" ? (control.checked ? "true" : "false") : control.value.trim();
+  return value === expected.trim();
+}
+
+async function runCommand() {
+  if (currentMode === "import") {
+    await planImport();
+    return;
+  }
+  setRunning(true);
+  clearOutput();
+  const startedAt = performance.now();
+  try {
+    const body = new URLSearchParams(collectValues());
+    body.set("action", currentCommandId);
+    const response = await fetch("/run", { method: "POST", body });
+    const result = await response.json();
+    showOutput(Boolean(result.ok), result.output || "", result.elapsedMs || Math.round(performance.now() - startedAt), result.exitCode);
+    if (result.command) elements.runPreview.textContent = result.command;
+  } catch (error) {
+    showOutput(false, error?.message || String(error), Math.round(performance.now() - startedAt), "fetch");
+  } finally {
+    setRunning(false);
+  }
+}
+
+function collectValues() {
+  const values = {};
+  for (const field of currentCommand().fields) {
+    if (!isCommandParameter(field)) continue;
+    if (!isFieldVisible(field)) continue;
+    const control = document.getElementById("field_" + field.key);
+    if (!control) continue;
+    if (field.kind === "checkbox") {
+      if (control.checked) values[field.key] = "true";
+      continue;
+    }
+    const value = control.value.trim();
+    if (value || (control.dataset.allowEmpty === "true" && control.dataset.dirty === "true")) {
+      values[field.key] = value;
+    }
+  }
+  return values;
+}
+
+function setRunning(isRunning) {
+  elements.runButton.disabled = isRunning;
+  elements.runLabel.textContent = isRunning ? "Running..." : (currentMode === "import" ? "Plan" : "Run");
+  elements.runSpinner.style.display = isRunning ? "inline-block" : "none";
+}
+
+function showOutput(ok, text, elapsedMS, exitCode) {
+  elements.outputStatus.hidden = false;
+  elements.outputStatus.className = `status-chip ${ok ? "ok" : "error"}`;
+  elements.outputStatusText.textContent = ok ? "ok" : `exit ${exitCode}`;
+  elements.outputElapsed.hidden = false;
+  elements.outputElapsed.textContent = `${Math.max(1, elapsedMS)} ms`;
+  elements.outputBody.innerHTML = `<pre class="output-pre ${ok ? "" : "error"}">${escapeHTML(text)}</pre>`;
+}
+
+function clearOutput() {
+  elements.outputStatus.hidden = true;
+  elements.outputElapsed.hidden = true;
+  elements.outputBody.innerHTML = `<div class="output-empty"><div class="output-empty-icon">&gt;</div><span>Run a command to inspect output here.</span><span>Responses are escaped before rendering.</span></div>`;
+}
+
+function currentCommand() {
+  return commandById[currentCommandId];
+}
+
+function selectCommand(commandId) {
+  currentMode = "command";
+  currentCommandId = commandId;
+  renderNav();
+  renderDocs();
+  renderForm();
+  clearOutput();
+}
+
+function selectImportConsole() {
+  currentMode = "import";
+  renderNav();
+  renderImportDocs();
+  renderImportForm();
+  renderImportOutput();
+}
+
+function syncModeControls() {
+  elements.importConsoleButton.classList.toggle("active", currentMode === "import");
+}
+
+function renderImportDocs() {
+  elements.docsChip.textContent = "import";
+  elements.docsTitle.textContent = "Import Review";
+  elements.docsAbout.textContent = "Upload, review, resolve, and apply a course zip.";
+  elements.docsBody.innerHTML = `
+    <div class="doc-section">
+      <div class="section-label">Flow</div>
+      <p class="doc-copy">Normalize source material into a v1 course zip, plan it, resolve conflicts by choosing update or skip against existing candidates, then apply the resolved plan. To create a separate entity after a collision, change the zip identity and replan.</p>
+    </div>
+    <div class="doc-section">
+      <div class="section-label">Runtime boundary</div>
+      <p class="doc-copy">This playground runs bounded-context CLI actions only. Start the REST API in another terminal with course-cli rest when the learner reader or external clients need HTTP access.</p>
+    </div>
+    <div class="doc-section">
+      <div class="section-label">Resolved plan shape</div>
+      ${renderCodeBlock("json", `{"format_version":"1","operations":[],"conflicts":[]}`)}
+    </div>
+    <div class="doc-section">
+      <div class="section-label">Payload policy</div>
+      <p class="doc-copy">Payloads are copied from the planner output. Content edits require changing the zip and planning again so the zip hash check stays meaningful.</p>
+    </div>
+  `;
+}
+
+function renderImportForm() {
+  elements.runLabel.textContent = "Plan";
+  elements.runPreview.textContent = importState.file ? `POST /import/plan zip=${importState.file.name}` : "POST /import/plan";
+  elements.commandForm.innerHTML = `
+    <label class="import-drop" id="importDrop">
+      <input id="importZipInput" type="file" accept=".zip,application/zip,application/x-zip-compressed">
+      <span class="import-drop-mark">ZIP</span>
+      <span class="import-drop-name">${escapeHTML(importState.file?.name || "Drop a course zip here")}</span>
+      <span class="import-note">${importState.file ? `${formatBytes(importState.file.size)} ready to plan` : "or select a file from this machine"}</span>
+    </label>
+    <div class="import-toolbar">
+      <button class="secondary-btn" id="importApplyButton" type="button" ${importState.plan ? "" : "disabled"}>Apply</button>
+      <button class="secondary-btn" id="importResetButton" type="button" ${importState.file || importState.plan ? "" : "disabled"}>Reset</button>
+      <span class="import-note">${importState.plan ? `${operationList(importState.plan.operations).length} operations, ${conflictList(importState.plan.conflicts).length} conflicts` : "Plan a zip before applying."}</span>
+    </div>
+  `;
+  bindImportForm();
+}
+
+function bindImportForm() {
+  const drop = document.getElementById("importDrop");
+  const input = document.getElementById("importZipInput");
+  const apply = document.getElementById("importApplyButton");
+  const reset = document.getElementById("importResetButton");
+  if (input) {
+    input.addEventListener("change", () => setImportFile(input.files?.[0]));
+  }
+  if (drop) {
+    drop.addEventListener("dragover", (event) => {
+      event.preventDefault();
+      drop.classList.add("dragover");
+    });
+    drop.addEventListener("dragleave", () => drop.classList.remove("dragover"));
+    drop.addEventListener("drop", (event) => {
+      event.preventDefault();
+      drop.classList.remove("dragover");
+      setImportFile(event.dataTransfer?.files?.[0]);
+    });
+  }
+  if (apply) apply.addEventListener("click", applyImport);
+  if (reset) reset.addEventListener("click", resetImportConsole);
+}
+
+function setImportFile(file) {
+  if (!file) return;
+  importState.file = file;
+  importState.plan = null;
+  importState.decisions = {};
+  importState.applyResult = null;
+  importState.error = "";
+  renderImportForm();
+  renderImportOutput();
+}
+
+function resetImportConsole() {
+  importState.file = null;
+  importState.plan = null;
+  importState.decisions = {};
+  importState.applyResult = null;
+  importState.error = "";
+  renderImportForm();
+  renderImportOutput();
+}
+
+async function planImport() {
+  if (!importState.file) {
+    importState.error = "Choose a course zip before planning.";
+    renderImportOutput();
+    return;
+  }
+  setRunning(true);
+  importState.error = "";
+  importState.applyResult = null;
+  try {
+    const form = new FormData();
+    form.set("zip", importState.file);
+    const { ok, payload, elapsed } = await importFetch("/import/plan", form);
+    elements.outputElapsed.hidden = false;
+    elements.outputElapsed.textContent = `${Math.max(1, elapsed)} ms`;
+    if (!ok) {
+      importState.plan = null;
+      importState.decisions = {};
+      importState.error = payload.error || "Import plan failed.";
+    } else {
+      importState.plan = payload;
+      importState.decisions = defaultConflictDecisions(payload);
+    }
+  } catch (error) {
+    importState.error = error?.message || String(error);
+  } finally {
+    setRunning(false);
+    renderImportForm();
+    renderImportOutput();
+  }
+}
+
+async function applyImport() {
+  if (!importState.file || !importState.plan) return;
+  setRunning(true);
+  importState.error = "";
+  importState.applyResult = null;
+  try {
+    const form = new FormData();
+    form.set("zip", importState.file);
+    if (conflictList(importState.plan.conflicts).length > 0) {
+      const resolved = buildResolvedPlan();
+      form.set("resolved_plan", new Blob([JSON.stringify(resolved)], { type: "application/json" }), "resolved-plan.json");
+    }
+    const { ok, payload, elapsed } = await importFetch("/import/apply?conflict_strategy=fail", form);
+    elements.outputElapsed.hidden = false;
+    elements.outputElapsed.textContent = `${Math.max(1, elapsed)} ms`;
+    if (!ok && !payload.failed) {
+      importState.error = payload.error || "Import apply failed.";
+    } else {
+      importState.applyResult = payload;
+      if (!ok) importState.error = "Apply completed with aggregate failures.";
+    }
+  } catch (error) {
+    importState.error = error?.message || String(error);
+  } finally {
+    setRunning(false);
+    renderImportOutput();
+  }
+}
+
+async function importFetch(path, body) {
+  const startedAt = performance.now();
+  const response = await fetch(path, { method: "POST", body });
+  const text = await response.text();
+  const payload = text ? JSON.parse(text) : {};
+  return { ok: response.ok, payload, elapsed: Math.round(performance.now() - startedAt) };
+}
+
+function renderImportOutput() {
+  elements.outputStatus.hidden = !importState.plan && !importState.applyResult && !importState.error;
+  elements.outputStatus.className = `status-chip ${importState.error ? "error" : "ok"}`;
+  elements.outputStatusText.textContent = importState.error ? "review" : "ok";
+  if (!importState.file && !importState.plan && !importState.error) {
+    elements.outputElapsed.hidden = true;
+    elements.outputBody.innerHTML = `<div class="output-empty"><div class="output-empty-icon">ZIP</div><span>Select a course zip to begin.</span></div>`;
+    return;
+  }
+  if (importState.error && !importState.plan && !importState.applyResult) {
+    elements.outputBody.innerHTML = `<div class="import-panel"><div class="import-error">${escapeHTML(importState.error)}</div></div>`;
+    return;
+  }
+  const sections = [];
+  if (importState.error) sections.push(`<div class="import-error">${escapeHTML(importState.error)}</div>`);
+  if (importState.plan) sections.push(renderImportPlan(importState.plan));
+  if (importState.applyResult) sections.push(renderApplyResult(importState.applyResult));
+  elements.outputBody.innerHTML = `<div class="import-panel">${sections.join("")}</div>`;
+  bindConflictControls();
+}
+
+function renderImportPlan(plan) {
+  const operations = operationList(plan.operations);
+  const conflicts = conflictList(plan.conflicts);
+  return `
+    <div class="import-summary">
+      ${summaryTile("operations", operations.length)}
+      ${summaryTile("conflicts", conflicts.length)}
+      ${summaryTile("hash", shortHash(plan.zip_hash))}
+      ${summaryTile("format", plan.format_version || "")}
+    </div>
+    ${conflicts.length ? `<div class="conflict-section">${conflicts.map(renderConflict).join("")}</div>` : ""}
+    ${renderOperationGroups(operations)}
+  `;
+}
+
+function renderOperationGroups(operations) {
+  const groups = new Map();
+  for (const operation of operations) {
+    const key = aggregateKey(operation);
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(operation);
+  }
+  if (!groups.size) return `<div class="aggregate-group"><div class="operation-list"><span class="import-note">No operations in plan.</span></div></div>`;
+  return Array.from(groups.entries()).map(([key, entries]) => `
+    <section class="aggregate-group">
+      <div class="aggregate-head"><span>${escapeHTML(key)}</span><span>${entries.length}</span></div>
+      <div class="operation-list">${entries.map(renderOperation).join("")}</div>
+    </section>
+  `).join("");
+}
+
+function renderOperation(operation) {
+  return `
+    <div class="operation-row">
+      <span class="operation-ref">${escapeHTML(operation.entity_type)} · ${escapeHTML(operation.entity_ref)}${operation.target_id ? ` · ${escapeHTML(operation.target_id)}` : ""}</span>
+      <span class="operation-chip ${escapeAttribute(operation.kind)}">${escapeHTML(operation.kind)}</span>
+    </div>
+  `;
+}
+
+function renderConflict(conflict) {
+  const key = conflictKey(conflict);
+  const decision = decisionFor(conflict);
+  const candidates = conflict.candidates || [];
+  return `
+    <div class="conflict-row">
+      <div class="conflict-meta">
+        <strong>${escapeHTML(conflict.entity_type)} · ${escapeHTML(conflict.entity_ref)}</strong><br>
+        ${escapeHTML(conflict.reason || "conflict")} · ${escapeHTML(candidateSummary(conflict))}
+      </div>
+      <div class="conflict-controls">
+        <select aria-label="Resolution" data-conflict-key="${escapeAttribute(key)}" data-conflict-field="kind">
+          ${["update", "skip"].map((kind) => `<option value="${kind}" ${kind === decision.kind ? "selected" : ""}>${kind}</option>`).join("")}
+        </select>
+        <select class="candidate-select" aria-label="Existing candidate" data-conflict-key="${escapeAttribute(key)}" data-conflict-field="target_id">
+          ${candidates.map((candidate) => `<option value="${escapeAttribute(candidate.id)}" ${candidate.id === decision.target_id ? "selected" : ""}>${escapeHTML(candidate.description || candidate.id)}</option>`).join("")}
+        </select>
+        <span class="operation-chip ${escapeAttribute(decision.kind)}">${escapeHTML(decision.kind)}</span>
+      </div>
+    </div>
+  `;
+}
+
+function bindConflictControls() {
+  elements.outputBody.querySelectorAll("[data-conflict-key][data-conflict-field]").forEach((control) => {
+    control.addEventListener("change", () => {
+      const key = control.dataset.conflictKey;
+      const current = importState.decisions[key];
+      const base = current && typeof current === "object" ? current : {};
+      importState.decisions[key] = { ...base, [control.dataset.conflictField]: control.value };
+      renderImportOutput();
+    });
+  });
+}
+
+function renderApplyResult(result) {
+  const failed = result.failed || [];
+  const applied = result.applied || [];
+  const skipped = result.skipped || [];
+  return `
+    <div class="import-summary">
+      ${summaryTile("applied", applied.length)}
+      ${summaryTile("failed", failed.length)}
+      ${summaryTile("skipped", skipped.length)}
+      ${summaryTile("aggregates failed", result.aggregates_failed || 0)}
+    </div>
+    ${renderOperationGroups([...applied, ...failed, ...skipped])}
+  `;
+}
+
+function summaryTile(label, value) {
+  return `<div class="summary-tile"><div class="summary-value">${escapeHTML(value)}</div><div class="summary-label">${escapeHTML(label)}</div></div>`;
+}
+
+function defaultConflictDecisions(plan) {
+  const decisions = {};
+  for (const conflict of conflictList(plan.conflicts)) {
+    decisions[conflictKey(conflict)] = {
+      kind: defaultResolutionKind(conflict),
+      target_id: firstCandidateID(conflict)
+    };
+  }
+  return decisions;
+}
+
+function buildResolvedPlan() {
+  const resolved = JSON.parse(JSON.stringify(importState.plan));
+  resolved.operations = operationList(resolved.operations);
+  for (const conflict of conflictList(importState.plan.conflicts)) {
+    const decision = decisionFor(conflict);
+    const operation = {
+      kind: decision.kind,
+      entity_type: conflict.entity_type,
+      entity_ref: conflict.entity_ref,
+      target_id: decision.target_id,
+      payload: conflict.payload || {}
+    };
+    resolved.operations.push(operation);
+  }
+  resolved.conflicts = [];
+  return resolved;
+}
+
+function decisionFor(conflict) {
+  const current = importState.decisions[conflictKey(conflict)] || {};
+  const rawKind = typeof current === "string" ? current : current.kind;
+  const kind = rawKind === "skip" ? "skip" : "update";
+  const targetID = typeof current === "object" && current.target_id ? current.target_id : firstCandidateID(conflict);
+  return { kind, target_id: targetID };
+}
+
+function defaultResolutionKind(conflict) {
+  return conflict.recommended === "skip" ? "skip" : "update";
+}
+
+function firstCandidateID(conflict) {
+  return conflict.candidates?.[0]?.id || "";
+}
+
+function operationList(value) {
+  return Array.isArray(value) ? value : [];
+}
+
+function conflictList(value) {
+  return Array.isArray(value) ? value : [];
+}
+
+function conflictKey(conflict) {
+  return `${conflict.entity_type}:${conflict.entity_ref}`;
+}
+
+function aggregateKey(operation) {
+  const ref = operation.entity_ref || "";
+  const parts = ref.split(":");
+  if (operation.entity_type === "block" && parts.length >= 2) return `lesson:${parts[1]}`;
+  if (operation.entity_type === "question" && parts.length >= 2) return `quiz:${parts[1]}`;
+  if (operation.entity_type === "test_case" && parts.length >= 2) return `practice:${parts[1]}`;
+  if (operation.entity_type === "test_item" && parts.length >= 2) return `test:${parts[1]}`;
+  return ref || operation.entity_type || "aggregate";
+}
+
+function candidateSummary(conflict) {
+  const candidates = conflict.candidates || [];
+  if (!candidates.length) return "no candidates";
+  return candidates.map((candidate) => candidate.description || candidate.id).join(", ");
+}
+
+function shortHash(value) {
+  const text = String(value || "");
+  return text.length > 12 ? `${text.slice(0, 12)}...` : text;
+}
+
+function formatBytes(value) {
+  if (!Number.isFinite(value)) return "";
+  if (value < 1024) return `${value} B`;
+  if (value < 1024 * 1024) return `${(value / 1024).toFixed(1)} KB`;
+  return `${(value / 1024 / 1024).toFixed(1)} MB`;
+}
+
+function filterNav(query) {
+  const normalized = query.trim().toLowerCase();
+  document.querySelectorAll(".nav-item").forEach((item) => {
+    item.style.display = !normalized || item.textContent.toLowerCase().includes(normalized) ? "" : "none";
+  });
+}
+
+function requirementLabel(field) {
+  if (!isCommandParameter(field)) return `<span class="optional">selector</span>`;
+  if (field.required) return `<span class="required">required</span>`;
+  if (field.requiredWhen) return `<span class="required">required when ${escapeHTML(field.requiredWhen)}</span>`;
+  return `<span class="optional">optional</span>`;
+}
+
+function parameterCount(command) {
+  return command.fields.filter(isCommandParameter).length;
+}
+
+function isCommandParameter(field) {
+  const binding = field.binding || {};
+  return Boolean(binding.argument || binding.flag);
+}
+
+function quotePreview(value) {
+  return /\s/.test(value) ? `"${value.replaceAll('"', '\\"')}"` : value;
+}
+
+function escapeHTML(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
+}
+
+function escapeAttribute(value) {
+  return escapeHTML(value).replaceAll("'", "&#39;");
+}
+
+elements.hostHint.textContent = window.location.host || "127.0.0.1";
+elements.sidebarNav.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-command-id]");
+  if (button) selectCommand(button.dataset.commandId);
+});
+function handleFormChange(event) {
+  const control = event.target.closest("input, select, textarea");
+  if (control) control.dataset.dirty = "true";
+  syncConditionalFields();
+  updatePreview();
+}
+
+elements.commandForm.addEventListener("input", handleFormChange);
+elements.commandForm.addEventListener("change", handleFormChange);
+elements.runButton.addEventListener("click", runCommand);
+elements.importConsoleButton.addEventListener("click", selectImportConsole);
+elements.searchInput.addEventListener("input", (event) => filterNav(event.target.value));
+document.body.addEventListener("click", (event) => {
+  const button = event.target.closest(".copy-btn");
+  if (!button) return;
+  const text = button.closest(".code-block")?.querySelector("pre")?.innerText || "";
+  navigator.clipboard?.writeText(text.replace(/^\$ /, ""));
+});
+renderNav();
+renderDocs();
+renderForm();
+clearOutput();
+syncModeControls();
+</script>
+</body>
+</html>

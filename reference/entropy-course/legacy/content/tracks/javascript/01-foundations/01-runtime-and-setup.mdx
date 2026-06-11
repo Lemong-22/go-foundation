@@ -1,0 +1,91 @@
+---
+slug: 01-runtime-and-setup
+title: Two runtimes, one language
+order_index: 1
+estimated_minutes: 18
+objectives:
+  - Run a JavaScript file in Node.js from the command line.
+  - Run the same logic in a browser via a script tag.
+  - Set up the TaskForge folder with index.html, main.js, and README.md.
+prerequisites: []
+status: draft
+video:
+  provider: null
+  asset_id: null
+tags: [foundations, setup, runtime]
+---
+
+JavaScript runs in two very different places, and you will use both in this
+course. In the **browser**, it animates pages, talks to forms, and stores
+small amounts of data on the user's device. In **Node.js**, it runs on a
+server, talks to the filesystem, and serves HTTP requests. The same `for`
+loop, the same `console.log`, the same `Array.prototype.map` — different
+host, different superpowers.
+
+## Run a script in Node.js
+
+Create a file called `hello.js`:
+
+```js
+const greeting = "TaskForge says hello";
+console.log(greeting);
+```
+
+Then, in your terminal:
+
+```bash
+node hello.js
+```
+
+If you see `TaskForge says hello`, you have Node.js installed and on your
+path. If `node: command not found` appears instead, install Node.js from
+[nodejs.org](https://nodejs.org) and reopen your terminal.
+
+## Run the same script in a browser
+
+Create `index.html` next to `hello.js`:
+
+```html
+<!doctype html>
+<html lang="en">
+  <head><meta charset="utf-8" /><title>TaskForge</title></head>
+  <body>
+    <h1>TaskForge</h1>
+    <script src="./main.js"></script>
+  </body>
+</html>
+```
+
+Rename `hello.js` to `main.js` and open `index.html` in your browser. The
+`console.log` output lands in the browser's developer console (open it with
+<kbd>Cmd</kbd>+<kbd>Opt</kbd>+<kbd>I</kbd> on macOS or
+<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>I</kbd> on Linux/Windows).
+
+That's it. The same file ran in two completely different runtimes.
+
+## The TaskForge starting point
+
+You will grow TaskForge across every stage of this track. The starting layout
+is small on purpose:
+
+```
+taskforge/
+├── index.html
+├── main.js
+└── README.md
+```
+
+`README.md` should explain, in two or three sentences of plain English, what
+TaskForge is going to be. We will come back to it at the end of each stage
+and add notes about what you can now do.
+
+## Where this is going
+
+In the next lesson you will learn how JavaScript thinks about values — why
+`1 === 1` is obvious, why `{} === {}` is `false`, and why that distinction
+is the single biggest source of beginner bugs.
+
+<Callout type="check">
+You finished this lesson when: `node main.js` prints your greeting **and**
+opening `index.html` in a browser prints the same greeting to its console.
+</Callout>

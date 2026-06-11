@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "0.1",
+  "meta": {
+    "feature": "Learner reader app + answer-safe backend reads",
+    "date": "2026-06-05",
+    "commits": "5e35c55..26e81eb (16 commits, CRS-66–CRS-81)",
+    "branch": "main",
+    "branchNote": "18 commits unpushed",
+    "sourcePath": "docs/debriefs/2026-06-05-learner-reader-and-safe-projections.md"
+  },
+  "tldr": "A learner can now open a browser and read a published course end-to-end — catalog → syllabus → lesson with markdown and video — served by a new Next.js app that keeps the API token server-side. The backend also gained ?view=learner projections that provably strip every answer field.",
+  "headline": "The two halves aren't connected yet — the reader still shows dummy quiz/practice/test data even though the safe real data is ready to serve.",
+  "why": "This is the new arc from docs/roadmap-learner-app-and-content.md: after the backend arc (Phases A–F) finished the course domain, CLI, import pipeline, and REST API, there was no way for a student to consume a course. The arc chose a Bun + Next.js reader (superseding the old \"Go-served htmx console\" decision), with two guardrails: the API token never reaches the browser, and the learner path must never receive correct answers, reference solutions, or hidden test cases.",
+  "shipped": [
+    {
+      "label": "Phase L1 — the reader (CRS-66–75)",
+      "status": "shipped",
+      "detail": "A web/ workspace with App Router pages: a catalog showing only published courses, a course detail page with ordered syllabus, and a lesson reader rendering text blocks as sanitized markdown and video blocks as provider embeds. Quiz/practice and the course test render from clearly-labeled dummy data (\"Sample data\" badge) so L1 didn't block on backend work. All REST calls go through a typed server-only client (web/src/lib/course-api/); the token lives in COURSE_CLI_API_TOKEN, server-side only. Caching is on-demand via a secret-guarded /api/revalidate route. Loading/empty/not-found/error states exist on every route."
+    },
+    {
+      "label": "Phase L2 — learner-safe projections, backend half (CRS-76–81)",
+      "status": "shipped",
+      "detail": "The Go REST adapter now accepts ?view=learner on quiz, practice, and test detail reads. Learner responses omit CorrectIndices, pre-submit Explanation, practice Solution/TestCases/ExpectedStdout, TestSolution, and all choice/coding answer fields (full contract in docs/learner-safe-read-projections.md). Learner reads of unpublished courses return 404, so drafts don't even leak their existence. The BFF gained matching getLearnerQuiz/Practice/Test methods."
+    },
+    {
+      "label": "Planned but not shipped — the final handoff",
+      "status": "planned",
+      "detail": "Swapping the reader's dummy activity cards for the real learner projections. The BFF methods exist but no component calls them; lesson-reader.tsx still renders DummyActivityCard."
+    }
+  ],
+  "graph": {
+    "nodes": [
+      { "id": "B",    "label": "Learner browser",            "layer": 0, "col": 0.16, "status": "shipped",   "detail": "No API token ever reaches the browser; it receives HTML/RSC only." },
+      { "id": "RP",   "label": "Instructor republish",       "layer": 0, "col": 0.84, "status": "shipped",   "detail": "Instructor republishes content (from the CLI)." },
+      { "id": "CAT",  "label": "Catalog (published only)",   "layer": 1, "col": 0.16, "status": "shipped",   "detail": "Lists only published courses; drafts never appear.", "section": "shipped" },
+      { "id": "REV",  "label": "/api/revalidate",            "layer": 1, "col": 0.84, "status": "shipped",   "detail": "Secret-guarded route invalidates published content on republish — no timer." },
+      { "id": "CD",   "label": "Course detail + syllabus",   "layer": 2, "col": 0.16, "status": "shipped",   "detail": "Ordered syllabus for a published course." },
+      { "id": "LR",   "label": "Lesson reader",              "layer": 3, "col": 0.12, "status": "shipped",   "detail": "Renders text blocks as sanitized markdown and video blocks as provider embeds." },
+      { "id": "TV",   "label": "Course test view",           "layer": 3, "col": 0.40, "status": "shipped",   "detail": "Renders the course test — currently from dummy data." },
+      { "id": "MD",   "label": "Sanitized markdown",         "layer": 4, "col": 0.08, "status": "shipped",   "detail": "Text blocks rendered as sanitized markdown." },
+      { "id": "VID",  "label": "Provider embed",             "layer": 4, "col": 0.27, "status": "shipped",   "detail": "Video blocks rendered as provider embeds." },
+      { "id": "DUM",  "label": "DummyActivityCard (sample)", "layer": 4, "col": 0.48, "status": "risk",      "detail": "Quiz/practice + the test still render clearly-labeled dummy data. The real safe data exists but nothing calls it yet.", "section": "next-1" },
+      { "id": "BFF",  "label": "Server-only API client",     "layer": 4, "col": 0.82, "status": "shipped",   "detail": "Typed, server-only client. Token lives in COURSE_CLI_API_TOKEN — never in the browser. Already has getLearnerQuiz/Practice/Test methods." },
+      { "id": "WIRE", "label": "Wire components to learner BFF", "layer": 5, "col": 0.48, "status": "unshipped", "detail": "PLANNED: replace buildDummyActivity in lesson-reader.tsx + the test view with the learner BFF methods. The only thing between demo and real product.", "section": "next-1" },
+      { "id": "GO",   "label": "Go REST learner projections","layer": 5, "col": 0.82, "status": "shipped",   "detail": "?view=learner strips every answer field; provable via regression tests." },
+      { "id": "SAFE", "label": "Answer fields stripped",     "layer": 6, "col": 0.70, "status": "shipped",   "detail": "Omits CorrectIndices, pre-submit Explanation, practice Solution/TestCases/ExpectedStdout, TestSolution, and all choice/coding answer fields." },
+      { "id": "NF",   "label": "404 — no draft leak",        "layer": 6, "col": 0.92, "status": "shipped",   "detail": "Learner reads of unpublished courses return 404 — drafts don't leak their existence." }
+    ],
+    "edges": [
+      { "from": "B",    "to": "CAT",  "label": "no token, HTML/RSC", "style": "solid" },
+      { "from": "RP",   "to": "REV",  "label": "secret",             "style": "solid" },
+      { "from": "REV",  "to": "CAT",  "label": "invalidate",         "style": "solid" },
+      { "from": "CAT",  "to": "CD",   "label": "",                   "style": "solid" },
+      { "from": "CD",   "to": "LR",   "label": "",                   "style": "solid" },
+      { "from": "CD",   "to": "TV",   "label": "",                   "style": "solid" },
+      { "from": "LR",   "to": "MD",   "label": "text block",         "style": "solid" },
+      { "from": "LR",   "to": "VID",  "label": "video block",        "style": "solid" },
+      { "from": "LR",   "to": "DUM",  "label": "quiz / practice",    "style": "solid" },
+      { "from": "TV",   "to": "DUM",  "label": "",                   "style": "solid" },
+      { "from": "LR",   "to": "BFF",  "label": "server-only",        "style": "solid" },
+      { "from": "DUM",  "to": "WIRE", "label": "planned swap",       "style": "dashed" },
+      { "from": "WIRE", "to": "BFF",  "label": "",                   "style": "dashed" },
+      { "from": "BFF",  "to": "GO",   "label": "?view=learner",      "style": "solid" },
+      { "from": "GO",   "to": "SAFE", "label": "published?",         "style": "solid" },
+      { "from": "GO",   "to": "NF",   "label": "draft course",       "style": "solid" }
+    ]
+  },
+  "verify": {
+    "steps": [
+      { "text": "Start the Go API (needs Postgres migrated and a published course — use the CLI/import pipeline).", "command": "go run . rest" },
+      { "text": "In web/, set the env vars, then install and run the dev server.", "command": "COURSE_API_BASE_URL=http://127.0.0.1:8788 COURSE_CLI_API_TOKEN=… COURSE_REVALIDATION_SECRET=… bun install && bun run dev" },
+      { "text": "Open the reader — only published courses show; click into a course, then a lesson; text and video render for real, quiz/practice show the 'Sample data' badge.", "command": "open http://localhost:3000" },
+      { "text": "Prove answer safety directly — no CorrectIndices in the learner response; the same URL without ?view=learner returns full fidelity.", "command": "curl -H \"Authorization: Bearer $TOKEN\" \".../v1/quizzes/{id}?view=learner\"" },
+      { "text": "Republish a course, hit /api/revalidate with the secret, reload the catalog — content updates without a timer.", "command": "curl -X POST -H \"x-secret: $COURSE_REVALIDATION_SECRET\" http://localhost:3000/api/revalidate" }
+    ],
+    "testsProve": "Go-side regression tests serialize learner responses and fail if any answer-bearing field name reappears (CRS-81). Web-side transport tests fail if a learner BFF method ever calls an instructor URL. A Phase L1 acceptance suite covers catalog → lesson rendering and route states.",
+    "untested": "The dummy→real swap path (it doesn't exist yet), and end-to-end behavior against a live backend (all web tests run against fakes)."
+  },
+  "looseEnds": [
+    { "title": "Untracked docs", "detail": "docs/roadmap-learner-app-and-content.md and docs/walkthrough.html are untracked — commit or discard before they get lost." },
+    { "title": "18 commits unpushed on main", "detail": "The branch is 18 commits ahead of its remote." },
+    { "title": "Learners see zero practice examples", "detail": "Practice test cases are entirely hidden on the learner path — the backend has no 'learner-visible test case' marker yet. Deliberate, but a content-quality gap." },
+    { "title": "Post-submit explanations/grading unavailable", "detail": "The reader treats them as unavailable — that's the deferred attempt/grading phase, not a bug." }
+  ],
+  "nextSteps": [
+    { "rank": 1, "title": "Wire the reader to the learner projections", "detail": "Replace buildDummyActivity in lesson-reader.tsx and the test view with getLearnerQuiz/Practice/Test from web/src/lib/course-api/server. Everything is staged (contract, BFF methods, regression tests); it's the only thing between 'demo' and 'real product'. Spec: docs/learner-safe-read-projections.md §Web BFF Handoff." },
+    { "rank": 2, "title": "Load real course material (Phase C1)", "detail": "Run the import pipeline to publish an actual course. Until real content exists the reader can't be honestly evaluated; it also unblocks visual polish against design/course.html." },
+    { "rank": 3, "title": "Commit the stray docs and push main", "detail": "Cheap, and removes the risk of losing the roadmap that defines this whole arc." }
+  ],
+  "notYet": "Learner attempts/grading/progress (explicitly deferred to a later phase), per-learner auth (token is the sole gate by decision #3), and a web authoring console (instructor authoring stays on the CLI this arc)."
+}

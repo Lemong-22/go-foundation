@@ -1,0 +1,3535 @@
+{
+  "name": "entropy-course",
+  "description": "Better-T-Stack TypeScript monorepo for an entropy-course application, combining Next.js, Express, tRPC, Better Auth, Drizzle, PostgreSQL, shadcn/ui, Tailwind CSS, Bun, and Turborepo. Note: this project has over 100 source files; consider scoping analysis to a subdirectory for faster results.",
+  "languages": [
+    "app",
+    "config",
+    "css",
+    "dockerfile",
+    "html",
+    "javascript",
+    "json",
+    "jsonc",
+    "markdown",
+    "mdx",
+    "mjs",
+    "toml",
+    "typescript",
+    "unknown",
+    "yaml"
+  ],
+  "frameworks": [
+    "Better Auth",
+    "Bun",
+    "Docker Compose",
+    "Drizzle",
+    "Express",
+    "GitHub Actions",
+    "Hono",
+    "Next.js",
+    "React",
+    "shadcn/ui",
+    "Tailwind CSS",
+    "TanStack Form",
+    "TanStack Query",
+    "tRPC",
+    "Turborepo",
+    "Vite"
+  ],
+  "files": [
+    {
+      "path": ".agents/skills/better-auth-best-practices/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 183,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/bun/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 248,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/clean-code/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 113,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/clerk-nextjs-patterns/evals/evals.json",
+      "language": "json",
+      "sizeLines": 82,
+      "fileCategory": "config"
+    },
+    {
+      "path": ".agents/skills/clerk-nextjs-patterns/references/api-routes.md",
+      "language": "markdown",
+      "sizeLines": 50,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/clerk-nextjs-patterns/references/caching-auth.md",
+      "language": "markdown",
+      "sizeLines": 56,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/clerk-nextjs-patterns/references/middleware-strategies.md",
+      "language": "markdown",
+      "sizeLines": 63,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/clerk-nextjs-patterns/references/server-actions.md",
+      "language": "markdown",
+      "sizeLines": 56,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/clerk-nextjs-patterns/references/server-vs-client.md",
+      "language": "markdown",
+      "sizeLines": 104,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/clerk-nextjs-patterns/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 217,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/clerk-nextjs-patterns/templates/nextjs-basic-auth/app/layout.tsx",
+      "language": "typescript",
+      "sizeLines": 22,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".agents/skills/clerk-nextjs-patterns/templates/nextjs-basic-auth/app/page.tsx",
+      "language": "typescript",
+      "sizeLines": 3,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".agents/skills/clerk-nextjs-patterns/templates/nextjs-basic-auth/package.json",
+      "language": "json",
+      "sizeLines": 19,
+      "fileCategory": "config"
+    },
+    {
+      "path": ".agents/skills/clerk-nextjs-patterns/templates/nextjs-basic-auth/proxy.ts",
+      "language": "typescript",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".agents/skills/clerk-nextjs-patterns/templates/nextjs-basic-auth/tsconfig.json",
+      "language": "json",
+      "sizeLines": 23,
+      "fileCategory": "config"
+    },
+    {
+      "path": ".agents/skills/design-md/examples/DESIGN.md",
+      "language": "markdown",
+      "sizeLines": 177,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/design-md/README.md",
+      "language": "markdown",
+      "sizeLines": 34,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/design-md/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 188,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/gh-cli/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 2187,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes-cli/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 144,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/data-in-motion.md",
+      "language": "markdown",
+      "sizeLines": 19,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/house-style.md",
+      "language": "markdown",
+      "sizeLines": 73,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/palettes/bold-energetic.md",
+      "language": "markdown",
+      "sizeLines": 14,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/palettes/clean-corporate.md",
+      "language": "markdown",
+      "sizeLines": 14,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/palettes/dark-premium.md",
+      "language": "markdown",
+      "sizeLines": 14,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/palettes/jewel-rich.md",
+      "language": "markdown",
+      "sizeLines": 14,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/palettes/monochrome.md",
+      "language": "markdown",
+      "sizeLines": 14,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/palettes/nature-earth.md",
+      "language": "markdown",
+      "sizeLines": 14,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/palettes/neon-electric.md",
+      "language": "markdown",
+      "sizeLines": 14,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/palettes/pastel-soft.md",
+      "language": "markdown",
+      "sizeLines": 14,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/palettes/warm-editorial.md",
+      "language": "markdown",
+      "sizeLines": 14,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/patterns.md",
+      "language": "markdown",
+      "sizeLines": 191,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/references/audio-reactive.md",
+      "language": "markdown",
+      "sizeLines": 76,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/references/beat-direction.md",
+      "language": "markdown",
+      "sizeLines": 102,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/references/captions.md",
+      "language": "markdown",
+      "sizeLines": 132,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/references/css-patterns.md",
+      "language": "markdown",
+      "sizeLines": 373,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/references/design-picker.md",
+      "language": "markdown",
+      "sizeLines": 117,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/references/dynamic-techniques.md",
+      "language": "markdown",
+      "sizeLines": 90,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/references/motion-principles.md",
+      "language": "markdown",
+      "sizeLines": 142,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/references/narration.md",
+      "language": "markdown",
+      "sizeLines": 92,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/references/prompt-expansion.md",
+      "language": "markdown",
+      "sizeLines": 68,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/references/techniques.md",
+      "language": "markdown",
+      "sizeLines": 387,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/references/transcript-guide.md",
+      "language": "markdown",
+      "sizeLines": 107,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/references/transitions.md",
+      "language": "markdown",
+      "sizeLines": 112,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/references/transitions/catalog.md",
+      "language": "markdown",
+      "sizeLines": 117,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/references/transitions/css-3d.md",
+      "language": "markdown",
+      "sizeLines": 12,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/references/transitions/css-blur.md",
+      "language": "markdown",
+      "sizeLines": 51,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/references/transitions/css-cover.md",
+      "language": "markdown",
+      "sizeLines": 43,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/references/transitions/css-destruction.md",
+      "language": "markdown",
+      "sizeLines": 95,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/references/transitions/css-dissolve.md",
+      "language": "markdown",
+      "sizeLines": 66,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/references/transitions/css-distortion.md",
+      "language": "markdown",
+      "sizeLines": 45,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/references/transitions/css-grid.md",
+      "language": "markdown",
+      "sizeLines": 10,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/references/transitions/css-light.md",
+      "language": "markdown",
+      "sizeLines": 49,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/references/transitions/css-mechanical.md",
+      "language": "markdown",
+      "sizeLines": 30,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/references/transitions/css-other.md",
+      "language": "markdown",
+      "sizeLines": 25,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/references/transitions/css-push.md",
+      "language": "markdown",
+      "sizeLines": 41,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/references/transitions/css-radial.md",
+      "language": "markdown",
+      "sizeLines": 37,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/references/transitions/css-scale.md",
+      "language": "markdown",
+      "sizeLines": 24,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/references/typography.md",
+      "language": "markdown",
+      "sizeLines": 175,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/references/video-composition.md",
+      "language": "markdown",
+      "sizeLines": 62,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/scripts/animation-map.mjs",
+      "language": "mjs",
+      "sizeLines": 601,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".agents/skills/hyperframes/scripts/contrast-report.mjs",
+      "language": "mjs",
+      "sizeLines": 348,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".agents/skills/hyperframes/scripts/package-loader.mjs",
+      "language": "mjs",
+      "sizeLines": 269,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".agents/skills/hyperframes/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 490,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/hyperframes/templates/design-picker.html",
+      "language": "html",
+      "sizeLines": 1432,
+      "fileCategory": "markup"
+    },
+    {
+      "path": ".agents/skills/hyperframes/visual-styles.md",
+      "language": "markdown",
+      "sizeLines": 443,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/adapt.md",
+      "language": "markdown",
+      "sizeLines": 204,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/animate.md",
+      "language": "markdown",
+      "sizeLines": 188,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/audit.md",
+      "language": "markdown",
+      "sizeLines": 142,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/bolder.md",
+      "language": "markdown",
+      "sizeLines": 120,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/brand.md",
+      "language": "markdown",
+      "sizeLines": 114,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/clarify.md",
+      "language": "markdown",
+      "sizeLines": 192,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/cognitive-load.md",
+      "language": "markdown",
+      "sizeLines": 122,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/color-and-contrast.md",
+      "language": "markdown",
+      "sizeLines": 105,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/colorize.md",
+      "language": "markdown",
+      "sizeLines": 173,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/craft.md",
+      "language": "markdown",
+      "sizeLines": 195,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/critique.md",
+      "language": "markdown",
+      "sizeLines": 232,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/delight.md",
+      "language": "markdown",
+      "sizeLines": 334,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/distill.md",
+      "language": "markdown",
+      "sizeLines": 118,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/document.md",
+      "language": "markdown",
+      "sizeLines": 462,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/extract.md",
+      "language": "markdown",
+      "sizeLines": 69,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/harden.md",
+      "language": "markdown",
+      "sizeLines": 380,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/heuristics-scoring.md",
+      "language": "markdown",
+      "sizeLines": 244,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/interaction-design.md",
+      "language": "markdown",
+      "sizeLines": 196,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/layout.md",
+      "language": "markdown",
+      "sizeLines": 156,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/live.md",
+      "language": "markdown",
+      "sizeLines": 630,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/motion-design.md",
+      "language": "markdown",
+      "sizeLines": 111,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/onboard.md",
+      "language": "markdown",
+      "sizeLines": 263,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/optimize.md",
+      "language": "markdown",
+      "sizeLines": 280,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/overdrive.md",
+      "language": "markdown",
+      "sizeLines": 147,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/personas.md",
+      "language": "markdown",
+      "sizeLines": 193,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/polish.md",
+      "language": "markdown",
+      "sizeLines": 234,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/product.md",
+      "language": "markdown",
+      "sizeLines": 62,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/quieter.md",
+      "language": "markdown",
+      "sizeLines": 105,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/responsive-design.md",
+      "language": "markdown",
+      "sizeLines": 120,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/shape.md",
+      "language": "markdown",
+      "sizeLines": 155,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/spatial-design.md",
+      "language": "markdown",
+      "sizeLines": 101,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/teach.md",
+      "language": "markdown",
+      "sizeLines": 167,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/typeset.md",
+      "language": "markdown",
+      "sizeLines": 135,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/typography.md",
+      "language": "markdown",
+      "sizeLines": 178,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/reference/ux-writing.md",
+      "language": "markdown",
+      "sizeLines": 108,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/impeccable/scripts/cleanup-deprecated.mjs",
+      "language": "mjs",
+      "sizeLines": 304,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".agents/skills/impeccable/scripts/command-metadata.json",
+      "language": "json",
+      "sizeLines": 94,
+      "fileCategory": "config"
+    },
+    {
+      "path": ".agents/skills/impeccable/scripts/design-parser.mjs",
+      "language": "mjs",
+      "sizeLines": 837,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".agents/skills/impeccable/scripts/detect-csp.mjs",
+      "language": "mjs",
+      "sizeLines": 205,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".agents/skills/impeccable/scripts/impeccable-paths.mjs",
+      "language": "mjs",
+      "sizeLines": 104,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".agents/skills/impeccable/scripts/is-generated.mjs",
+      "language": "mjs",
+      "sizeLines": 73,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".agents/skills/impeccable/scripts/live-accept.mjs",
+      "language": "mjs",
+      "sizeLines": 646,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".agents/skills/impeccable/scripts/live-browser-session.js",
+      "language": "javascript",
+      "sizeLines": 141,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".agents/skills/impeccable/scripts/live-browser.js",
+      "language": "javascript",
+      "sizeLines": 5617,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".agents/skills/impeccable/scripts/live-complete.mjs",
+      "language": "mjs",
+      "sizeLines": 89,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".agents/skills/impeccable/scripts/live-completion.mjs",
+      "language": "mjs",
+      "sizeLines": 19,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".agents/skills/impeccable/scripts/live-inject.mjs",
+      "language": "mjs",
+      "sizeLines": 483,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".agents/skills/impeccable/scripts/live-poll.mjs",
+      "language": "mjs",
+      "sizeLines": 216,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".agents/skills/impeccable/scripts/live-resume.mjs",
+      "language": "mjs",
+      "sizeLines": 58,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".agents/skills/impeccable/scripts/live-server.mjs",
+      "language": "mjs",
+      "sizeLines": 994,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".agents/skills/impeccable/scripts/live-session-store.mjs",
+      "language": "mjs",
+      "sizeLines": 271,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".agents/skills/impeccable/scripts/live-status.mjs",
+      "language": "mjs",
+      "sizeLines": 49,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".agents/skills/impeccable/scripts/live-wrap.mjs",
+      "language": "mjs",
+      "sizeLines": 715,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".agents/skills/impeccable/scripts/live.mjs",
+      "language": "mjs",
+      "sizeLines": 283,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".agents/skills/impeccable/scripts/load-context.mjs",
+      "language": "mjs",
+      "sizeLines": 145,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".agents/skills/impeccable/scripts/modern-screenshot.umd.js",
+      "language": "javascript",
+      "sizeLines": 1437,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".agents/skills/impeccable/scripts/pin.mjs",
+      "language": "mjs",
+      "sizeLines": 241,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".agents/skills/impeccable/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 181,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/next-best-practices/async-patterns.md",
+      "language": "markdown",
+      "sizeLines": 84,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/next-best-practices/bundling.md",
+      "language": "markdown",
+      "sizeLines": 182,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/next-best-practices/data-patterns.md",
+      "language": "markdown",
+      "sizeLines": 300,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/next-best-practices/debug-tricks.md",
+      "language": "markdown",
+      "sizeLines": 122,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/next-best-practices/directives.md",
+      "language": "markdown",
+      "sizeLines": 74,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/next-best-practices/error-handling.md",
+      "language": "markdown",
+      "sizeLines": 228,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/next-best-practices/file-conventions.md",
+      "language": "markdown",
+      "sizeLines": 141,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/next-best-practices/font.md",
+      "language": "markdown",
+      "sizeLines": 246,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/next-best-practices/functions.md",
+      "language": "markdown",
+      "sizeLines": 108,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/next-best-practices/hydration-error.md",
+      "language": "markdown",
+      "sizeLines": 86,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/next-best-practices/image.md",
+      "language": "markdown",
+      "sizeLines": 173,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/next-best-practices/metadata.md",
+      "language": "markdown",
+      "sizeLines": 292,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/next-best-practices/parallel-routes.md",
+      "language": "markdown",
+      "sizeLines": 286,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/next-best-practices/route-handlers.md",
+      "language": "markdown",
+      "sizeLines": 143,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/next-best-practices/rsc-boundaries.md",
+      "language": "markdown",
+      "sizeLines": 160,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/next-best-practices/runtime-selection.md",
+      "language": "markdown",
+      "sizeLines": 40,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/next-best-practices/scripts.md",
+      "language": "markdown",
+      "sizeLines": 137,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/next-best-practices/self-hosting.md",
+      "language": "markdown",
+      "sizeLines": 375,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/next-best-practices/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 171,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/next-best-practices/suspense-boundaries.md",
+      "language": "markdown",
+      "sizeLines": 67,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/next-cache-components/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 411,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/3d.md",
+      "language": "markdown",
+      "sizeLines": 86,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/assets/charts-bar-chart.tsx",
+      "language": "typescript",
+      "sizeLines": 173,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/assets/text-animations-typewriter.tsx",
+      "language": "typescript",
+      "sizeLines": 100,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/assets/text-animations-word-highlight.tsx",
+      "language": "typescript",
+      "sizeLines": 103,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/audio-visualization.md",
+      "language": "markdown",
+      "sizeLines": 198,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/audio.md",
+      "language": "markdown",
+      "sizeLines": 169,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/calculate-metadata.md",
+      "language": "markdown",
+      "sizeLines": 134,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/compositions.md",
+      "language": "markdown",
+      "sizeLines": 133,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/display-captions.md",
+      "language": "markdown",
+      "sizeLines": 184,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/ffmpeg.md",
+      "language": "markdown",
+      "sizeLines": 34,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/get-audio-duration.md",
+      "language": "markdown",
+      "sizeLines": 58,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/get-video-dimensions.md",
+      "language": "markdown",
+      "sizeLines": 68,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/get-video-duration.md",
+      "language": "markdown",
+      "sizeLines": 60,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/gifs.md",
+      "language": "markdown",
+      "sizeLines": 141,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/google-fonts.md",
+      "language": "markdown",
+      "sizeLines": 72,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/html-in-canvas.md",
+      "language": "markdown",
+      "sizeLines": 122,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/images.md",
+      "language": "markdown",
+      "sizeLines": 71,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/import-srt-captions.md",
+      "language": "markdown",
+      "sizeLines": 69,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/light-leaks.md",
+      "language": "markdown",
+      "sizeLines": 73,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/local-fonts.md",
+      "language": "markdown",
+      "sizeLines": 65,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/lottie.md",
+      "language": "markdown",
+      "sizeLines": 70,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/maplibre.md",
+      "language": "markdown",
+      "sizeLines": 458,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/measuring-dom-nodes.md",
+      "language": "markdown",
+      "sizeLines": 34,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/measuring-text.md",
+      "language": "markdown",
+      "sizeLines": 140,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/parameters.md",
+      "language": "markdown",
+      "sizeLines": 109,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/sequencing.md",
+      "language": "markdown",
+      "sizeLines": 144,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/sfx.md",
+      "language": "markdown",
+      "sizeLines": 30,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/silence-detection.md",
+      "language": "markdown",
+      "sizeLines": 71,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/subtitles.md",
+      "language": "markdown",
+      "sizeLines": 36,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/tailwind.md",
+      "language": "markdown",
+      "sizeLines": 11,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/text-animations.md",
+      "language": "markdown",
+      "sizeLines": 20,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/timing.md",
+      "language": "markdown",
+      "sizeLines": 136,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/transcribe-captions.md",
+      "language": "markdown",
+      "sizeLines": 70,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/transitions.md",
+      "language": "markdown",
+      "sizeLines": 197,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/transparent-videos.md",
+      "language": "markdown",
+      "sizeLines": 106,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/trimming.md",
+      "language": "markdown",
+      "sizeLines": 51,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/videos.md",
+      "language": "markdown",
+      "sizeLines": 171,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/rules/voiceover.md",
+      "language": "markdown",
+      "sizeLines": 99,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/remotion-best-practices/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 340,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/shadcn/agents/openai.yml",
+      "language": "yaml",
+      "sizeLines": 5,
+      "fileCategory": "config"
+    },
+    {
+      "path": ".agents/skills/shadcn/cli.md",
+      "language": "markdown",
+      "sizeLines": 276,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/shadcn/customization.md",
+      "language": "markdown",
+      "sizeLines": 208,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/shadcn/evals/evals.json",
+      "language": "json",
+      "sizeLines": 47,
+      "fileCategory": "config"
+    },
+    {
+      "path": ".agents/skills/shadcn/mcp.md",
+      "language": "markdown",
+      "sizeLines": 94,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/shadcn/rules/base-vs-radix.md",
+      "language": "markdown",
+      "sizeLines": 308,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/shadcn/rules/composition.md",
+      "language": "markdown",
+      "sizeLines": 197,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/shadcn/rules/forms.md",
+      "language": "markdown",
+      "sizeLines": 194,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/shadcn/rules/icons.md",
+      "language": "markdown",
+      "sizeLines": 101,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/shadcn/rules/styling.md",
+      "language": "markdown",
+      "sizeLines": 161,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/shadcn/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 260,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/sync-local-skills/agents/openai.yaml",
+      "language": "yaml",
+      "sizeLines": 4,
+      "fileCategory": "config"
+    },
+    {
+      "path": ".agents/skills/sync-local-skills/scripts/inventory-local-skills.mjs",
+      "language": "mjs",
+      "sizeLines": 204,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".agents/skills/sync-local-skills/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 49,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/tanstack-start-best-practices/rules/api-routes.md",
+      "language": "markdown",
+      "sizeLines": 236,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/tanstack-start-best-practices/rules/auth-route-protection.md",
+      "language": "markdown",
+      "sizeLines": 188,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/tanstack-start-best-practices/rules/auth-session-management.md",
+      "language": "markdown",
+      "sizeLines": 189,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/tanstack-start-best-practices/rules/deploy-adapters.md",
+      "language": "markdown",
+      "sizeLines": 197,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/tanstack-start-best-practices/rules/env-functions.md",
+      "language": "markdown",
+      "sizeLines": 207,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/tanstack-start-best-practices/rules/err-server-errors.md",
+      "language": "markdown",
+      "sizeLines": 189,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/tanstack-start-best-practices/rules/file-separation.md",
+      "language": "markdown",
+      "sizeLines": 151,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/tanstack-start-best-practices/rules/mw-request-middleware.md",
+      "language": "markdown",
+      "sizeLines": 157,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/tanstack-start-best-practices/rules/sf-create-server-fn.md",
+      "language": "markdown",
+      "sizeLines": 146,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/tanstack-start-best-practices/rules/sf-input-validation.md",
+      "language": "markdown",
+      "sizeLines": 168,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/tanstack-start-best-practices/rules/ssr-hydration-safety.md",
+      "language": "markdown",
+      "sizeLines": 184,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/tanstack-start-best-practices/rules/ssr-prerender.md",
+      "language": "markdown",
+      "sizeLines": 190,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/tanstack-start-best-practices/rules/ssr-streaming.md",
+      "language": "markdown",
+      "sizeLines": 201,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/tanstack-start-best-practices/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 110,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/trpc-tanstack-nextjs/references/better-auth-integration.md",
+      "language": "markdown",
+      "sizeLines": 107,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/trpc-tanstack-nextjs/references/client-usage.md",
+      "language": "markdown",
+      "sizeLines": 209,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/trpc-tanstack-nextjs/references/infinite-queries.md",
+      "language": "markdown",
+      "sizeLines": 184,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/trpc-tanstack-nextjs/references/optimistic-updates.md",
+      "language": "markdown",
+      "sizeLines": 137,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/trpc-tanstack-nextjs/references/routers.md",
+      "language": "markdown",
+      "sizeLines": 157,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/trpc-tanstack-nextjs/references/server-usage.md",
+      "language": "markdown",
+      "sizeLines": 202,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/trpc-tanstack-nextjs/references/setup.md",
+      "language": "markdown",
+      "sizeLines": 228,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/trpc-tanstack-nextjs/references/subscriptions.md",
+      "language": "markdown",
+      "sizeLines": 200,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/trpc-tanstack-nextjs/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 51,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/turborepo/command/turborepo.md",
+      "language": "markdown",
+      "sizeLines": 70,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/turborepo/references/best-practices/dependencies.md",
+      "language": "markdown",
+      "sizeLines": 246,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/turborepo/references/best-practices/packages.md",
+      "language": "markdown",
+      "sizeLines": 335,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/turborepo/references/best-practices/RULE.md",
+      "language": "markdown",
+      "sizeLines": 241,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/turborepo/references/best-practices/structure.md",
+      "language": "markdown",
+      "sizeLines": 297,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/turborepo/references/boundaries/RULE.md",
+      "language": "markdown",
+      "sizeLines": 126,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/turborepo/references/caching/gotchas.md",
+      "language": "markdown",
+      "sizeLines": 190,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/turborepo/references/caching/remote-cache.md",
+      "language": "markdown",
+      "sizeLines": 127,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/turborepo/references/caching/RULE.md",
+      "language": "markdown",
+      "sizeLines": 153,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/turborepo/references/ci/github-actions.md",
+      "language": "markdown",
+      "sizeLines": 162,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/turborepo/references/ci/patterns.md",
+      "language": "markdown",
+      "sizeLines": 145,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/turborepo/references/ci/RULE.md",
+      "language": "markdown",
+      "sizeLines": 79,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/turborepo/references/ci/vercel.md",
+      "language": "markdown",
+      "sizeLines": 103,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/turborepo/references/cli/commands.md",
+      "language": "markdown",
+      "sizeLines": 297,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/turborepo/references/cli/RULE.md",
+      "language": "markdown",
+      "sizeLines": 100,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/turborepo/references/configuration/global-options.md",
+      "language": "markdown",
+      "sizeLines": 239,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/turborepo/references/configuration/gotchas.md",
+      "language": "markdown",
+      "sizeLines": 368,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/turborepo/references/configuration/RULE.md",
+      "language": "markdown",
+      "sizeLines": 235,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/turborepo/references/configuration/tasks.md",
+      "language": "markdown",
+      "sizeLines": 321,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/turborepo/references/environment/gotchas.md",
+      "language": "markdown",
+      "sizeLines": 175,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/turborepo/references/environment/modes.md",
+      "language": "markdown",
+      "sizeLines": 101,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/turborepo/references/environment/RULE.md",
+      "language": "markdown",
+      "sizeLines": 123,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/turborepo/references/filtering/patterns.md",
+      "language": "markdown",
+      "sizeLines": 152,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/turborepo/references/filtering/RULE.md",
+      "language": "markdown",
+      "sizeLines": 148,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/turborepo/references/watch/RULE.md",
+      "language": "markdown",
+      "sizeLines": 99,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/turborepo/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 951,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-composition-patterns/AGENTS.md",
+      "language": "markdown",
+      "sizeLines": 917,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-composition-patterns/metadata.json",
+      "language": "json",
+      "sizeLines": 11,
+      "fileCategory": "config"
+    },
+    {
+      "path": ".agents/skills/vercel-composition-patterns/README.md",
+      "language": "markdown",
+      "sizeLines": 60,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-composition-patterns/rules/_sections.md",
+      "language": "markdown",
+      "sizeLines": 29,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-composition-patterns/rules/_template.md",
+      "language": "markdown",
+      "sizeLines": 24,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-composition-patterns/rules/architecture-avoid-boolean-props.md",
+      "language": "markdown",
+      "sizeLines": 94,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-composition-patterns/rules/architecture-compound-components.md",
+      "language": "markdown",
+      "sizeLines": 108,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-composition-patterns/rules/patterns-children-over-render-props.md",
+      "language": "markdown",
+      "sizeLines": 84,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-composition-patterns/rules/patterns-explicit-variants.md",
+      "language": "markdown",
+      "sizeLines": 94,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-composition-patterns/rules/react19-no-forwardref.md",
+      "language": "markdown",
+      "sizeLines": 42,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-composition-patterns/rules/state-context-interface.md",
+      "language": "markdown",
+      "sizeLines": 191,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-composition-patterns/rules/state-decouple-implementation.md",
+      "language": "markdown",
+      "sizeLines": 103,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-composition-patterns/rules/state-lift-state.md",
+      "language": "markdown",
+      "sizeLines": 125,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-composition-patterns/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 88,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/AGENTS.md",
+      "language": "markdown",
+      "sizeLines": 3723,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/metadata.json",
+      "language": "json",
+      "sizeLines": 15,
+      "fileCategory": "config"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/README.md",
+      "language": "markdown",
+      "sizeLines": 127,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/_sections.md",
+      "language": "markdown",
+      "sizeLines": 46,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/_template.md",
+      "language": "markdown",
+      "sizeLines": 28,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/advanced-effect-event-deps.md",
+      "language": "markdown",
+      "sizeLines": 50,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/advanced-event-handler-refs.md",
+      "language": "markdown",
+      "sizeLines": 55,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/advanced-init-once.md",
+      "language": "markdown",
+      "sizeLines": 42,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/advanced-use-latest.md",
+      "language": "markdown",
+      "sizeLines": 39,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/async-api-routes.md",
+      "language": "markdown",
+      "sizeLines": 35,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/async-cheap-condition-before-await.md",
+      "language": "markdown",
+      "sizeLines": 37,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/async-defer-await.md",
+      "language": "markdown",
+      "sizeLines": 82,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/async-dependencies.md",
+      "language": "markdown",
+      "sizeLines": 48,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/async-parallel.md",
+      "language": "markdown",
+      "sizeLines": 24,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/async-suspense-boundaries.md",
+      "language": "markdown",
+      "sizeLines": 99,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/bundle-analyzable-paths.md",
+      "language": "markdown",
+      "sizeLines": 64,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/bundle-barrel-imports.md",
+      "language": "markdown",
+      "sizeLines": 60,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/bundle-conditional.md",
+      "language": "markdown",
+      "sizeLines": 37,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/bundle-defer-third-party.md",
+      "language": "markdown",
+      "sizeLines": 48,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/bundle-dynamic-imports.md",
+      "language": "markdown",
+      "sizeLines": 34,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/bundle-preload.md",
+      "language": "markdown",
+      "sizeLines": 44,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/client-event-listeners.md",
+      "language": "markdown",
+      "sizeLines": 78,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/client-localstorage-schema.md",
+      "language": "markdown",
+      "sizeLines": 74,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/client-passive-event-listeners.md",
+      "language": "markdown",
+      "sizeLines": 48,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/client-swr-dedup.md",
+      "language": "markdown",
+      "sizeLines": 56,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/js-batch-dom-css.md",
+      "language": "markdown",
+      "sizeLines": 110,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/js-cache-function-results.md",
+      "language": "markdown",
+      "sizeLines": 80,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/js-cache-property-access.md",
+      "language": "markdown",
+      "sizeLines": 28,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/js-cache-storage.md",
+      "language": "markdown",
+      "sizeLines": 68,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/js-combine-iterations.md",
+      "language": "markdown",
+      "sizeLines": 32,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/js-early-exit.md",
+      "language": "markdown",
+      "sizeLines": 50,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/js-flatmap-filter.md",
+      "language": "markdown",
+      "sizeLines": 51,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/js-hoist-regexp.md",
+      "language": "markdown",
+      "sizeLines": 45,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/js-index-maps.md",
+      "language": "markdown",
+      "sizeLines": 37,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/js-length-check-first.md",
+      "language": "markdown",
+      "sizeLines": 50,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/js-min-max-loop.md",
+      "language": "markdown",
+      "sizeLines": 82,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/js-request-idle-callback.md",
+      "language": "markdown",
+      "sizeLines": 104,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/js-set-map-lookups.md",
+      "language": "markdown",
+      "sizeLines": 24,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/js-tosorted-immutable.md",
+      "language": "markdown",
+      "sizeLines": 57,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/rendering-activity.md",
+      "language": "markdown",
+      "sizeLines": 26,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/rendering-animate-svg-wrapper.md",
+      "language": "markdown",
+      "sizeLines": 38,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/rendering-conditional-render.md",
+      "language": "markdown",
+      "sizeLines": 32,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/rendering-content-visibility.md",
+      "language": "markdown",
+      "sizeLines": 38,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/rendering-hoist-jsx.md",
+      "language": "markdown",
+      "sizeLines": 36,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/rendering-hydration-no-flicker.md",
+      "language": "markdown",
+      "sizeLines": 72,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/rendering-hydration-suppress-warning.md",
+      "language": "markdown",
+      "sizeLines": 26,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md",
+      "language": "markdown",
+      "sizeLines": 85,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/rendering-script-defer-async.md",
+      "language": "markdown",
+      "sizeLines": 68,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/rendering-svg-precision.md",
+      "language": "markdown",
+      "sizeLines": 28,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/rendering-usetransition-loading.md",
+      "language": "markdown",
+      "sizeLines": 75,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/rerender-defer-reads.md",
+      "language": "markdown",
+      "sizeLines": 39,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/rerender-dependencies.md",
+      "language": "markdown",
+      "sizeLines": 45,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/rerender-derived-state-no-effect.md",
+      "language": "markdown",
+      "sizeLines": 40,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/rerender-derived-state.md",
+      "language": "markdown",
+      "sizeLines": 29,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/rerender-functional-setstate.md",
+      "language": "markdown",
+      "sizeLines": 77,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/rerender-lazy-state-init.md",
+      "language": "markdown",
+      "sizeLines": 56,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/rerender-memo-with-default-value.md",
+      "language": "markdown",
+      "sizeLines": 36,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/rerender-memo.md",
+      "language": "markdown",
+      "sizeLines": 44,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/rerender-move-effect-to-event.md",
+      "language": "markdown",
+      "sizeLines": 45,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/rerender-no-inline-components.md",
+      "language": "markdown",
+      "sizeLines": 75,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/rerender-simple-expression-in-memo.md",
+      "language": "markdown",
+      "sizeLines": 35,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/rerender-split-combined-hooks.md",
+      "language": "markdown",
+      "sizeLines": 64,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/rerender-transitions.md",
+      "language": "markdown",
+      "sizeLines": 40,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/rerender-use-deferred-value.md",
+      "language": "markdown",
+      "sizeLines": 59,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/rerender-use-ref-transient-values.md",
+      "language": "markdown",
+      "sizeLines": 73,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/server-after-nonblocking.md",
+      "language": "markdown",
+      "sizeLines": 73,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/server-auth-actions.md",
+      "language": "markdown",
+      "sizeLines": 96,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/server-cache-lru.md",
+      "language": "markdown",
+      "sizeLines": 41,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/server-cache-react.md",
+      "language": "markdown",
+      "sizeLines": 76,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/server-dedup-props.md",
+      "language": "markdown",
+      "sizeLines": 65,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/server-hoist-static-io.md",
+      "language": "markdown",
+      "sizeLines": 142,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/server-no-shared-module-state.md",
+      "language": "markdown",
+      "sizeLines": 50,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/server-parallel-fetching.md",
+      "language": "markdown",
+      "sizeLines": 83,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/server-parallel-nested-fetching.md",
+      "language": "markdown",
+      "sizeLines": 30,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/rules/server-serialization.md",
+      "language": "markdown",
+      "sizeLines": 38,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 151,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".agents/skills/web-design-guidelines/SKILL.md",
+      "language": "markdown",
+      "sizeLines": 40,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".codex/config.toml",
+      "language": "toml",
+      "sizeLines": 19,
+      "fileCategory": "config"
+    },
+    {
+      "path": ".dockerignore",
+      "language": "unknown",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".DS_Store",
+      "language": "unknown",
+      "sizeLines": 1,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".env.example",
+      "language": "config",
+      "sizeLines": 19,
+      "fileCategory": "config"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "language": "yaml",
+      "sizeLines": 70,
+      "fileCategory": "infra"
+    },
+    {
+      "path": ".mcp.json",
+      "language": "json",
+      "sizeLines": 24,
+      "fileCategory": "config"
+    },
+    {
+      "path": ".playwright-mcp/page-2026-05-18T03-43-36-942Z.yml",
+      "language": "yaml",
+      "sizeLines": 178,
+      "fileCategory": "config"
+    },
+    {
+      "path": ".zed/settings.json",
+      "language": "json",
+      "sizeLines": 34,
+      "fileCategory": "config"
+    },
+    {
+      "path": "AGENTS.md",
+      "language": "markdown",
+      "sizeLines": 43,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "apps/server/.env.example",
+      "language": "config",
+      "sizeLines": 5,
+      "fileCategory": "config"
+    },
+    {
+      "path": "apps/server/Dockerfile",
+      "language": "dockerfile",
+      "sizeLines": 22,
+      "fileCategory": "infra"
+    },
+    {
+      "path": "apps/server/package.json",
+      "language": "json",
+      "sizeLines": 33,
+      "fileCategory": "config"
+    },
+    {
+      "path": "apps/server/src/index.ts",
+      "language": "typescript",
+      "sizeLines": 39,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/server/tsconfig.json",
+      "language": "json",
+      "sizeLines": 11,
+      "fileCategory": "config"
+    },
+    {
+      "path": "apps/server/tsdown.config.ts",
+      "language": "typescript",
+      "sizeLines": 9,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/web/.env.example",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "apps/web/components.json",
+      "language": "json",
+      "sizeLines": 24,
+      "fileCategory": "config"
+    },
+    {
+      "path": "apps/web/Dockerfile",
+      "language": "dockerfile",
+      "sizeLines": 27,
+      "fileCategory": "infra"
+    },
+    {
+      "path": "apps/web/next.config.ts",
+      "language": "typescript",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/web/package.json",
+      "language": "json",
+      "sizeLines": 40,
+      "fileCategory": "config"
+    },
+    {
+      "path": "apps/web/postcss.config.mjs",
+      "language": "mjs",
+      "sizeLines": 5,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/web/src/app/catalog/page.tsx",
+      "language": "typescript",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/web/src/app/course/[slug]/lesson/[lessonSlug]/lesson-experience.tsx",
+      "language": "typescript",
+      "sizeLines": 741,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/web/src/app/course/[slug]/lesson/[lessonSlug]/modules/code-module.tsx",
+      "language": "typescript",
+      "sizeLines": 62,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/web/src/app/course/[slug]/lesson/[lessonSlug]/modules/practice-module.tsx",
+      "language": "typescript",
+      "sizeLines": 86,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/web/src/app/course/[slug]/lesson/[lessonSlug]/modules/quiz-module.tsx",
+      "language": "typescript",
+      "sizeLines": 116,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/web/src/app/course/[slug]/lesson/[lessonSlug]/modules/video-module.tsx",
+      "language": "typescript",
+      "sizeLines": 56,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/web/src/app/course/[slug]/lesson/[lessonSlug]/page.tsx",
+      "language": "typescript",
+      "sizeLines": 49,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/web/src/app/course/[slug]/page.tsx",
+      "language": "typescript",
+      "sizeLines": 9,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/web/src/app/dashboard/dashboard.tsx",
+      "language": "typescript",
+      "sizeLines": 105,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/web/src/app/dashboard/page.tsx",
+      "language": "typescript",
+      "sizeLines": 9,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/web/src/app/layout.tsx",
+      "language": "typescript",
+      "sizeLines": 46,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/web/src/app/login/login-page-client.tsx",
+      "language": "typescript",
+      "sizeLines": 117,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/web/src/app/login/page.tsx",
+      "language": "typescript",
+      "sizeLines": 16,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/web/src/app/page.tsx",
+      "language": "typescript",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/web/src/app/settings/page.tsx",
+      "language": "typescript",
+      "sizeLines": 56,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/web/src/components/app-shell.tsx",
+      "language": "typescript",
+      "sizeLines": 21,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/web/src/components/auth-card.tsx",
+      "language": "typescript",
+      "sizeLines": 59,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/web/src/components/header.tsx",
+      "language": "typescript",
+      "sizeLines": 32,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/web/src/components/loader.tsx",
+      "language": "typescript",
+      "sizeLines": 9,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/web/src/components/mode-toggle.tsx",
+      "language": "typescript",
+      "sizeLines": 31,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/web/src/components/providers.tsx",
+      "language": "typescript",
+      "sizeLines": 23,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/web/src/components/sign-in-form.tsx",
+      "language": "typescript",
+      "sizeLines": 168,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/web/src/components/sign-up-form.tsx",
+      "language": "typescript",
+      "sizeLines": 205,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/web/src/components/theme-provider.tsx",
+      "language": "typescript",
+      "sizeLines": 11,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/web/src/components/user-menu.tsx",
+      "language": "typescript",
+      "sizeLines": 62,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/web/src/index.css",
+      "language": "css",
+      "sizeLines": 1,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "apps/web/src/lib/auth-client.ts",
+      "language": "typescript",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/web/src/lib/learning-paths.ts",
+      "language": "typescript",
+      "sizeLines": 4,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/web/src/lib/mock-data.ts",
+      "language": "typescript",
+      "sizeLines": 343,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/web/src/lib/server-session.ts",
+      "language": "typescript",
+      "sizeLines": 46,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/web/src/utils/trpc.ts",
+      "language": "typescript",
+      "sizeLines": 38,
+      "fileCategory": "code"
+    },
+    {
+      "path": "apps/web/tsconfig.json",
+      "language": "json",
+      "sizeLines": 35,
+      "fileCategory": "config"
+    },
+    {
+      "path": "bts.jsonc",
+      "language": "jsonc",
+      "sizeLines": 31,
+      "fileCategory": "config"
+    },
+    {
+      "path": "content/tracks/javascript/01-foundations/01-runtime-and-setup.mdx",
+      "language": "mdx",
+      "sizeLines": 91,
+      "fileCategory": "code"
+    },
+    {
+      "path": "content/tracks/javascript/01-foundations/02-values-and-types.mdx",
+      "language": "mdx",
+      "sizeLines": 101,
+      "fileCategory": "code"
+    },
+    {
+      "path": "content/tracks/javascript/01-foundations/03-first-data-model.mdx",
+      "language": "mdx",
+      "sizeLines": 112,
+      "fileCategory": "code"
+    },
+    {
+      "path": "content/tracks/javascript/01-foundations/quiz.yaml",
+      "language": "yaml",
+      "sizeLines": 82,
+      "fileCategory": "config"
+    },
+    {
+      "path": "content/tracks/javascript/01-foundations/stage.yaml",
+      "language": "yaml",
+      "sizeLines": 16,
+      "fileCategory": "config"
+    },
+    {
+      "path": "content/tracks/javascript/track.yaml",
+      "language": "yaml",
+      "sizeLines": 17,
+      "fileCategory": "config"
+    },
+    {
+      "path": "context/archived/plan-draft.md",
+      "language": "markdown",
+      "sizeLines": 157,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "context/archived/product-requirements-v2.md",
+      "language": "markdown",
+      "sizeLines": 12,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "context/archived/product-requirements.md",
+      "language": "markdown",
+      "sizeLines": 21,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "context/PRD-crashcourse-platform.md",
+      "language": "markdown",
+      "sizeLines": 291,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "context/teach-system.md",
+      "language": "markdown",
+      "sizeLines": 8,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "curriculum/01-javascript-curriculum.md",
+      "language": "markdown",
+      "sizeLines": 617,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "curriculum/02-typescript-curriculum.md",
+      "language": "markdown",
+      "sizeLines": 556,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "curriculum/03-golang-curriculum.md",
+      "language": "markdown",
+      "sizeLines": 588,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "curriculum/04-rust-curriculum.md",
+      "language": "markdown",
+      "sizeLines": 618,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "curriculum/05-project-roadmap.md",
+      "language": "markdown",
+      "sizeLines": 254,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "curriculum/06-assessment-rubrics.md",
+      "language": "markdown",
+      "sizeLines": 118,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "curriculum/README.md",
+      "language": "markdown",
+      "sizeLines": 82,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "curriculum/SOURCES.md",
+      "language": "markdown",
+      "sizeLines": 19,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "design.md",
+      "language": "markdown",
+      "sizeLines": 73,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "design/course.html",
+      "language": "html",
+      "sizeLines": 333,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "docker-compose.yml",
+      "language": "yaml",
+      "sizeLines": 67,
+      "fileCategory": "infra"
+    },
+    {
+      "path": "docs/content-architecture.md",
+      "language": "markdown",
+      "sizeLines": 250,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "legacy/coding-course-be/AGENTS.md",
+      "language": "markdown",
+      "sizeLines": 1845,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "legacy/coding-course-be/encore.app",
+      "language": "app",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "legacy/coding-course-be/package.json",
+      "language": "json",
+      "sizeLines": 15,
+      "fileCategory": "config"
+    },
+    {
+      "path": "legacy/coding-course-be/README.md",
+      "language": "markdown",
+      "sizeLines": 39,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "legacy/coding-course-be/tsconfig.json",
+      "language": "json",
+      "sizeLines": 31,
+      "fileCategory": "config"
+    },
+    {
+      "path": "legacy/learning-platform-fe/index.html",
+      "language": "html",
+      "sizeLines": 23,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "legacy/learning-platform-fe/package.json",
+      "language": "json",
+      "sizeLines": 29,
+      "fileCategory": "config"
+    },
+    {
+      "path": "legacy/learning-platform-fe/src/App.css",
+      "language": "css",
+      "sizeLines": 16,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "legacy/learning-platform-fe/src/App.tsx",
+      "language": "typescript",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "legacy/learning-platform-fe/src/components/Header/Header.css",
+      "language": "css",
+      "sizeLines": 86,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "legacy/learning-platform-fe/src/components/Header/Header.tsx",
+      "language": "typescript",
+      "sizeLines": 22,
+      "fileCategory": "code"
+    },
+    {
+      "path": "legacy/learning-platform-fe/src/components/LessonContent/LessonContent.css",
+      "language": "css",
+      "sizeLines": 257,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "legacy/learning-platform-fe/src/components/LessonContent/LessonContent.tsx",
+      "language": "typescript",
+      "sizeLines": 112,
+      "fileCategory": "code"
+    },
+    {
+      "path": "legacy/learning-platform-fe/src/components/ModuleProgress/ModuleProgress.css",
+      "language": "css",
+      "sizeLines": 49,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "legacy/learning-platform-fe/src/components/ModuleProgress/ModuleProgress.tsx",
+      "language": "typescript",
+      "sizeLines": 24,
+      "fileCategory": "code"
+    },
+    {
+      "path": "legacy/learning-platform-fe/src/components/Sidebar/Sidebar.css",
+      "language": "css",
+      "sizeLines": 210,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "legacy/learning-platform-fe/src/components/Sidebar/Sidebar.tsx",
+      "language": "typescript",
+      "sizeLines": 126,
+      "fileCategory": "code"
+    },
+    {
+      "path": "legacy/learning-platform-fe/src/data/courseData.ts",
+      "language": "typescript",
+      "sizeLines": 70,
+      "fileCategory": "code"
+    },
+    {
+      "path": "legacy/learning-platform-fe/src/index.css",
+      "language": "css",
+      "sizeLines": 144,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "legacy/learning-platform-fe/src/main.tsx",
+      "language": "typescript",
+      "sizeLines": 11,
+      "fileCategory": "code"
+    },
+    {
+      "path": "legacy/learning-platform-fe/src/types/index.ts",
+      "language": "typescript",
+      "sizeLines": 41,
+      "fileCategory": "code"
+    },
+    {
+      "path": "legacy/learning-platform-fe/src/vite-env.d.ts",
+      "language": "typescript",
+      "sizeLines": 1,
+      "fileCategory": "code"
+    },
+    {
+      "path": "legacy/learning-platform-fe/tsconfig.app.json",
+      "language": "json",
+      "sizeLines": 22,
+      "fileCategory": "config"
+    },
+    {
+      "path": "legacy/learning-platform-fe/tsconfig.json",
+      "language": "json",
+      "sizeLines": 11,
+      "fileCategory": "config"
+    },
+    {
+      "path": "legacy/learning-platform-fe/tsconfig.node.json",
+      "language": "json",
+      "sizeLines": 20,
+      "fileCategory": "config"
+    },
+    {
+      "path": "legacy/learning-platform-fe/vite.config.ts",
+      "language": "typescript",
+      "sizeLines": 7,
+      "fileCategory": "code"
+    },
+    {
+      "path": "notes/00_workspace_setup_clean.md",
+      "language": "markdown",
+      "sizeLines": 107,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "notes/install_fnm.md",
+      "language": "markdown",
+      "sizeLines": 104,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "opencode.json",
+      "language": "json",
+      "sizeLines": 34,
+      "fileCategory": "config"
+    },
+    {
+      "path": "package.json",
+      "language": "json",
+      "sizeLines": 61,
+      "fileCategory": "config"
+    },
+    {
+      "path": "packages/api/package.json",
+      "language": "json",
+      "sizeLines": 28,
+      "fileCategory": "config"
+    },
+    {
+      "path": "packages/api/src/context.ts",
+      "language": "typescript",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "packages/api/src/index.ts",
+      "language": "typescript",
+      "sizeLines": 25,
+      "fileCategory": "code"
+    },
+    {
+      "path": "packages/api/src/routers/index.ts",
+      "language": "typescript",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    },
+    {
+      "path": "packages/api/tsconfig.json",
+      "language": "json",
+      "sizeLines": 10,
+      "fileCategory": "config"
+    },
+    {
+      "path": "packages/auth/package.json",
+      "language": "json",
+      "sizeLines": 24,
+      "fileCategory": "config"
+    },
+    {
+      "path": "packages/auth/src/index.ts",
+      "language": "typescript",
+      "sizeLines": 33,
+      "fileCategory": "code"
+    },
+    {
+      "path": "packages/auth/tsconfig.json",
+      "language": "json",
+      "sizeLines": 10,
+      "fileCategory": "config"
+    },
+    {
+      "path": "packages/config/package.json",
+      "language": "json",
+      "sizeLines": 5,
+      "fileCategory": "config"
+    },
+    {
+      "path": "packages/config/tsconfig.base.json",
+      "language": "json",
+      "sizeLines": 22,
+      "fileCategory": "config"
+    },
+    {
+      "path": "packages/db/drizzle.config.ts",
+      "language": "typescript",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "packages/db/package.json",
+      "language": "json",
+      "sizeLines": 37,
+      "fileCategory": "config"
+    },
+    {
+      "path": "packages/db/src/index.ts",
+      "language": "typescript",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "packages/db/src/schema/auth.ts",
+      "language": "typescript",
+      "sizeLines": 93,
+      "fileCategory": "code"
+    },
+    {
+      "path": "packages/db/src/schema/content.ts",
+      "language": "typescript",
+      "sizeLines": 244,
+      "fileCategory": "code"
+    },
+    {
+      "path": "packages/db/src/schema/index.ts",
+      "language": "typescript",
+      "sizeLines": 3,
+      "fileCategory": "code"
+    },
+    {
+      "path": "packages/db/src/seed.ts",
+      "language": "typescript",
+      "sizeLines": 125,
+      "fileCategory": "code"
+    },
+    {
+      "path": "packages/db/tsconfig.json",
+      "language": "json",
+      "sizeLines": 10,
+      "fileCategory": "config"
+    },
+    {
+      "path": "packages/env/package.json",
+      "language": "json",
+      "sizeLines": 21,
+      "fileCategory": "config"
+    },
+    {
+      "path": "packages/env/src/server.ts",
+      "language": "typescript",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "packages/env/src/web.ts",
+      "language": "typescript",
+      "sizeLines": 12,
+      "fileCategory": "code"
+    },
+    {
+      "path": "packages/env/tsconfig.json",
+      "language": "json",
+      "sizeLines": 3,
+      "fileCategory": "config"
+    },
+    {
+      "path": "packages/ui/components.json",
+      "language": "json",
+      "sizeLines": 24,
+      "fileCategory": "config"
+    },
+    {
+      "path": "packages/ui/package.json",
+      "language": "json",
+      "sizeLines": 36,
+      "fileCategory": "config"
+    },
+    {
+      "path": "packages/ui/postcss.config.mjs",
+      "language": "mjs",
+      "sizeLines": 5,
+      "fileCategory": "code"
+    },
+    {
+      "path": "packages/ui/src/components/button.tsx",
+      "language": "typescript",
+      "sizeLines": 55,
+      "fileCategory": "code"
+    },
+    {
+      "path": "packages/ui/src/components/card.tsx",
+      "language": "typescript",
+      "sizeLines": 88,
+      "fileCategory": "code"
+    },
+    {
+      "path": "packages/ui/src/components/checkbox.tsx",
+      "language": "typescript",
+      "sizeLines": 27,
+      "fileCategory": "code"
+    },
+    {
+      "path": "packages/ui/src/components/dropdown-menu.tsx",
+      "language": "typescript",
+      "sizeLines": 254,
+      "fileCategory": "code"
+    },
+    {
+      "path": "packages/ui/src/components/input.tsx",
+      "language": "typescript",
+      "sizeLines": 19,
+      "fileCategory": "code"
+    },
+    {
+      "path": "packages/ui/src/components/label.tsx",
+      "language": "typescript",
+      "sizeLines": 17,
+      "fileCategory": "code"
+    },
+    {
+      "path": "packages/ui/src/components/skeleton.tsx",
+      "language": "typescript",
+      "sizeLines": 13,
+      "fileCategory": "code"
+    },
+    {
+      "path": "packages/ui/src/components/sonner.tsx",
+      "language": "typescript",
+      "sizeLines": 45,
+      "fileCategory": "code"
+    },
+    {
+      "path": "packages/ui/src/hooks/.gitkeep",
+      "language": "unknown",
+      "sizeLines": 0,
+      "fileCategory": "code"
+    },
+    {
+      "path": "packages/ui/src/lib/utils.ts",
+      "language": "typescript",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "packages/ui/src/styles/globals.css",
+      "language": "css",
+      "sizeLines": 161,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "packages/ui/tsconfig.json",
+      "language": "json",
+      "sizeLines": 12,
+      "fileCategory": "config"
+    },
+    {
+      "path": "README.md",
+      "language": "markdown",
+      "sizeLines": 210,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "scripts/build-manifest.ts",
+      "language": "typescript",
+      "sizeLines": 241,
+      "fileCategory": "code"
+    },
+    {
+      "path": "scripts/sync-content-index.ts",
+      "language": "typescript",
+      "sizeLines": 217,
+      "fileCategory": "code"
+    },
+    {
+      "path": "skills-lock.json",
+      "language": "json",
+      "sizeLines": 118,
+      "fileCategory": "config"
+    },
+    {
+      "path": "system-design.md",
+      "language": "markdown",
+      "sizeLines": 416,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "tsconfig.json",
+      "language": "json",
+      "sizeLines": 3,
+      "fileCategory": "config"
+    },
+    {
+      "path": "turbo.json",
+      "language": "json",
+      "sizeLines": 50,
+      "fileCategory": "config"
+    }
+  ],
+  "totalFiles": 489,
+  "filteredByIgnore": 0,
+  "estimatedComplexity": "large",
+  "importMap": {
+    ".agents/skills/better-auth-best-practices/SKILL.md": [],
+    ".agents/skills/bun/SKILL.md": [],
+    ".agents/skills/clean-code/SKILL.md": [],
+    ".agents/skills/clerk-nextjs-patterns/evals/evals.json": [],
+    ".agents/skills/clerk-nextjs-patterns/references/api-routes.md": [],
+    ".agents/skills/clerk-nextjs-patterns/references/caching-auth.md": [],
+    ".agents/skills/clerk-nextjs-patterns/references/middleware-strategies.md": [],
+    ".agents/skills/clerk-nextjs-patterns/references/server-actions.md": [],
+    ".agents/skills/clerk-nextjs-patterns/references/server-vs-client.md": [],
+    ".agents/skills/clerk-nextjs-patterns/SKILL.md": [],
+    ".agents/skills/clerk-nextjs-patterns/templates/nextjs-basic-auth/app/layout.tsx": [],
+    ".agents/skills/clerk-nextjs-patterns/templates/nextjs-basic-auth/app/page.tsx": [],
+    ".agents/skills/clerk-nextjs-patterns/templates/nextjs-basic-auth/package.json": [],
+    ".agents/skills/clerk-nextjs-patterns/templates/nextjs-basic-auth/proxy.ts": [],
+    ".agents/skills/clerk-nextjs-patterns/templates/nextjs-basic-auth/tsconfig.json": [],
+    ".agents/skills/design-md/examples/DESIGN.md": [],
+    ".agents/skills/design-md/README.md": [],
+    ".agents/skills/design-md/SKILL.md": [],
+    ".agents/skills/gh-cli/SKILL.md": [],
+    ".agents/skills/hyperframes-cli/SKILL.md": [],
+    ".agents/skills/hyperframes/data-in-motion.md": [],
+    ".agents/skills/hyperframes/house-style.md": [],
+    ".agents/skills/hyperframes/palettes/bold-energetic.md": [],
+    ".agents/skills/hyperframes/palettes/clean-corporate.md": [],
+    ".agents/skills/hyperframes/palettes/dark-premium.md": [],
+    ".agents/skills/hyperframes/palettes/jewel-rich.md": [],
+    ".agents/skills/hyperframes/palettes/monochrome.md": [],
+    ".agents/skills/hyperframes/palettes/nature-earth.md": [],
+    ".agents/skills/hyperframes/palettes/neon-electric.md": [],
+    ".agents/skills/hyperframes/palettes/pastel-soft.md": [],
+    ".agents/skills/hyperframes/palettes/warm-editorial.md": [],
+    ".agents/skills/hyperframes/patterns.md": [],
+    ".agents/skills/hyperframes/references/audio-reactive.md": [],
+    ".agents/skills/hyperframes/references/beat-direction.md": [],
+    ".agents/skills/hyperframes/references/captions.md": [],
+    ".agents/skills/hyperframes/references/css-patterns.md": [],
+    ".agents/skills/hyperframes/references/design-picker.md": [],
+    ".agents/skills/hyperframes/references/dynamic-techniques.md": [],
+    ".agents/skills/hyperframes/references/motion-principles.md": [],
+    ".agents/skills/hyperframes/references/narration.md": [],
+    ".agents/skills/hyperframes/references/prompt-expansion.md": [],
+    ".agents/skills/hyperframes/references/techniques.md": [],
+    ".agents/skills/hyperframes/references/transcript-guide.md": [],
+    ".agents/skills/hyperframes/references/transitions.md": [],
+    ".agents/skills/hyperframes/references/transitions/catalog.md": [],
+    ".agents/skills/hyperframes/references/transitions/css-3d.md": [],
+    ".agents/skills/hyperframes/references/transitions/css-blur.md": [],
+    ".agents/skills/hyperframes/references/transitions/css-cover.md": [],
+    ".agents/skills/hyperframes/references/transitions/css-destruction.md": [],
+    ".agents/skills/hyperframes/references/transitions/css-dissolve.md": [],
+    ".agents/skills/hyperframes/references/transitions/css-distortion.md": [],
+    ".agents/skills/hyperframes/references/transitions/css-grid.md": [],
+    ".agents/skills/hyperframes/references/transitions/css-light.md": [],
+    ".agents/skills/hyperframes/references/transitions/css-mechanical.md": [],
+    ".agents/skills/hyperframes/references/transitions/css-other.md": [],
+    ".agents/skills/hyperframes/references/transitions/css-push.md": [],
+    ".agents/skills/hyperframes/references/transitions/css-radial.md": [],
+    ".agents/skills/hyperframes/references/transitions/css-scale.md": [],
+    ".agents/skills/hyperframes/references/typography.md": [],
+    ".agents/skills/hyperframes/references/video-composition.md": [],
+    ".agents/skills/hyperframes/scripts/animation-map.mjs": [],
+    ".agents/skills/hyperframes/scripts/contrast-report.mjs": [],
+    ".agents/skills/hyperframes/scripts/package-loader.mjs": [],
+    ".agents/skills/hyperframes/SKILL.md": [],
+    ".agents/skills/hyperframes/templates/design-picker.html": [],
+    ".agents/skills/hyperframes/visual-styles.md": [],
+    ".agents/skills/impeccable/reference/adapt.md": [],
+    ".agents/skills/impeccable/reference/animate.md": [],
+    ".agents/skills/impeccable/reference/audit.md": [],
+    ".agents/skills/impeccable/reference/bolder.md": [],
+    ".agents/skills/impeccable/reference/brand.md": [],
+    ".agents/skills/impeccable/reference/clarify.md": [],
+    ".agents/skills/impeccable/reference/cognitive-load.md": [],
+    ".agents/skills/impeccable/reference/color-and-contrast.md": [],
+    ".agents/skills/impeccable/reference/colorize.md": [],
+    ".agents/skills/impeccable/reference/craft.md": [],
+    ".agents/skills/impeccable/reference/critique.md": [],
+    ".agents/skills/impeccable/reference/delight.md": [],
+    ".agents/skills/impeccable/reference/distill.md": [],
+    ".agents/skills/impeccable/reference/document.md": [],
+    ".agents/skills/impeccable/reference/extract.md": [],
+    ".agents/skills/impeccable/reference/harden.md": [],
+    ".agents/skills/impeccable/reference/heuristics-scoring.md": [],
+    ".agents/skills/impeccable/reference/interaction-design.md": [],
+    ".agents/skills/impeccable/reference/layout.md": [],
+    ".agents/skills/impeccable/reference/live.md": [],
+    ".agents/skills/impeccable/reference/motion-design.md": [],
+    ".agents/skills/impeccable/reference/onboard.md": [],
+    ".agents/skills/impeccable/reference/optimize.md": [],
+    ".agents/skills/impeccable/reference/overdrive.md": [],
+    ".agents/skills/impeccable/reference/personas.md": [],
+    ".agents/skills/impeccable/reference/polish.md": [],
+    ".agents/skills/impeccable/reference/product.md": [],
+    ".agents/skills/impeccable/reference/quieter.md": [],
+    ".agents/skills/impeccable/reference/responsive-design.md": [],
+    ".agents/skills/impeccable/reference/shape.md": [],
+    ".agents/skills/impeccable/reference/spatial-design.md": [],
+    ".agents/skills/impeccable/reference/teach.md": [],
+    ".agents/skills/impeccable/reference/typeset.md": [],
+    ".agents/skills/impeccable/reference/typography.md": [],
+    ".agents/skills/impeccable/reference/ux-writing.md": [],
+    ".agents/skills/impeccable/scripts/cleanup-deprecated.mjs": [],
+    ".agents/skills/impeccable/scripts/command-metadata.json": [],
+    ".agents/skills/impeccable/scripts/design-parser.mjs": [],
+    ".agents/skills/impeccable/scripts/detect-csp.mjs": [],
+    ".agents/skills/impeccable/scripts/impeccable-paths.mjs": [],
+    ".agents/skills/impeccable/scripts/is-generated.mjs": [],
+    ".agents/skills/impeccable/scripts/live-accept.mjs": [],
+    ".agents/skills/impeccable/scripts/live-browser-session.js": [],
+    ".agents/skills/impeccable/scripts/live-browser.js": [],
+    ".agents/skills/impeccable/scripts/live-complete.mjs": [],
+    ".agents/skills/impeccable/scripts/live-completion.mjs": [],
+    ".agents/skills/impeccable/scripts/live-inject.mjs": [],
+    ".agents/skills/impeccable/scripts/live-poll.mjs": [],
+    ".agents/skills/impeccable/scripts/live-resume.mjs": [],
+    ".agents/skills/impeccable/scripts/live-server.mjs": [],
+    ".agents/skills/impeccable/scripts/live-session-store.mjs": [],
+    ".agents/skills/impeccable/scripts/live-status.mjs": [],
+    ".agents/skills/impeccable/scripts/live-wrap.mjs": [],
+    ".agents/skills/impeccable/scripts/live.mjs": [],
+    ".agents/skills/impeccable/scripts/load-context.mjs": [],
+    ".agents/skills/impeccable/scripts/modern-screenshot.umd.js": [],
+    ".agents/skills/impeccable/scripts/pin.mjs": [],
+    ".agents/skills/impeccable/SKILL.md": [],
+    ".agents/skills/next-best-practices/async-patterns.md": [],
+    ".agents/skills/next-best-practices/bundling.md": [],
+    ".agents/skills/next-best-practices/data-patterns.md": [],
+    ".agents/skills/next-best-practices/debug-tricks.md": [],
+    ".agents/skills/next-best-practices/directives.md": [],
+    ".agents/skills/next-best-practices/error-handling.md": [],
+    ".agents/skills/next-best-practices/file-conventions.md": [],
+    ".agents/skills/next-best-practices/font.md": [],
+    ".agents/skills/next-best-practices/functions.md": [],
+    ".agents/skills/next-best-practices/hydration-error.md": [],
+    ".agents/skills/next-best-practices/image.md": [],
+    ".agents/skills/next-best-practices/metadata.md": [],
+    ".agents/skills/next-best-practices/parallel-routes.md": [],
+    ".agents/skills/next-best-practices/route-handlers.md": [],
+    ".agents/skills/next-best-practices/rsc-boundaries.md": [],
+    ".agents/skills/next-best-practices/runtime-selection.md": [],
+    ".agents/skills/next-best-practices/scripts.md": [],
+    ".agents/skills/next-best-practices/self-hosting.md": [],
+    ".agents/skills/next-best-practices/SKILL.md": [],
+    ".agents/skills/next-best-practices/suspense-boundaries.md": [],
+    ".agents/skills/next-cache-components/SKILL.md": [],
+    ".agents/skills/remotion-best-practices/rules/3d.md": [],
+    ".agents/skills/remotion-best-practices/rules/assets/charts-bar-chart.tsx": [],
+    ".agents/skills/remotion-best-practices/rules/assets/text-animations-typewriter.tsx": [],
+    ".agents/skills/remotion-best-practices/rules/assets/text-animations-word-highlight.tsx": [],
+    ".agents/skills/remotion-best-practices/rules/audio-visualization.md": [],
+    ".agents/skills/remotion-best-practices/rules/audio.md": [],
+    ".agents/skills/remotion-best-practices/rules/calculate-metadata.md": [],
+    ".agents/skills/remotion-best-practices/rules/compositions.md": [],
+    ".agents/skills/remotion-best-practices/rules/display-captions.md": [],
+    ".agents/skills/remotion-best-practices/rules/ffmpeg.md": [],
+    ".agents/skills/remotion-best-practices/rules/get-audio-duration.md": [],
+    ".agents/skills/remotion-best-practices/rules/get-video-dimensions.md": [],
+    ".agents/skills/remotion-best-practices/rules/get-video-duration.md": [],
+    ".agents/skills/remotion-best-practices/rules/gifs.md": [],
+    ".agents/skills/remotion-best-practices/rules/google-fonts.md": [],
+    ".agents/skills/remotion-best-practices/rules/html-in-canvas.md": [],
+    ".agents/skills/remotion-best-practices/rules/images.md": [],
+    ".agents/skills/remotion-best-practices/rules/import-srt-captions.md": [],
+    ".agents/skills/remotion-best-practices/rules/light-leaks.md": [],
+    ".agents/skills/remotion-best-practices/rules/local-fonts.md": [],
+    ".agents/skills/remotion-best-practices/rules/lottie.md": [],
+    ".agents/skills/remotion-best-practices/rules/maplibre.md": [],
+    ".agents/skills/remotion-best-practices/rules/measuring-dom-nodes.md": [],
+    ".agents/skills/remotion-best-practices/rules/measuring-text.md": [],
+    ".agents/skills/remotion-best-practices/rules/parameters.md": [],
+    ".agents/skills/remotion-best-practices/rules/sequencing.md": [],
+    ".agents/skills/remotion-best-practices/rules/sfx.md": [],
+    ".agents/skills/remotion-best-practices/rules/silence-detection.md": [],
+    ".agents/skills/remotion-best-practices/rules/subtitles.md": [],
+    ".agents/skills/remotion-best-practices/rules/tailwind.md": [],
+    ".agents/skills/remotion-best-practices/rules/text-animations.md": [],
+    ".agents/skills/remotion-best-practices/rules/timing.md": [],
+    ".agents/skills/remotion-best-practices/rules/transcribe-captions.md": [],
+    ".agents/skills/remotion-best-practices/rules/transitions.md": [],
+    ".agents/skills/remotion-best-practices/rules/transparent-videos.md": [],
+    ".agents/skills/remotion-best-practices/rules/trimming.md": [],
+    ".agents/skills/remotion-best-practices/rules/videos.md": [],
+    ".agents/skills/remotion-best-practices/rules/voiceover.md": [],
+    ".agents/skills/remotion-best-practices/SKILL.md": [],
+    ".agents/skills/shadcn/agents/openai.yml": [],
+    ".agents/skills/shadcn/cli.md": [],
+    ".agents/skills/shadcn/customization.md": [],
+    ".agents/skills/shadcn/evals/evals.json": [],
+    ".agents/skills/shadcn/mcp.md": [],
+    ".agents/skills/shadcn/rules/base-vs-radix.md": [],
+    ".agents/skills/shadcn/rules/composition.md": [],
+    ".agents/skills/shadcn/rules/forms.md": [],
+    ".agents/skills/shadcn/rules/icons.md": [],
+    ".agents/skills/shadcn/rules/styling.md": [],
+    ".agents/skills/shadcn/SKILL.md": [],
+    ".agents/skills/sync-local-skills/agents/openai.yaml": [],
+    ".agents/skills/sync-local-skills/scripts/inventory-local-skills.mjs": [],
+    ".agents/skills/sync-local-skills/SKILL.md": [],
+    ".agents/skills/tanstack-start-best-practices/rules/api-routes.md": [],
+    ".agents/skills/tanstack-start-best-practices/rules/auth-route-protection.md": [],
+    ".agents/skills/tanstack-start-best-practices/rules/auth-session-management.md": [],
+    ".agents/skills/tanstack-start-best-practices/rules/deploy-adapters.md": [],
+    ".agents/skills/tanstack-start-best-practices/rules/env-functions.md": [],
+    ".agents/skills/tanstack-start-best-practices/rules/err-server-errors.md": [],
+    ".agents/skills/tanstack-start-best-practices/rules/file-separation.md": [],
+    ".agents/skills/tanstack-start-best-practices/rules/mw-request-middleware.md": [],
+    ".agents/skills/tanstack-start-best-practices/rules/sf-create-server-fn.md": [],
+    ".agents/skills/tanstack-start-best-practices/rules/sf-input-validation.md": [],
+    ".agents/skills/tanstack-start-best-practices/rules/ssr-hydration-safety.md": [],
+    ".agents/skills/tanstack-start-best-practices/rules/ssr-prerender.md": [],
+    ".agents/skills/tanstack-start-best-practices/rules/ssr-streaming.md": [],
+    ".agents/skills/tanstack-start-best-practices/SKILL.md": [],
+    ".agents/skills/trpc-tanstack-nextjs/references/better-auth-integration.md": [],
+    ".agents/skills/trpc-tanstack-nextjs/references/client-usage.md": [],
+    ".agents/skills/trpc-tanstack-nextjs/references/infinite-queries.md": [],
+    ".agents/skills/trpc-tanstack-nextjs/references/optimistic-updates.md": [],
+    ".agents/skills/trpc-tanstack-nextjs/references/routers.md": [],
+    ".agents/skills/trpc-tanstack-nextjs/references/server-usage.md": [],
+    ".agents/skills/trpc-tanstack-nextjs/references/setup.md": [],
+    ".agents/skills/trpc-tanstack-nextjs/references/subscriptions.md": [],
+    ".agents/skills/trpc-tanstack-nextjs/SKILL.md": [],
+    ".agents/skills/turborepo/command/turborepo.md": [],
+    ".agents/skills/turborepo/references/best-practices/dependencies.md": [],
+    ".agents/skills/turborepo/references/best-practices/packages.md": [],
+    ".agents/skills/turborepo/references/best-practices/RULE.md": [],
+    ".agents/skills/turborepo/references/best-practices/structure.md": [],
+    ".agents/skills/turborepo/references/boundaries/RULE.md": [],
+    ".agents/skills/turborepo/references/caching/gotchas.md": [],
+    ".agents/skills/turborepo/references/caching/remote-cache.md": [],
+    ".agents/skills/turborepo/references/caching/RULE.md": [],
+    ".agents/skills/turborepo/references/ci/github-actions.md": [],
+    ".agents/skills/turborepo/references/ci/patterns.md": [],
+    ".agents/skills/turborepo/references/ci/RULE.md": [],
+    ".agents/skills/turborepo/references/ci/vercel.md": [],
+    ".agents/skills/turborepo/references/cli/commands.md": [],
+    ".agents/skills/turborepo/references/cli/RULE.md": [],
+    ".agents/skills/turborepo/references/configuration/global-options.md": [],
+    ".agents/skills/turborepo/references/configuration/gotchas.md": [],
+    ".agents/skills/turborepo/references/configuration/RULE.md": [],
+    ".agents/skills/turborepo/references/configuration/tasks.md": [],
+    ".agents/skills/turborepo/references/environment/gotchas.md": [],
+    ".agents/skills/turborepo/references/environment/modes.md": [],
+    ".agents/skills/turborepo/references/environment/RULE.md": [],
+    ".agents/skills/turborepo/references/filtering/patterns.md": [],
+    ".agents/skills/turborepo/references/filtering/RULE.md": [],
+    ".agents/skills/turborepo/references/watch/RULE.md": [],
+    ".agents/skills/turborepo/SKILL.md": [],
+    ".agents/skills/vercel-composition-patterns/AGENTS.md": [],
+    ".agents/skills/vercel-composition-patterns/metadata.json": [],
+    ".agents/skills/vercel-composition-patterns/README.md": [],
+    ".agents/skills/vercel-composition-patterns/rules/_sections.md": [],
+    ".agents/skills/vercel-composition-patterns/rules/_template.md": [],
+    ".agents/skills/vercel-composition-patterns/rules/architecture-avoid-boolean-props.md": [],
+    ".agents/skills/vercel-composition-patterns/rules/architecture-compound-components.md": [],
+    ".agents/skills/vercel-composition-patterns/rules/patterns-children-over-render-props.md": [],
+    ".agents/skills/vercel-composition-patterns/rules/patterns-explicit-variants.md": [],
+    ".agents/skills/vercel-composition-patterns/rules/react19-no-forwardref.md": [],
+    ".agents/skills/vercel-composition-patterns/rules/state-context-interface.md": [],
+    ".agents/skills/vercel-composition-patterns/rules/state-decouple-implementation.md": [],
+    ".agents/skills/vercel-composition-patterns/rules/state-lift-state.md": [],
+    ".agents/skills/vercel-composition-patterns/SKILL.md": [],
+    ".agents/skills/vercel-react-best-practices/AGENTS.md": [],
+    ".agents/skills/vercel-react-best-practices/metadata.json": [],
+    ".agents/skills/vercel-react-best-practices/README.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/_sections.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/_template.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/advanced-effect-event-deps.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/advanced-event-handler-refs.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/advanced-init-once.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/advanced-use-latest.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/async-api-routes.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/async-cheap-condition-before-await.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/async-defer-await.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/async-dependencies.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/async-parallel.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/async-suspense-boundaries.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/bundle-analyzable-paths.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/bundle-barrel-imports.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/bundle-conditional.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/bundle-defer-third-party.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/bundle-dynamic-imports.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/bundle-preload.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/client-event-listeners.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/client-localstorage-schema.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/client-passive-event-listeners.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/client-swr-dedup.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/js-batch-dom-css.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/js-cache-function-results.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/js-cache-property-access.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/js-cache-storage.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/js-combine-iterations.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/js-early-exit.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/js-flatmap-filter.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/js-hoist-regexp.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/js-index-maps.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/js-length-check-first.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/js-min-max-loop.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/js-request-idle-callback.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/js-set-map-lookups.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/js-tosorted-immutable.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/rendering-activity.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/rendering-animate-svg-wrapper.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/rendering-conditional-render.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/rendering-content-visibility.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/rendering-hoist-jsx.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/rendering-hydration-no-flicker.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/rendering-hydration-suppress-warning.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/rendering-resource-hints.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/rendering-script-defer-async.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/rendering-svg-precision.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/rendering-usetransition-loading.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/rerender-defer-reads.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/rerender-dependencies.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/rerender-derived-state-no-effect.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/rerender-derived-state.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/rerender-functional-setstate.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/rerender-lazy-state-init.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/rerender-memo-with-default-value.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/rerender-memo.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/rerender-move-effect-to-event.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/rerender-no-inline-components.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/rerender-simple-expression-in-memo.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/rerender-split-combined-hooks.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/rerender-transitions.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/rerender-use-deferred-value.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/rerender-use-ref-transient-values.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/server-after-nonblocking.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/server-auth-actions.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/server-cache-lru.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/server-cache-react.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/server-dedup-props.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/server-hoist-static-io.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/server-no-shared-module-state.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/server-parallel-fetching.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/server-parallel-nested-fetching.md": [],
+    ".agents/skills/vercel-react-best-practices/rules/server-serialization.md": [],
+    ".agents/skills/vercel-react-best-practices/SKILL.md": [],
+    ".agents/skills/web-design-guidelines/SKILL.md": [],
+    ".codex/config.toml": [],
+    ".dockerignore": [],
+    ".DS_Store": [],
+    ".env.example": [],
+    ".github/workflows/ci.yml": [],
+    ".mcp.json": [],
+    ".playwright-mcp/page-2026-05-18T03-43-36-942Z.yml": [],
+    ".zed/settings.json": [],
+    "AGENTS.md": [],
+    "apps/server/.env.example": [],
+    "apps/server/Dockerfile": [],
+    "apps/server/package.json": [],
+    "apps/server/src/index.ts": [
+      "packages/api/src/context.ts",
+      "packages/api/src/routers/index.ts",
+      "packages/auth/src/index.ts"
+    ],
+    "apps/server/tsconfig.json": [],
+    "apps/server/tsdown.config.ts": [],
+    "apps/web/.env.example": [],
+    "apps/web/components.json": [],
+    "apps/web/Dockerfile": [],
+    "apps/web/next.config.ts": [],
+    "apps/web/package.json": [],
+    "apps/web/postcss.config.mjs": [],
+    "apps/web/src/app/catalog/page.tsx": [],
+    "apps/web/src/app/course/[slug]/lesson/[lessonSlug]/lesson-experience.tsx": [],
+    "apps/web/src/app/course/[slug]/lesson/[lessonSlug]/modules/code-module.tsx": [],
+    "apps/web/src/app/course/[slug]/lesson/[lessonSlug]/modules/practice-module.tsx": [],
+    "apps/web/src/app/course/[slug]/lesson/[lessonSlug]/modules/quiz-module.tsx": [],
+    "apps/web/src/app/course/[slug]/lesson/[lessonSlug]/modules/video-module.tsx": [],
+    "apps/web/src/app/course/[slug]/lesson/[lessonSlug]/page.tsx": [
+      "apps/web/src/app/course/[slug]/lesson/[lessonSlug]/lesson-experience.tsx"
+    ],
+    "apps/web/src/app/course/[slug]/page.tsx": [],
+    "apps/web/src/app/dashboard/dashboard.tsx": [],
+    "apps/web/src/app/dashboard/page.tsx": [],
+    "apps/web/src/app/layout.tsx": [],
+    "apps/web/src/app/login/login-page-client.tsx": [],
+    "apps/web/src/app/login/page.tsx": [
+      "apps/web/src/app/login/login-page-client.tsx"
+    ],
+    "apps/web/src/app/page.tsx": [],
+    "apps/web/src/app/settings/page.tsx": [],
+    "apps/web/src/components/app-shell.tsx": [],
+    "apps/web/src/components/auth-card.tsx": [],
+    "apps/web/src/components/header.tsx": [
+      "apps/web/src/components/mode-toggle.tsx",
+      "apps/web/src/components/user-menu.tsx"
+    ],
+    "apps/web/src/components/loader.tsx": [],
+    "apps/web/src/components/mode-toggle.tsx": [],
+    "apps/web/src/components/providers.tsx": [
+      "apps/web/src/components/theme-provider.tsx"
+    ],
+    "apps/web/src/components/sign-in-form.tsx": [
+      "apps/web/src/components/auth-card.tsx",
+      "apps/web/src/components/loader.tsx"
+    ],
+    "apps/web/src/components/sign-up-form.tsx": [
+      "apps/web/src/components/auth-card.tsx",
+      "apps/web/src/components/loader.tsx"
+    ],
+    "apps/web/src/components/theme-provider.tsx": [],
+    "apps/web/src/components/user-menu.tsx": [],
+    "apps/web/src/index.css": [],
+    "apps/web/src/lib/auth-client.ts": [],
+    "apps/web/src/lib/learning-paths.ts": [],
+    "apps/web/src/lib/mock-data.ts": [],
+    "apps/web/src/lib/server-session.ts": [],
+    "apps/web/src/utils/trpc.ts": [
+      "packages/api/src/routers/index.ts"
+    ],
+    "apps/web/tsconfig.json": [],
+    "bts.jsonc": [],
+    "content/tracks/javascript/01-foundations/01-runtime-and-setup.mdx": [],
+    "content/tracks/javascript/01-foundations/02-values-and-types.mdx": [],
+    "content/tracks/javascript/01-foundations/03-first-data-model.mdx": [],
+    "content/tracks/javascript/01-foundations/quiz.yaml": [],
+    "content/tracks/javascript/01-foundations/stage.yaml": [],
+    "content/tracks/javascript/track.yaml": [],
+    "context/archived/plan-draft.md": [],
+    "context/archived/product-requirements-v2.md": [],
+    "context/archived/product-requirements.md": [],
+    "context/PRD-crashcourse-platform.md": [],
+    "context/teach-system.md": [],
+    "curriculum/01-javascript-curriculum.md": [],
+    "curriculum/02-typescript-curriculum.md": [],
+    "curriculum/03-golang-curriculum.md": [],
+    "curriculum/04-rust-curriculum.md": [],
+    "curriculum/05-project-roadmap.md": [],
+    "curriculum/06-assessment-rubrics.md": [],
+    "curriculum/README.md": [],
+    "curriculum/SOURCES.md": [],
+    "design.md": [],
+    "design/course.html": [],
+    "docker-compose.yml": [],
+    "docs/content-architecture.md": [],
+    "legacy/coding-course-be/AGENTS.md": [],
+    "legacy/coding-course-be/encore.app": [],
+    "legacy/coding-course-be/package.json": [],
+    "legacy/coding-course-be/README.md": [],
+    "legacy/coding-course-be/tsconfig.json": [],
+    "legacy/learning-platform-fe/index.html": [],
+    "legacy/learning-platform-fe/package.json": [],
+    "legacy/learning-platform-fe/src/App.css": [],
+    "legacy/learning-platform-fe/src/App.tsx": [
+      "legacy/learning-platform-fe/src/App.css",
+      "legacy/learning-platform-fe/src/components/LessonContent/LessonContent.css",
+      "legacy/learning-platform-fe/src/components/LessonContent/LessonContent.tsx",
+      "legacy/learning-platform-fe/src/components/Sidebar/Sidebar.css",
+      "legacy/learning-platform-fe/src/components/Sidebar/Sidebar.tsx",
+      "legacy/learning-platform-fe/src/data/courseData.ts"
+    ],
+    "legacy/learning-platform-fe/src/components/Header/Header.css": [],
+    "legacy/learning-platform-fe/src/components/Header/Header.tsx": [
+      "legacy/learning-platform-fe/src/components/Header/Header.css"
+    ],
+    "legacy/learning-platform-fe/src/components/LessonContent/LessonContent.css": [],
+    "legacy/learning-platform-fe/src/components/LessonContent/LessonContent.tsx": [
+      "legacy/learning-platform-fe/src/components/LessonContent/LessonContent.css",
+      "legacy/learning-platform-fe/src/types/index.ts"
+    ],
+    "legacy/learning-platform-fe/src/components/ModuleProgress/ModuleProgress.css": [],
+    "legacy/learning-platform-fe/src/components/ModuleProgress/ModuleProgress.tsx": [
+      "legacy/learning-platform-fe/src/components/ModuleProgress/ModuleProgress.css",
+      "legacy/learning-platform-fe/src/types/index.ts"
+    ],
+    "legacy/learning-platform-fe/src/components/Sidebar/Sidebar.css": [],
+    "legacy/learning-platform-fe/src/components/Sidebar/Sidebar.tsx": [
+      "legacy/learning-platform-fe/src/components/Header/Header.css",
+      "legacy/learning-platform-fe/src/components/Header/Header.tsx",
+      "legacy/learning-platform-fe/src/components/Sidebar/Sidebar.css",
+      "legacy/learning-platform-fe/src/types/index.ts"
+    ],
+    "legacy/learning-platform-fe/src/data/courseData.ts": [
+      "legacy/learning-platform-fe/src/types/index.ts"
+    ],
+    "legacy/learning-platform-fe/src/index.css": [],
+    "legacy/learning-platform-fe/src/main.tsx": [
+      "legacy/learning-platform-fe/src/App.tsx"
+    ],
+    "legacy/learning-platform-fe/src/types/index.ts": [],
+    "legacy/learning-platform-fe/src/vite-env.d.ts": [],
+    "legacy/learning-platform-fe/tsconfig.app.json": [],
+    "legacy/learning-platform-fe/tsconfig.json": [],
+    "legacy/learning-platform-fe/tsconfig.node.json": [],
+    "legacy/learning-platform-fe/vite.config.ts": [],
+    "notes/00_workspace_setup_clean.md": [],
+    "notes/install_fnm.md": [],
+    "opencode.json": [],
+    "package.json": [],
+    "packages/api/package.json": [],
+    "packages/api/src/context.ts": [
+      "packages/auth/src/index.ts"
+    ],
+    "packages/api/src/index.ts": [
+      "packages/api/src/context.ts"
+    ],
+    "packages/api/src/routers/index.ts": [
+      "packages/api/src/index.ts"
+    ],
+    "packages/api/tsconfig.json": [],
+    "packages/auth/package.json": [],
+    "packages/auth/src/index.ts": [
+      "packages/db/src/index.ts",
+      "packages/db/src/schema/auth.ts"
+    ],
+    "packages/auth/tsconfig.json": [],
+    "packages/config/package.json": [],
+    "packages/config/tsconfig.base.json": [],
+    "packages/db/drizzle.config.ts": [],
+    "packages/db/package.json": [],
+    "packages/db/src/index.ts": [
+      "packages/db/src/schema/index.ts"
+    ],
+    "packages/db/src/schema/auth.ts": [],
+    "packages/db/src/schema/content.ts": [
+      "packages/db/src/schema/auth.ts"
+    ],
+    "packages/db/src/schema/index.ts": [
+      "packages/db/src/schema/auth.ts",
+      "packages/db/src/schema/content.ts"
+    ],
+    "packages/db/src/seed.ts": [
+      "packages/db/src/schema/auth.ts"
+    ],
+    "packages/db/tsconfig.json": [],
+    "packages/env/package.json": [],
+    "packages/env/src/server.ts": [],
+    "packages/env/src/web.ts": [],
+    "packages/env/tsconfig.json": [],
+    "packages/ui/components.json": [],
+    "packages/ui/package.json": [],
+    "packages/ui/postcss.config.mjs": [],
+    "packages/ui/src/components/button.tsx": [],
+    "packages/ui/src/components/card.tsx": [],
+    "packages/ui/src/components/checkbox.tsx": [],
+    "packages/ui/src/components/dropdown-menu.tsx": [],
+    "packages/ui/src/components/input.tsx": [],
+    "packages/ui/src/components/label.tsx": [],
+    "packages/ui/src/components/skeleton.tsx": [],
+    "packages/ui/src/components/sonner.tsx": [],
+    "packages/ui/src/hooks/.gitkeep": [],
+    "packages/ui/src/lib/utils.ts": [],
+    "packages/ui/src/styles/globals.css": [],
+    "packages/ui/tsconfig.json": [],
+    "README.md": [],
+    "scripts/build-manifest.ts": [],
+    "scripts/sync-content-index.ts": [
+      "packages/db/src/index.ts",
+      "packages/db/src/schema/content.ts"
+    ],
+    "skills-lock.json": [],
+    "system-design.md": [],
+    "tsconfig.json": [],
+    "turbo.json": []
+  }
+}

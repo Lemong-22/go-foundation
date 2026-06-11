@@ -1,0 +1,17 @@
+id: javascript
+slug: javascript
+title: JavaScript — Beginner to Advanced
+summary: >
+  Build a production-style TaskForge browser app from plain objects and
+  console output to an accessible, persistent, asynchronous, modular browser
+  app backed by a small Node.js API.
+order_index: 1
+version: 0.1.0
+authors:
+  - stephen
+status: draft
+stages:
+  - 01-foundations
+  # Stages 02–19 follow as they are written. The ordered list above is the
+  # only source of truth for stage ordering — directory names are sorted
+  # alphabetically by the build script only as a fallback.

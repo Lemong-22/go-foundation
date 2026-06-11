@@ -1,0 +1,16 @@
+slug: 01-foundations
+title: Runtime mental model, setup, and first data model
+order_index: 1
+summary: >
+  Get JavaScript running in two places, learn how the language thinks about
+  values, and model the TaskForge domain as plain objects and arrays.
+objectives:
+  - Explain how JavaScript executes in browsers and in Node.js.
+  - Distinguish primitive values from object references and predict equality.
+  - Set up a TaskForge project with index.html, main.js, and README.md.
+  - Model users, projects, and tasks as plain objects and arrays.
+lessons:
+  - 01-runtime-and-setup
+  - 02-values-and-types
+  - 03-first-data-model
+quiz: quiz

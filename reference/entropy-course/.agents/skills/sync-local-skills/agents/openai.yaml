@@ -1,0 +1,4 @@
+interface:
+  display_name: "Sync Local Skills"
+  short_description: "Refresh AGENTS.md with repo-local skill triggers."
+  default_prompt: "Detect the local skills in this repository and update AGENTS.md with concise situational triggers for each one."

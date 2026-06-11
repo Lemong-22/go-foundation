@@ -1,0 +1,19 @@
+slug: count-to-five
+title: Count to Five
+language: javascript
+prompt: Print the numbers 1 through 5, each on its own line, using a for loop and console.log.
+starter_code: |
+  // Print 1, 2, 3, 4, 5 — one number per line.
+  // Hint: a for loop that counts from 1 to 5.
+solution: |
+  for (let i = 1; i <= 5; i++) {
+    console.log(i);
+  }
+test_cases:
+- name: prints one through five
+  expected_stdout: |
+    1
+    2
+    3
+    4
+    5

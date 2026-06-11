@@ -1,0 +1,24 @@
+{
+  "name": "@entropy-course/auth",
+  "type": "module",
+  "exports": {
+    ".": {
+      "default": "./src/index.ts"
+    },
+    "./*": {
+      "default": "./src/*.ts"
+    }
+  },
+  "scripts": {},
+  "dependencies": {
+    "@entropy-course/db": "workspace:*",
+    "@entropy-course/env": "workspace:*",
+    "better-auth": "catalog:",
+    "dotenv": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@entropy-course/config": "workspace:*",
+    "typescript": "catalog:"
+  }
+}

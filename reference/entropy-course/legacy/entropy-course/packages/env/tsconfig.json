@@ -1,0 +1,3 @@
+{
+  "extends": "@entropy-course/config/tsconfig.base.json"
+}

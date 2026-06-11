@@ -1,0 +1,36 @@
+slug: variables-quiz
+title: Variables and Types Quiz
+pass_threshold: 0.7
+questions:
+- type: single
+  prompt: Which keyword declares a value that should NOT be reassigned?
+  options:
+  - var
+  - let
+  - const
+  - static
+  correct_indices:
+  - 2
+  explanation: const declares a binding you do not intend to reassign. Use let when a value genuinely needs to change.
+- type: multiple
+  prompt: Which of these are JavaScript data types you met in this lesson? (Select all that apply.)
+  options:
+  - string
+  - number
+  - boolean
+  - spreadsheet
+  correct_indices:
+  - 0
+  - 1
+  - 2
+  explanation: string, number, and boolean are core JavaScript types. 'spreadsheet' is not a type.
+- type: single
+  prompt: What does typeof 42 return?
+  options:
+  - '"string"'
+  - '"number"'
+  - '"boolean"'
+  - '"digit"'
+  correct_indices:
+  - 1
+  explanation: 42 is a number, so typeof 42 evaluates to the string "number".

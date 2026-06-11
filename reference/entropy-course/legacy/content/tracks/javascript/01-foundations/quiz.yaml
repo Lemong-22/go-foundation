@@ -1,0 +1,82 @@
+slug: foundations
+title: Foundations check
+pass_threshold: 0.7
+shuffle: false
+questions:
+  - slug: q1-runtime-output-location
+    type: single_choice
+    prompt: >
+      You run `node main.js` and see `TaskForge says hello` in your terminal.
+      Where does the same `console.log` show up when `main.js` is loaded via
+      a `<script>` tag in a browser?
+    options:
+      - In the terminal where you started the page
+      - In the browser's developer console
+      - In the browser tab's address bar
+      - It does not show up anywhere
+    answer: In the browser's developer console
+    explanation: >
+      In a browser, `console.log` writes to the DevTools console, not the
+      terminal. The terminal is unaware of what the browser is doing.
+
+  - slug: q2-primitive-equality
+    type: single_choice
+    prompt: What does `"abc" === "abc"` evaluate to?
+    options: ["true", "false", "undefined", "throws an error"]
+    answer: "true"
+    explanation: >
+      Primitives are compared by value. Two strings with the same characters
+      are equal under `===`.
+
+  - slug: q3-object-equality
+    type: single_choice
+    prompt: What does `[1, 2, 3] === [1, 2, 3]` evaluate to?
+    options: ["true", "false", "undefined", "throws an error"]
+    answer: "false"
+    explanation: >
+      Objects (including arrays) are compared by reference. These are two
+      different arrays that happen to contain the same numbers.
+
+  - slug: q4-shared-reference
+    type: short_answer
+    prompt: >
+      `const tasks = []; const alsoTasks = tasks; tasks.push({});` —
+      what is `alsoTasks.length`, and why?
+    answer_key: >
+      `1`, because `tasks` and `alsoTasks` are two names pointing at the same
+      array in memory. Mutating the array through one name is visible through
+      the other.
+
+  - slug: q5-id-string-not-number
+    type: single_choice
+    prompt: >
+      We modeled task IDs as strings like `"t_001"` instead of numbers.
+      Which of the following is **not** a reason for that choice?
+    options:
+      - Strings sort the way humans expect when zero-padded
+      - String IDs can include a prefix that hints at the entity type
+      - Strings prevent accidental arithmetic on identifiers
+      - Strings are faster to compare than numbers
+    answer: Strings are faster to compare than numbers
+    explanation: >
+      The first three are real reasons we picked strings. Comparison speed is
+      not — numeric comparison is, if anything, marginally faster. We picked
+      strings for clarity, not performance.
+
+  - slug: q6-group-by-status
+    type: multi_choice
+    prompt: >
+      Which of these snippets correctly count tasks per status into
+      `counts[status] = n`? (Select all that apply.)
+    options:
+      - "`for (const t of tasks) counts[t.status] = (counts[t.status] ?? 0) + 1;`"
+      - "`for (const t of tasks) counts[t.status]++;`"
+      - "`tasks.forEach(t => counts[t.status] = (counts[t.status] || 0) + 1);`"
+      - "`counts = tasks.length;`"
+    answer:
+      - "`for (const t of tasks) counts[t.status] = (counts[t.status] ?? 0) + 1;`"
+      - "`tasks.forEach(t => counts[t.status] = (counts[t.status] || 0) + 1);`"
+    explanation: >
+      The plain `++` form fails on the first iteration because
+      `counts[t.status]` is `undefined`. The last option discards the
+      per-status breakdown entirely.

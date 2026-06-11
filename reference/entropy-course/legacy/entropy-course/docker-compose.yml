@@ -1,0 +1,67 @@
+name: entropy-course
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: entropy-course-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-entropy_course}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER:-postgres} -d $${POSTGRES_DB:-entropy_course}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  server:
+    build:
+      context: .
+      dockerfile: apps/server/Dockerfile
+    container_name: entropy-course-server
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: ${DATABASE_URL:-postgres://postgres:password@postgres:5432/entropy_course}
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:-change-me-change-me-change-me-change-me}
+      BETTER_AUTH_URL: ${BETTER_AUTH_URL:-http://localhost:3000}
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:3001}
+    ports:
+      - "${SERVER_PORT:-3000}:3000"
+    healthcheck:
+      test: "bun -e \"const r=await fetch('http://127.0.0.1:3000/'); process.exit(r.ok ? 0 : 1)\""
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      args:
+        NEXT_PUBLIC_SERVER_URL: ${NEXT_PUBLIC_SERVER_URL:-http://localhost:3000}
+    container_name: entropy-course-web
+    depends_on:
+      server:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_SERVER_URL: ${NEXT_PUBLIC_SERVER_URL:-http://localhost:3000}
+      PORT: 3001
+      HOSTNAME: 0.0.0.0
+    ports:
+      - "${WEB_PORT:-3001}:3001"
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

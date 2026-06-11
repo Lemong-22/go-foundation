@@ -1,0 +1,210 @@
+.sidebar {
+  width: var(--sidebar-width);
+  background-color: var(--color-bg-secondary);
+  border-right: 1px solid var(--color-border-default);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  flex-shrink: 0;
+}
+
+.sidebar .header {
+  position: static;
+  top: auto;
+  border-bottom: 1px solid var(--color-border-default);
+}
+
+.sidebar__content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.sidebar__course-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  border-bottom: 1px solid var(--color-border-default);
+}
+
+.sidebar__course-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #f59e0b, #ea580c);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-lg);
+}
+
+.sidebar__course-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar__course-title {
+  font-size: var(--font-sm);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+}
+
+.sidebar__course-subtitle {
+  font-size: var(--font-xs);
+  color: var(--color-text-secondary);
+}
+
+.sidebar__section-title {
+  padding: var(--space-4) var(--space-5);
+  font-size: var(--font-xs);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.sidebar__modules {
+  padding: 0 var(--space-3);
+}
+
+.sidebar__module {
+  margin-bottom: var(--space-2);
+}
+
+.sidebar__module-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-3);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.sidebar__module-header:hover {
+  background-color: var(--color-bg-hover);
+}
+
+.sidebar__module--active .sidebar__module-header {
+  background-color: rgba(37, 99, 235, 0.12);
+}
+
+.sidebar__module--active .sidebar__module-header:hover {
+  background-color: rgba(59, 130, 246, 0.18);
+}
+
+.sidebar__module-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-xs);
+}
+
+.sidebar__module-icon--completed {
+  background-color: var(--color-accent-green);
+  color: white;
+}
+
+.sidebar__module-icon--current {
+  background-color: var(--color-accent-primary);
+  color: white;
+}
+
+.sidebar__module-icon--locked {
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-tertiary);
+}
+
+.sidebar__module-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar__module-title {
+  font-size: var(--font-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-primary);
+}
+
+.sidebar__module-subtitle {
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+  margin-top: 2px;
+}
+
+.sidebar__module-chevron {
+  color: var(--color-text-tertiary);
+  font-size: var(--font-xs);
+  transition: transform var(--transition-fast);
+}
+
+.sidebar__module-chevron--expanded {
+  transform: rotate(90deg);
+}
+
+.sidebar__lessons {
+  padding-left: var(--space-10);
+  margin-top: var(--space-1);
+}
+
+.sidebar__lesson {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.sidebar__lesson:hover {
+  background-color: var(--color-bg-hover);
+}
+
+.sidebar__lesson--current {
+  background-color: rgba(37, 99, 235, 0.14);
+}
+
+.sidebar__lesson--current:hover {
+  background-color: rgba(59, 130, 246, 0.2);
+}
+
+.sidebar__lesson-icon {
+  font-size: var(--font-xs);
+}
+
+.sidebar__lesson-icon--completed {
+  color: var(--color-accent-green);
+}
+
+.sidebar__lesson-icon--current {
+  color: white;
+}
+
+.sidebar__lesson-icon--locked {
+  color: var(--color-text-tertiary);
+}
+
+.sidebar__lesson-title {
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+}
+
+.sidebar__lesson--current .sidebar__lesson-title {
+  color: var(--color-text-primary);
+  font-weight: var(--font-medium);
+}
+
+.sidebar__lesson--completed .sidebar__lesson-title {
+  color: var(--color-text-secondary);
+}
+
+.sidebar__lesson--locked .sidebar__lesson-title {
+  color: var(--color-text-tertiary);
+}

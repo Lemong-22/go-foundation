@@ -1,0 +1,34 @@
+slug: fizzbuzz-lite
+title: FizzBuzz (1 to 15)
+language: javascript
+prompt: For each number from 1 to 15, print 'Fizz' if it is divisible by 3, 'Buzz' if divisible by 5, 'FizzBuzz' if divisible by both, otherwise the number itself. One result per line.
+starter_code: |
+  // For 1..15: Fizz (÷3), Buzz (÷5), FizzBuzz (both), else the number.
+  for (let i = 1; i <= 15; i++) {
+    // your logic here
+  }
+solution: |
+  for (let i = 1; i <= 15; i++) {
+    if (i % 15 === 0) console.log("FizzBuzz");
+    else if (i % 3 === 0) console.log("Fizz");
+    else if (i % 5 === 0) console.log("Buzz");
+    else console.log(i);
+  }
+test_cases:
+- name: classic fizzbuzz to 15
+  expected_stdout: |
+    1
+    2
+    Fizz
+    4
+    Buzz
+    Fizz
+    7
+    8
+    Fizz
+    Buzz
+    11
+    Fizz
+    13
+    14
+    FizzBuzz

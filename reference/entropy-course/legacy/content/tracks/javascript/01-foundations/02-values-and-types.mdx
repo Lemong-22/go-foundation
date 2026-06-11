@@ -1,0 +1,101 @@
+---
+slug: 02-values-and-types
+title: Values, types, and references
+order_index: 2
+estimated_minutes: 22
+objectives:
+  - List JavaScript's primitive types and give an example of each.
+  - Predict the result of `===` between primitives and between objects.
+  - Explain why two arrays with identical contents are not equal.
+prerequisites:
+  - 01-runtime-and-setup
+status: draft
+video:
+  provider: null
+  asset_id: null
+tags: [foundations, types, equality]
+---
+
+Every value in JavaScript falls into one of two camps: **primitives** and
+**objects**. Almost every confusing bug a beginner writes is some version of
+treating one like the other.
+
+## The primitive types
+
+There are seven, but you will mostly use these five:
+
+```js
+const aNumber = 42;           // number
+const aBigNumber = 9007n;     // bigint  (rare)
+const aString = "TaskForge";  // string
+const aFlag = true;           // boolean
+const nothing = null;         // null
+let notSet;                   // undefined
+```
+
+Primitives are compared **by value**. If two primitives represent the same
+data, `===` returns `true`:
+
+```js
+1 === 1;          // true
+"abc" === "abc";  // true
+true === true;    // true
+```
+
+## Objects (including arrays and functions)
+
+Anything that is not a primitive is an **object**. Arrays and functions are
+just specialised objects. Objects are compared **by reference** — by *which
+particular value in memory you are looking at*, not by their contents:
+
+```js
+const a = { name: "Build TaskForge" };
+const b = { name: "Build TaskForge" };
+
+a === b;        // false  — two different objects
+a === a;        // true   — the same object
+```
+
+This rule is the single most common stumbling block. Two arrays with
+identical-looking contents are not equal:
+
+```js
+[1, 2, 3] === [1, 2, 3];  // false
+```
+
+## Why this matters for TaskForge
+
+When you store a list of tasks in an array, and then `push` a new task into
+that array, the array's *identity* does not change — only its contents do.
+Code that holds the same reference still sees the update:
+
+```js
+const tasks = [];
+const alsoTasks = tasks;
+
+tasks.push({ title: "Write README" });
+alsoTasks.length;   // 1 — same array
+```
+
+Later, when we sync TaskForge to a server, "the same data" and "the same
+reference" will be two very different ideas — and being clear-eyed about
+the difference now will save you hours of confused debugging then.
+
+## A useful mental model
+
+> Primitives are facts. Objects are addresses.
+
+`42` is a fact. `{ name: "Build TaskForge" }` is an address to a particular
+box in memory; copying the address gives you two pointers to one box, not
+two boxes.
+
+<Callout type="check">
+You finished this lesson when you can predict the output of these three
+lines without running them:
+
+```js
+"" == false;
+null == undefined;
+[1] == "1";
+```
+</Callout>

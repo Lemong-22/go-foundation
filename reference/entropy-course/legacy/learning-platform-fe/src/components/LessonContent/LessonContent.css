@@ -1,0 +1,257 @@
+.lesson-content {
+  flex: 1;
+  padding: var(--space-6) var(--space-8);
+  overflow-y: auto;
+}
+
+.lesson-content__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-6);
+}
+
+.lesson-content__main {
+  flex: 1;
+}
+
+.lesson-content__breadcrumbs {
+  margin-bottom: var(--space-4);
+  font-size: var(--font-sm);
+}
+
+.lesson-content__breadcrumbs-list {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background: linear-gradient(135deg, rgba(93, 109, 231, 0.16), rgba(93, 109, 231, 0.1));
+  border: 1px solid rgba(136, 149, 255, 0.35);
+  border-radius: var(--radius-lg);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.45),
+    0 6px 16px rgba(88, 102, 221, 0.18);
+  opacity: 0.6;
+}
+
+.lesson-content__breadcrumb-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: #c7d4ff;
+  font-weight: var(--font-medium);
+  letter-spacing: 0.01em;
+}
+
+.lesson-content__breadcrumb-link {
+  color: inherit;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-full);
+  transition:
+    color var(--transition-fast),
+    background-color var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.lesson-content__breadcrumb-link:hover {
+  color: #e3e7ff;
+  background: rgba(118, 134, 255, 0.16);
+  transform: translateY(-1px);
+}
+
+.lesson-content__breadcrumb-item + .lesson-content__breadcrumb-item::before {
+  content: "›";
+  color: #9fb2ff;
+  font-weight: var(--font-semibold);
+}
+
+.lesson-content__breadcrumb-link--current {
+  color: #f4f6ff;
+  font-weight: var(--font-semibold);
+  cursor: default;
+}
+
+.lesson-content__title-row {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.lesson-content__chapter-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: calc(var(--space-2) + 1px) var(--space-4);
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, rgba(120, 142, 255, 0.18), rgba(64, 83, 192, 0.28));
+  border: 1px solid rgba(136, 149, 255, 0.45);
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.35),
+    0 4px 10px rgba(93, 109, 231, 0.24);
+  font-size: var(--font-sm);
+  font-weight: var(--font-semibold);
+  color: #e8edff;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  align-self: center;
+}
+
+.lesson-content__title {
+  font-size: var(--font-3xl);
+  font-weight: var(--font-bold);
+  color: var(--color-text-primary);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.lesson-content__description {
+  font-size: var(--font-base);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-4);
+  max-width: 600px;
+}
+
+.lesson-content__badges {
+  display: flex;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+
+.lesson-content__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background-color: var(--color-bg-tertiary);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-full);
+  font-size: var(--font-sm);
+  color: var(--color-text-primary);
+}
+
+.lesson-content__badge-icon {
+  font-size: var(--font-sm);
+}
+
+.lesson-content__tabs {
+  display: flex;
+  gap: var(--space-6);
+  border-bottom: 1px solid var(--color-border-default);
+  margin-bottom: var(--space-6);
+}
+
+.lesson-content__tab {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) 0;
+  font-size: var(--font-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-secondary);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.lesson-content__tab:hover {
+  color: var(--color-text-primary);
+}
+
+.lesson-content__tab--active {
+  color: var(--color-accent-secondary);
+  border-bottom-color: var(--color-accent-primary);
+}
+
+.lesson-content__tab-icon {
+  font-size: var(--font-sm);
+}
+
+.lesson-content__video-section {
+  background: linear-gradient(135deg, var(--color-bg-tertiary) 0%, #1a2332 100%);
+  border-radius: var(--radius-xl);
+  padding: var(--space-12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 320px;
+  margin-bottom: var(--space-8);
+}
+
+.lesson-content__play-button {
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-2xl);
+  color: white;
+  margin-bottom: var(--space-6);
+  transition: all var(--transition-base);
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+}
+
+.lesson-content__play-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: var(--color-accent-cyan);
+  transform: scale(1.05);
+}
+
+.lesson-content__video-title {
+  font-size: var(--font-xl);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.lesson-content__video-description {
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+  text-align: center;
+  max-width: 400px;
+}
+
+.lesson-content__takeaways {
+  margin-top: var(--space-8);
+}
+
+.lesson-content__takeaways-title {
+  font-size: var(--font-xl);
+  font-weight: var(--font-bold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-4);
+}
+
+.lesson-content__takeaway {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+}
+
+.lesson-content__takeaway-icon {
+  color: var(--color-accent-green);
+  font-size: var(--font-sm);
+  margin-top: 2px;
+}
+
+.lesson-content__takeaway-content {
+  flex: 1;
+}
+
+.lesson-content__takeaway-title {
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  display: inline;
+}
+
+.lesson-content__takeaway-text {
+  color: var(--color-text-secondary);
+  display: inline;
+}

@@ -1,0 +1,46 @@
+slug: foundations-checkpoint
+title: Foundations Checkpoint
+time_limit_minutes: 20
+pass_threshold: 0.7
+items:
+- kind: choice
+  prompt: Which keyword declares a block-scoped variable that cannot be reassigned?
+  choice_type: single
+  options:
+  - var
+  - let
+  - const
+  - function
+  correct_indices:
+  - 2
+  explanation: const creates a block-scoped binding you cannot reassign.
+- kind: choice
+  prompt: Which of these are primitive data types in JavaScript? (Select all that apply.)
+  choice_type: multiple
+  options:
+  - string
+  - number
+  - array
+  - boolean
+  correct_indices:
+  - 0
+  - 1
+  - 3
+  explanation: string, number, and boolean are primitives. An array is an object, not a primitive.
+- kind: coding
+  coding_prompt: Print the even numbers from 2 to 10, each on its own line.
+  language: javascript
+  starter_code: |
+    // Print 2, 4, 6, 8, 10 — one per line.
+  solution: |
+    for (let i = 2; i <= 10; i += 2) {
+      console.log(i);
+    }
+  test_cases:
+  - name: evens 2..10
+    expected_stdout: |
+      2
+      4
+      6
+      8
+      10

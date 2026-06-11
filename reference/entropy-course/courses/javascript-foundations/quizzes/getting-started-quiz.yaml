@@ -1,0 +1,24 @@
+slug: getting-started-quiz
+title: Getting Started Quiz
+pass_threshold: 0.7
+questions:
+- type: single
+  prompt: What does console.log do?
+  options:
+  - Prints a value to the output
+  - Deletes a file
+  - Creates a new variable
+  - Stops the program
+  correct_indices:
+  - 0
+  explanation: console.log prints the value you give it to the output, which is how you inspect what your program is doing.
+- type: single
+  prompt: Name one place JavaScript can run.
+  options:
+  - Only inside spreadsheets
+  - In the browser (or in Node.js)
+  - Only on Apple devices
+  - Nowhere without the internet
+  correct_indices:
+  - 1
+  explanation: JavaScript runs in the browser and, via the Node.js runtime, directly on your machine or a server.

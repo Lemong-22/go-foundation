@@ -1,0 +1,1809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Entropy Course — E2E Walkthrough</title>
+<style>
+  :root {
+    --bg: #0e1117;
+    --panel: #161b24;
+    --panel2: #1c2330;
+    --border: #2a3342;
+    --text: #d7dee9;
+    --muted: #8b97a8;
+    --accent: #5ba8f5;
+
+    --c-entry: #8b97a8;
+    --c-edge: #e8a04c;
+    --c-app: #56c2d6;
+    --c-core: #6ecf8a;
+    --c-domain: #3fa66b;
+    --c-adapter: #b48ce8;
+    --c-infra: #7384a3;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  header {
+    padding: 18px 28px 0;
+    border-bottom: 1px solid var(--border);
+    background: var(--panel);
+    position: sticky; top: 0; z-index: 10;
+  }
+  header h1 { margin: 0 0 2px; font-size: 19px; font-weight: 650; }
+  header p.sub { margin: 0 0 14px; color: var(--muted); font-size: 13px; }
+  .tabs { display: flex; gap: 4px; }
+  .tab {
+    appearance: none; border: 1px solid var(--border); border-bottom: none;
+    background: var(--panel2); color: var(--muted);
+    padding: 9px 18px; border-radius: 8px 8px 0 0;
+    font-size: 13.5px; font-weight: 600; cursor: pointer;
+  }
+  .tab.active { background: var(--bg); color: var(--text); border-color: var(--accent); }
+  .tab .n { color: var(--accent); margin-right: 6px; }
+
+  .mapbar {
+    padding: 14px 28px 10px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 86px; z-index: 9;
+  }
+  .map { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 0; }
+  .node {
+    display: inline-flex; align-items: center;
+    border: 1px solid var(--border); border-radius: 6px;
+    padding: 4px 10px; font-size: 12px; font-weight: 600;
+    color: var(--muted); background: var(--panel);
+    border-left: 3px solid var(--node-c, var(--border));
+    transition: all .18s ease;
+    white-space: nowrap;
+  }
+  .node.lane { border-style: dashed; border-left-width: 1px; opacity: .65; font-weight: 500; }
+  .node.on {
+    color: #fff; background: var(--panel2);
+    border-color: var(--node-c); box-shadow: 0 0 0 1px var(--node-c), 0 0 14px -2px var(--node-c);
+  }
+  .arrow { color: #3d4961; margin: 0 6px; font-size: 12px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 10px; font-size: 11.5px; color: var(--muted); }
+  .legend span::before {
+    content: ""; display: inline-block; width: 9px; height: 9px; border-radius: 2px;
+    background: var(--lg); margin-right: 5px; vertical-align: -1px;
+  }
+
+  .layout { display: grid; grid-template-columns: 270px 1fr; gap: 0; }
+  nav.toc {
+    border-right: 1px solid var(--border);
+    padding: 16px 0 80px;
+    background: var(--panel);
+    min-height: calc(100vh - 200px);
+  }
+  .toc button {
+    display: block; width: 100%; text-align: left;
+    appearance: none; background: none; border: none;
+    color: var(--muted); font-size: 13px; line-height: 1.4;
+    padding: 7px 18px 7px 16px; cursor: pointer;
+    border-left: 3px solid transparent;
+  }
+  .toc button:hover { color: var(--text); }
+  .toc button.cur { color: var(--text); border-left-color: var(--accent); background: var(--panel2); font-weight: 600; }
+  .toc .num { color: var(--accent); font-family: ui-monospace, monospace; font-size: 11px; margin-right: 7px; }
+
+  main { padding: 26px 34px 110px; max-width: 980px; }
+  .stepkicker { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+  main h2 { margin: 6px 0 10px; font-size: 22px; font-weight: 650; }
+  .prose { color: var(--text); max-width: 76ch; }
+  .prose p { margin: 0 0 12px; }
+  .prose code { background: var(--panel2); border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px; font-size: 12.5px; font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+  .prose .warn { color: #e8a04c; }
+
+  .filechip {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin: 18px 0 0; padding: 6px 12px;
+    background: var(--panel2); border: 1px solid var(--border);
+    border-bottom: none; border-radius: 8px 8px 0 0;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12px; color: var(--accent);
+  }
+  .filechip .ln { color: var(--muted); }
+  pre.code {
+    margin: 0 0 8px; padding: 14px 0; overflow-x: auto;
+    background: #11151d; border: 1px solid var(--border); border-radius: 0 10px 10px 10px;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12.5px; line-height: 1.6;
+  }
+  pre.code .row { display: flex; }
+  pre.code .gut {
+    flex: 0 0 52px; text-align: right; padding-right: 14px;
+    color: #45516a; user-select: none;
+  }
+  pre.code .src { white-space: pre; padding-right: 20px; }
+  .tok-k { color: #c792ea; }
+  .tok-s { color: #c3e88d; }
+  .tok-c { color: #5f6c87; font-style: italic; }
+  .tok-f { color: #82aaff; }
+
+  footer.nav {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 28px; background: var(--panel);
+    border-top: 1px solid var(--border); z-index: 20;
+  }
+  footer .btn {
+    appearance: none; border: 1px solid var(--border); border-radius: 8px;
+    background: var(--panel2); color: var(--text);
+    padding: 9px 20px; font-size: 13.5px; font-weight: 600; cursor: pointer;
+  }
+  footer .btn:hover:not(:disabled) { border-color: var(--accent); }
+  footer .btn:disabled { opacity: .35; cursor: default; }
+  footer .pos { color: var(--muted); font-size: 13px; }
+  footer .hint { color: #45516a; font-size: 12px; margin-left: 12px; }
+
+  /* ---------- flowchart view ---------- */
+  .vtoggle { margin-left: auto; display: flex; align-self: center; margin-bottom: 6px; }
+  .vtoggle button {
+    appearance: none; background: var(--panel2); border: 1px solid var(--border);
+    color: var(--muted); font-size: 12px; font-weight: 600; padding: 6px 16px; cursor: pointer;
+  }
+  .vtoggle button:first-child { border-radius: 7px 0 0 7px; }
+  .vtoggle button:last-child { border-radius: 0 7px 7px 0; border-left: none; }
+  .vtoggle button.on { color: #fff; background: #24304a; border-color: var(--accent); }
+
+  #flowview { padding: 20px 28px 50px; }
+  .flowwrap { display: grid; grid-template-columns: minmax(0, 1fr) 330px; gap: 18px; align-items: start; }
+  .flowsvg { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; overflow: auto; }
+  .flowsvg svg { display: block; min-width: 980px; width: 100%; height: auto; }
+  .fnode { cursor: pointer; }
+  .fnode rect { fill: var(--panel2); stroke-width: 1.4; transition: fill .15s ease; }
+  .fnode:hover rect { fill: #222b3c; }
+  .fnode.sel rect { stroke-width: 2.6; fill: #243049; }
+  .fnode text { fill: var(--text); font: 600 12.5px -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .fnode text.sub { fill: var(--muted); font-weight: 500; font-size: 10.5px; }
+  .fedge { fill: none; stroke: #52617f; stroke-width: 1.6; }
+  .fedge.dash { stroke-dasharray: 5 4; stroke: #45516a; }
+  .flabel { fill: #7d8ba3; font: 500 10px -apple-system, sans-serif; paint-order: stroke; stroke: var(--panel); stroke-width: 3px; }
+  .lane-band { fill: rgba(255,255,255,.022); }
+  .lane-label { fill: #5a6886; font: 600 9.5px -apple-system, sans-serif; letter-spacing: .09em; text-transform: uppercase; }
+  #flowpanel {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+    padding: 18px 20px; position: sticky; top: 104px;
+    max-height: calc(100vh - 130px); overflow: auto;
+  }
+  #flowpanel h3 { margin: 4px 0 8px; font-size: 16px; }
+  .fp-group {
+    display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: .06em;
+    text-transform: uppercase; padding: 2px 8px; border-radius: 4px;
+    border: 1px solid var(--fp-c); color: var(--fp-c); margin-bottom: 6px;
+  }
+  .fp-desc { font-size: 13.5px; }
+  .fp-desc p { margin: 0 0 10px; }
+  .fp-desc code { background: var(--panel2); border: 1px solid var(--border); border-radius: 4px; padding: 1px 4px; font-size: 11.5px; font-family: ui-monospace, Menlo, monospace; }
+  .fp-files { margin: 10px 0 4px; }
+  .fp-files div { font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: var(--accent); padding: 3px 0; border-bottom: 1px dashed #232c3d; }
+  .fp-steps { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
+  .fp-steps button {
+    appearance: none; text-align: left; background: var(--panel2); border: 1px solid var(--border);
+    border-radius: 8px; color: var(--text); font-size: 12.5px; padding: 8px 12px; cursor: pointer;
+  }
+  .fp-steps button:hover { border-color: var(--accent); }
+  .fp-steps .sn { color: var(--accent); font-family: ui-monospace, monospace; font-size: 11px; margin-right: 6px; }
+  .fp-hint { color: var(--muted); font-size: 13px; }
+  [hidden] { display: none !important; }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    nav.toc { display: none; }
+    .mapbar { position: static; }
+    .flowwrap { grid-template-columns: 1fr; }
+    #flowpanel { position: static; max-height: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Entropy Course — End-to-End Walkthrough</h1>
+  <p class="sub">Go hexagonal backend (<code style="font-size:12px">internal/course</code>) + Next.js learner reader (<code style="font-size:12px">web/</code>). Real code excerpts; line numbers match the repo.</p>
+  <div class="tabs">
+    <button class="tab" data-trace="0"><span class="n">A</span>System boot → served edges</button>
+    <button class="tab" data-trace="1"><span class="n">B</span>Learner journey → adapter edge</button>
+    <div class="vtoggle">
+      <button data-view="flow">Flowchart</button>
+      <button data-view="steps">Steps</button>
+    </div>
+  </div>
+</header>
+
+<section id="flowview" hidden>
+  <div class="flowwrap">
+    <div class="flowsvg" id="fsvgwrap"></div>
+    <aside id="flowpanel"></aside>
+  </div>
+</section>
+
+<div class="mapbar">
+  <div class="map" id="map"></div>
+  <div class="legend">
+    <span style="--lg:var(--c-entry)">entry / runtime</span>
+    <span style="--lg:var(--c-edge)">served edge (adapter, inbound)</span>
+    <span style="--lg:var(--c-app)">app wiring / DI</span>
+    <span style="--lg:var(--c-core)">usecase (core)</span>
+    <span style="--lg:var(--c-domain)">domain</span>
+    <span style="--lg:var(--c-adapter)">outbound adapter</span>
+    <span style="--lg:var(--c-infra)">infrastructure</span>
+  </div>
+</div>
+
+<div class="layout">
+  <nav class="toc" id="toc"></nav>
+  <main id="main"></main>
+</div>
+
+<footer class="nav">
+  <button class="btn" id="prev">← Prev</button>
+  <div><span class="pos" id="pos"></span><span class="hint">use ← → keys</span></div>
+  <button class="btn" id="next">Next →</button>
+</footer>
+
+<!-- ============ CODE EXCERPTS (verbatim from repo) ============ -->
+
+<script type="text/plain" id="a1">
+func main() {
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+	defer stop()
+
+	command := newRootCommand(ctx)
+	if err := command.ExecuteContext(ctx); err != nil {
+		_, _ = fmt.Fprintln(os.Stderr, "Error:", err)
+		os.Exit(coursecli.ExitCode(err))
+	}
+}
+</script>
+
+<script type="text/plain" id="a2">
+func newRootCommand(ctx context.Context) *cobra.Command {
+	config := app.ConfigureViper(viper.New())
+	scope := &containerScope{ctx: ctx, config: config}
+
+	command := &cobra.Command{
+		Use:           "course-cli",
+		Short:         "Manage courses, lessons, quizzes, practices, and tests",
+		SilenceUsage:  true,
+		SilenceErrors: true,
+	}
+	command.PersistentFlags().String("db-url", "", "PostgreSQL connection string")
+	command.PersistentFlags().String("api-token", "", "REST API bearer token")
+	_ = config.BindPFlag("db-url", command.PersistentFlags().Lookup("db-url"))
+	_ = config.BindPFlag("api-token", command.PersistentFlags().Lookup("api-token"))
+
+	command.PersistentPostRun = func(*cobra.Command, []string) {
+		scope.Close()
+	}
+
+	command.AddCommand(
+		coursecli.NewCourseCommand(coursecli.CourseCommandOptions{
+			Service: deferredCourseService{scope: scope},
+			Config:  config,
+		}),
+		// ... lesson, quiz, practice, test, import commands (same pattern) ...
+		newMigrateCommand(ctx, config),
+		newPlaygroundCommand(ctx, scope, config),
+		newRestCommand(ctx, scope),
+	)
+
+	return command
+}
+</script>
+
+<script type="text/plain" id="a3">
+func (scope *containerScope) Container() (*app.CLI, error) {
+	scope.mu.Lock()
+	defer scope.mu.Unlock()
+
+	if scope.container != nil {
+		return scope.container, nil
+	}
+
+	cfg, err := app.LoadConfig(scope.config)
+	if err != nil {
+		return nil, err
+	}
+
+	container, err := app.BuildContainer(scope.ctx, cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	scope.container = container
+	return container, nil
+}
+</script>
+
+<script type="text/plain" id="a3b">
+func (service deferredCourseService) CreateCourse(in core.CreateCourseInput) (core.CreateCourseOutput, error) {
+	container, err := service.scope.Container()
+	if err != nil {
+		return core.CreateCourseOutput{}, err
+	}
+
+	return container.Course.CreateCourse(in)
+}
+</script>
+
+<script type="text/plain" id="a4">
+func ConfigureViper(config *viper.Viper) *viper.Viper {
+	if config == nil {
+		config = viper.New()
+	}
+
+	if config.ConfigFileUsed() == "" {
+		config.SetConfigName(configName)
+		config.SetConfigType(configType)
+		if home, err := os.UserHomeDir(); err == nil {
+			config.AddConfigPath(filepath.Join(home, configDirectory))
+		}
+	}
+
+	config.SetEnvPrefix(envPrefix)
+	config.SetEnvKeyReplacer(strings.NewReplacer("-", "_"))
+	config.AutomaticEnv()
+
+	config.SetDefault(dbURLKey, "")
+	config.SetDefault(instructorKey, "")
+	config.SetDefault(apiTokenKey, "")
+
+	return config
+}
+</script>
+
+<script type="text/plain" id="a5">
+func BuildContainer(ctx context.Context, cfg Config) (*CLI, error) {
+	pool, err := newPostgresPool(ctx, cfg.DBURL)
+	if err != nil {
+		return nil, err
+	}
+
+	courseRepo := postgres.NewPostgresCourseRepository(pool)
+	lessonRepo := postgres.NewPostgresLessonRepository(pool)
+	quizRepo := postgres.NewPostgresQuizRepository(pool)
+	practiceRepo := postgres.NewPostgresPracticeRepository(pool)
+	testRepo := postgres.NewPostgresTestRepository(pool)
+	ids := NewUUIDGenerator()
+	clock := NewSystemClock()
+	importSource := importsource.NewZipImportSource()
+
+	courseService := usecase.NewCourseService(courseRepo, lessonRepo, quizRepo, ids, clock, practiceRepo, testRepo)
+	lessonService := usecase.NewLessonService(courseRepo, lessonRepo, quizRepo, ids, clock, practiceRepo)
+	quizService := usecase.NewQuizService(courseRepo, lessonRepo, quizRepo, ids, clock)
+	practiceService := usecase.NewPracticeService(courseRepo, lessonRepo, practiceRepo, ids, clock)
+	testService := usecase.NewTestService(courseRepo, testRepo, ids, clock)
+	importService := usecase.NewImportService(
+		importSource, clock,
+		// ... all five repos, then all five services as collaborators ...
+	)
+
+	return &CLI{
+		Course:   courseService,
+		Lesson:   lessonService,
+		Quiz:     quizService,
+		Practice: practiceService,
+		Test:     testService,
+		Import:   importService,
+		Config:   cfg,
+		pool:     pool,
+	}, nil
+}
+</script>
+
+<script type="text/plain" id="a6">
+type UUIDGenerator struct{}
+
+func NewUUIDGenerator() UUIDGenerator {
+	return UUIDGenerator{}
+}
+
+func (UUIDGenerator) NewCourseID() domain.CourseID {
+	id, err := domain.NewCourseID(uuid.NewString())
+	if err != nil {
+		panic(fmt.Sprintf("generate course id: %v", err))
+	}
+
+	return id
+}
+
+// ... NewLessonID, NewBlockID, NewQuizID, etc. (same pattern) ...
+
+type SystemClock struct{}
+
+func NewSystemClock() SystemClock {
+	return SystemClock{}
+}
+
+func (SystemClock) Now() time.Time {
+	return time.Now().UTC()
+}
+</script>
+
+<script type="text/plain" id="a7">
+func newRestCommand(ctx context.Context, scope *containerScope) *cobra.Command {
+	address := rest.DefaultAddress
+	command := &cobra.Command{
+		Use:   "rest",
+		Short: "Serve the REST API",
+		Args:  cobra.NoArgs,
+		RunE: func(*cobra.Command, []string) error {
+			container, err := scope.Container()
+			if err != nil {
+				return err
+			}
+
+			server, err := rest.NewServer(rest.Options{
+				Course:       container.Course,
+				Lesson:       container.Lesson,
+				Quiz:         container.Quiz,
+				Practice:     container.Practice,
+				Test:         container.Test,
+				Import:       container.Import,
+				Token:        container.Config.APIToken,
+				InstructorID: container.Config.InstructorID,
+			})
+			if err != nil {
+				return err
+			}
+
+			_, _ = fmt.Fprintf(os.Stdout, "Course REST API listening on http://%s\n", address)
+			return server.ListenAndServe(ctx, address)
+		},
+	}
+	command.Flags().StringVar(&address, "addr", rest.DefaultAddress, "address to bind")
+
+	return command
+}
+</script>
+
+<script type="text/plain" id="a8">
+func NewServer(options Options) (*Server, error) {
+	token := strings.TrimSpace(options.Token)
+	if options.Course == nil {
+		return nil, ErrMissingCourseService
+	}
+	if options.Lesson == nil {
+		return nil, ErrMissingLessonService
+	}
+	// ... quiz, practice, test checked the same way ...
+	if token == "" {
+		return nil, ErrMissingAPIToken
+	}
+
+	return &Server{
+		course:       options.Course,
+		lesson:       options.Lesson,
+		quiz:         options.Quiz,
+		practice:     options.Practice,
+		test:         options.Test,
+		imports:      options.Import,
+		token:        token,
+		instructorID: strings.TrimSpace(options.InstructorID),
+	}, nil
+}
+</script>
+
+<script type="text/plain" id="a9">
+func (server *Server) Handler() http.Handler {
+	return server.authenticate(http.HandlerFunc(server.route))
+}
+
+func (server *Server) ListenAndServe(ctx context.Context, address string) error {
+	if strings.TrimSpace(address) == "" {
+		address = DefaultAddress // 127.0.0.1:8788
+	}
+
+	listener, err := net.Listen("tcp", address)
+	if err != nil {
+		return fmt.Errorf("listen on %s: %w", address, err)
+	}
+
+	httpServer := &http.Server{
+		Handler:           server.Handler(),
+		ReadHeaderTimeout: 5 * time.Second,
+	}
+
+	errCh := make(chan error, 1)
+	go func() {
+		errCh <- httpServer.Serve(listener)
+	}()
+
+	select {
+	case err := <-errCh:
+		if errors.Is(err, http.ErrServerClosed) {
+			return nil
+		}
+		return err
+	case <-ctx.Done():
+		shutdownCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+		if err := httpServer.Shutdown(shutdownCtx); err != nil {
+			return fmt.Errorf("shutdown rest server: %w", err)
+		}
+	}
+	// ...
+}
+</script>
+
+<script type="text/plain" id="a10">
+func (server *Server) authenticate(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(response http.ResponseWriter, request *http.Request) {
+		if !server.authorized(request.Header.Get("Authorization")) {
+			writeError(response, ErrUnauthorized)
+			return
+		}
+
+		next.ServeHTTP(response, request)
+	})
+}
+
+func (server *Server) authorized(header string) bool {
+	scheme, token, ok := strings.Cut(header, " ")
+	if !ok || scheme != "Bearer" {
+		return false
+	}
+
+	return subtle.ConstantTimeCompare([]byte(token), []byte(server.token)) == 1
+}
+</script>
+
+<script type="text/plain" id="a11">
+func (server *Server) route(response http.ResponseWriter, request *http.Request) {
+	segments := pathSegments(request.URL.Path)
+	if len(segments) == 0 || segments[0] != "v1" {
+		http.NotFound(response, request)
+		return
+	}
+
+	switch {
+	case len(segments) == 3 && segments[1] == "import" && segments[2] == "plan":
+		server.handleImportPlan(response, request)
+	case len(segments) == 3 && segments[1] == "import" && segments[2] == "apply":
+		server.handleImportApply(response, request)
+	case len(segments) == 2 && segments[1] == "courses":
+		server.handleCourses(response, request)
+	case len(segments) == 4 && segments[1] == "courses" && segments[3] == "lessons":
+		server.handleCourseLessons(response, request, segments[2])
+	case len(segments) == 3 && segments[1] == "courses":
+		server.handleCourse(response, request, segments[2])
+	case len(segments) == 3 && segments[1] == "lessons":
+		server.handleLesson(response, request, segments[2])
+	case len(segments) == 3 && segments[1] == "tests":
+		server.handleTest(response, request, segments[2])
+	case len(segments) == 4 && segments[1] == "lessons" && segments[3] == "blocks":
+		server.handleLessonBlocks(response, request, segments[2])
+	// ... ~15 more cases: publish/unpublish, reorder, quizzes,
+	//     questions, practices, testcases, test items, blocks ...
+	default:
+		http.NotFound(response, request)
+	}
+}
+</script>
+
+<script type="text/plain" id="a12">
+import "server-only";
+
+import { createCourseApiClient } from "./transport";
+// ... type re-exports ...
+
+const courseApi = createCourseApiClient({
+  fetcher: fetch,
+  settings: readCourseApiSettings,
+});
+
+export const getCourse = courseApi.getCourse;
+export const getLesson = courseApi.getLesson;
+export const listCourseLessons = courseApi.listCourseLessons;
+export const listLessonBlocks = courseApi.listLessonBlocks;
+export const listPublishedCourses = courseApi.listPublishedCourses;
+export const getLearnerQuiz = courseApi.getLearnerQuiz;
+export const getLearnerPractice = courseApi.getLearnerPractice;
+export const getLearnerTest = courseApi.getLearnerTest;
+
+function readCourseApiSettings(): CourseApiResult<{ baseUrl?: string; token: string }> {
+  const token = process.env.COURSE_CLI_API_TOKEN?.trim();
+
+  if (!token) {
+    return {
+      error: {
+        code: "configuration",
+        message: "COURSE_CLI_API_TOKEN is required for course API reads.",
+      },
+      ok: false,
+    };
+  }
+
+  return {
+    data: { baseUrl: process.env.COURSE_API_BASE_URL, token },
+    ok: true,
+  };
+}
+</script>
+
+<script type="text/plain" id="a13">
+export function courseReadCacheOptions(tags: string[]) {
+  return {
+    cache: "force-cache" as const,
+    next: {
+      revalidate: false as const,
+      tags: dedupeTags(tags),
+    },
+  };
+}
+
+export function publishedCatalogCacheTags() {
+  return [COURSE_PUBLISHED_CATALOG_TAG];   // "course-reader:catalog:published"
+}
+
+export function courseCacheTags(courseID: string) {
+  return [courseTag(courseID)];
+}
+</script>
+
+<script type="text/plain" id="a13b">
+export async function POST(request: NextRequest) {
+  const configuredSecret = process.env.COURSE_REVALIDATION_SECRET?.trim();
+  // ... 503 when unset, 401 on secret mismatch, 400 on bad body ...
+
+  const plan = buildCourseRevalidationPlan(body.data);
+  // ...
+  for (const tag of plan.plan.tags) {
+    revalidateTag(tag, { expire: 0 });
+  }
+
+  return Response.json({
+    revalidated: true,
+    scope: plan.plan.scope,
+    tags: plan.plan.tags,
+  });
+}
+</script>
+
+<script type="text/plain" id="b1">
+export default async function Page() {
+  await connection();
+
+  const result = await listPublishedCourses();
+
+  if (!result.ok) {
+    return <CourseCatalogError error={result.error} />;
+  }
+
+  return <CourseCatalog courses={selectPublishedCourses(result.data.Courses)} />;
+}
+</script>
+
+<script type="text/plain" id="b2">
+    async listPublishedCourses() {
+      return request<ListCoursesOutput>(
+        options,
+        `/v1/courses?status=${encodeURIComponent(PUBLISHED_STATUS)}`,
+        publishedCatalogCacheTags(),
+      );
+    },
+</script>
+
+<script type="text/plain" id="b2b">
+  const url = `${settings.data.baseUrl}${endpoint}`;
+
+  let response: Response;
+  try {
+    response = await options.fetcher(url, {
+      ...courseReadCacheOptions(tags),
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${settings.data.token}`,
+      },
+      method: "GET",
+    });
+  } catch {
+    return fail({
+      code: "network",
+      endpoint,
+      message: "Unable to reach the course API.",
+    });
+  }
+</script>
+
+<script type="text/plain" id="b3">
+// handleCourses serves the student/instructor course catalog and course
+// creation endpoint. An optional ?status= query filter is forwarded on reads.
+func (server *Server) handleCourses(response http.ResponseWriter, request *http.Request) {
+	switch request.Method {
+	case http.MethodGet:
+		out, err := server.course.ListCourses(core.ListCoursesInput{
+			Status: request.URL.Query().Get("status"),
+		})
+		if err != nil {
+			writeError(response, err)
+			return
+		}
+		writeJSON(response, http.StatusOK, out)
+</script>
+
+<script type="text/plain" id="b4">
+func (service *CourseService) ListCourses(in core.ListCoursesInput) (core.ListCoursesOutput, error) {
+	filter, err := buildCourseFilter(in.Status)
+	if err != nil {
+		return core.ListCoursesOutput{}, err
+	}
+
+	courses, err := service.courses.FindAll(filter)
+	if err != nil {
+		return core.ListCoursesOutput{}, err
+	}
+
+	views := make([]core.CourseView, 0, len(courses))
+	for _, course := range courses {
+		views = append(views, courseView(course))
+	}
+
+	return core.ListCoursesOutput{Courses: views}, nil
+}
+</script>
+
+<script type="text/plain" id="b4b">
+func buildCourseFilter(statusValue string) (core.CourseFilter, error) {
+	if statusValue == "" {
+		return core.CourseFilter{}, nil
+	}
+
+	status, err := domain.NewCourseStatus(statusValue)
+	if err != nil {
+		return core.CourseFilter{}, err
+	}
+
+	return core.CourseFilter{Status: &status}, nil
+}
+</script>
+
+<script type="text/plain" id="b5">
+func (repo *PostgresCourseRepository) FindAll(filter core.CourseFilter) ([]domain.Course, error) {
+	ctx := context.Background()
+	var (
+		rows pgx.Rows
+		err  error
+	)
+
+	if filter.Status != nil {
+		rows, err = repo.pool.Query(ctx, selectCourseSQL+` WHERE status = $1 ORDER BY created_at DESC`, filter.Status.String())
+	} else {
+		rows, err = repo.pool.Query(ctx, selectCourseSQL+` ORDER BY created_at DESC`)
+	}
+</script>
+
+<script type="text/plain" id="b5b">
+const selectCourseSQL = `SELECT
+	id,
+	title,
+	slug,
+	description,
+	instructor_id,
+	status,
+	created_at,
+	updated_at
+FROM courses`
+</script>
+
+<script type="text/plain" id="b6">
+export function selectPublishedCourses(courses: CourseView[]) {
+  return courses.filter((course) => course.Status === "published");
+}
+
+export function courseDetailPath(course: Pick<CourseView, "ID">) {
+  return `/courses/${encodeURIComponent(course.ID)}`;
+}
+</script>
+
+<script type="text/plain" id="b7">
+export default async function CourseDetailPage({ params }: CourseDetailPageProps) {
+  await connection();
+
+  const { courseID } = await params;
+  const [courseResult, lessonsResult] = await Promise.all([
+    getCourse(courseID),
+    listCourseLessons(courseID),
+  ]);
+
+  if (!courseResult.ok) {
+    if (courseResult.error.code === "not-found") {
+      notFound();
+    }
+
+    return <CourseDetailError error={courseResult.error} />;
+  }
+
+  if (courseResult.data.Course.Status !== "published") {
+    notFound();
+  }
+
+  if (!lessonsResult.ok) {
+    return (
+      <CourseDetailError
+        course={courseResult.data.Course}
+        error={lessonsResult.error}
+      />
+    );
+  }
+
+  return (
+    <CourseDetail
+      course={courseResult.data.Course}
+      lessons={lessonsResult.data.Lessons}
+    />
+  );
+}
+</script>
+
+<script type="text/plain" id="b8">
+func (service *LessonService) ListLessons(in core.ListLessonsInput) (core.ListLessonsOutput, error) {
+	courseID, err := domain.NewCourseID(in.CourseID)
+	if err != nil {
+		return core.ListLessonsOutput{}, err
+	}
+
+	if _, err := service.courses.FindByID(courseID); err != nil {
+		return core.ListLessonsOutput{}, err
+	}
+
+	lessons, err := service.lessons.FindByCourse(courseID)
+	if err != nil {
+		return core.ListLessonsOutput{}, err
+	}
+
+	views := make([]core.LessonView, 0, len(lessons))
+	for _, lesson := range lessons {
+		views = append(views, lessonView(lesson))
+	}
+
+	return core.ListLessonsOutput{Lessons: views}, nil
+}
+</script>
+
+<script type="text/plain" id="b8b">
+func (repo *PostgresLessonRepository) FindByCourse(courseID domain.CourseID) ([]domain.Lesson, error) {
+	rows, err := repo.pool.Query(
+		context.Background(),
+		selectLessonSQL+` WHERE course_id = $1 ORDER BY "order" ASC`,
+		courseID.String(),
+	)
+</script>
+
+<script type="text/plain" id="b9">
+export default async function LessonReaderPage({ params }: LessonReaderPageProps) {
+  await connection();
+
+  const { lessonID } = await params;
+  const lessonResult = await getLesson(lessonID);
+
+  if (!lessonResult.ok) {
+    if (lessonResult.error.code === "not-found") {
+      notFound();
+    }
+
+    return <LessonReaderError error={lessonResult.error} />;
+  }
+
+  const lesson = lessonResult.data.Lesson;
+  const courseResult = await getCourse(lesson.CourseID);
+  // ... not-found / error handling ...
+
+  if (courseResult.data.Course.Status !== "published") {
+    notFound();
+  }
+
+  const blocksResult = await listLessonBlocks(lesson.ID);
+
+  if (!blocksResult.ok) {
+    return <LessonReaderError error={blocksResult.error} lesson={lesson} />;
+  }
+
+  return (
+    <LessonReader
+      blocks={blocksResult.data.Blocks}
+      course={courseResult.data.Course}
+      lesson={lesson}
+    />
+  );
+}
+</script>
+
+<script type="text/plain" id="b10">
+	case http.MethodGet:
+		out, err := server.lesson.ListLessonBlocks(core.ListLessonBlocksInput{LessonID: lessonID})
+		if err != nil {
+			writeError(response, err)
+			return
+		}
+		writeJSON(response, http.StatusOK, out)
+</script>
+
+<script type="text/plain" id="b10b">
+func (service *LessonService) ListLessonBlocks(in core.ListLessonBlocksInput) (core.ListLessonBlocksOutput, error) {
+	lessonID, err := domain.NewLessonID(in.LessonID)
+	if err != nil {
+		return core.ListLessonBlocksOutput{}, err
+	}
+
+	lesson, err := service.lessons.FindByID(lessonID)
+	if err != nil {
+		return core.ListLessonBlocksOutput{}, err
+	}
+
+	return core.ListLessonBlocksOutput{Blocks: blockViews(lesson)}, nil
+}
+</script>
+
+<script type="text/plain" id="b11">
+export function buildLessonBlocks(blocks: BlockView[]): LessonReaderBlock[] {
+  return blocks.map((block, index) => {
+    const kind = normalizeBlockKind(block.Kind);
+
+    return {
+      ...block,
+      kind,
+      label: labelForBlock(block, kind),
+      number: formatBlockNumber(index + 1),
+      positionLabel: `Position ${block.Position}`,
+    };
+  });
+}
+</script>
+
+<script type="text/plain" id="b11b">
+export function buildDummyActivity(
+  block: Pick<BlockView, "Kind" | "PracticeRef" | "QuizRef">,
+): DummyActivity {
+  const kind = block.Kind.trim().toLowerCase();
+
+  if (kind === "practice") {
+    return {
+      badge: "Sample data",
+      checkpoints: [
+        "Read the prompt and identify the inputs.",
+        // ...
+      ],
+      kind: "practice",
+      ref: block.PracticeRef.trim(),
+      // ... placeholder prompt + starterCode ...
+    };
+  }
+
+  return {
+    badge: "Sample data",
+    kind: "quiz",
+    ref: block.QuizRef.trim(),
+    // ... placeholder prompt + options ...
+  };
+}
+</script>
+
+<script type="text/plain" id="b12">
+export default async function CourseTestPage({ params }: CourseTestPageProps) {
+  await connection();
+
+  const { courseID } = await params;
+  const courseResult = await getCourse(courseID);
+  // ... not-found / error handling ...
+
+  const course = courseResult.data.Course;
+
+  if (course.Status !== "published") {
+    notFound();
+  }
+
+  return <CourseTest course={course} test={buildDummyCourseTest(course)} />;
+}
+</script>
+
+<script type="text/plain" id="b12b">
+export function buildDummyCourseTest(
+  course: Pick<CourseView, "Title">,
+): CourseTestProjection {
+  return {
+    badge: "Sample data",
+    kind: "test",
+    sections: [ /* concept-check, code-reading, practice-plan ... */ ],
+    summary: `A placeholder course-level test shell for ${course.Title}.`,
+    title: "Sample course check",
+  };
+}
+</script>
+
+<script type="text/plain" id="b13">
+	case http.MethodGet:
+		learnerRead, err := learnerReadRequested(request)
+		if err != nil {
+			writeError(response, err)
+			return
+		}
+
+		out, err := server.test.GetTest(core.GetTestInput{ID: testID})
+		if err != nil {
+			writeError(response, err)
+			return
+		}
+		if learnerRead {
+			if err := server.ensureLearnerCoursePublished(out.Test.CourseID); err != nil {
+				writeError(response, err)
+				return
+			}
+			writeJSON(response, http.StatusOK, learnerTestOutput(out))
+			return
+		}
+		writeJSON(response, http.StatusOK, out)
+</script>
+
+<script type="text/plain" id="b13b">
+// learnerReadRequested defines the L2 read contract: omitted view and
+// ?view=instructor preserve full-fidelity instructor responses, while
+// ?view=learner serializes only the DTOs below at the REST boundary.
+func learnerReadRequested(request *http.Request) (bool, error) {
+	view := strings.TrimSpace(request.URL.Query().Get(readViewQueryParam))
+	switch view {
+	case "", instructorReadView:
+		return false, nil
+	case learnerReadView:
+		return true, nil
+	default:
+		return false, domain.NewValidationError(readViewQueryParam, "must be learner or instructor")
+	}
+}
+
+func (server *Server) ensureLearnerCoursePublished(courseID string) error {
+	out, err := server.course.GetCourse(core.GetCourseInput{ID: courseID})
+	if err != nil {
+		return err
+	}
+
+	if out.Course.Status != domain.Published().String() {
+		return domain.ErrNotFound
+	}
+
+	return nil
+}
+</script>
+
+<script type="text/plain" id="b14">
+const selectTestItemsSQL = `SELECT
+	id,
+	test_id,
+	kind,
+	position,
+	choice_type,
+	choice_prompt,
+	choice_options::text,
+	choice_correct_indices::text,
+	choice_explanation,
+	coding_language,
+	coding_prompt,
+	starter_code,
+	coding_solution,
+	coding_test_cases::text
+FROM test_items
+WHERE test_id = ANY($1::uuid[])
+ORDER BY test_id ASC, position ASC`
+</script>
+
+<script type="text/plain" id="b14b">
+type learnerTestItemView struct {
+	ID       string
+	TestID   string
+	Kind     string
+	Position int
+
+	ChoicePrompt  string
+	ChoiceType    string
+	ChoiceOptions []string
+
+	CodingPrompt string
+	Language     string
+	StarterCode  string
+}
+</script>
+
+<script>
+"use strict";
+
+/* ---------------- trace data ---------------- */
+
+const TRACES = [
+{
+  name: "A — System boot",
+  nodes: [
+    { t: "process: main()", g: "entry" },
+    { t: "cobra root cmd", g: "edge" },
+    { t: "viper config", g: "app" },
+    { t: "containerScope (lazy DI)", g: "app" },
+    { t: "pgx pool + repos", g: "adapter" },
+    { t: "usecase services", g: "core" },
+    { t: "rest.NewServer", g: "edge" },
+    { t: "auth → route()", g: "edge" },
+    { t: "listen 127.0.0.1:8788", g: "infra" },
+    { t: "next start (RSC)", g: "entry", lane: true },
+    { t: "course-api client", g: "adapter" },
+    { t: "fetch cache + tags", g: "infra" },
+  ],
+  steps: [
+    {
+      title: "Process entry — a single binary, many edges",
+      nodes: [0],
+      prose: `<p>Everything in the Go backend starts at <code>main()</code>. It installs a signal-aware context (SIGINT/SIGTERM), builds the Cobra command tree, and runs it. Note that <em>no database, no config, no server</em> exists yet — boot is deliberately lazy. Errors bubbling out of any subcommand are mapped to process exit codes by <code>coursecli.ExitCode</code>.</p>
+      <p>The same binary serves three runtimes: direct CLI commands, the loopback <code>playground</code>, and the <code>rest</code> API server. All three converge on the same usecases.</p>`,
+      code: [{ file: "cmd/course-cli/main.go", start: 19, id: "a1", lang: "go" }],
+    },
+    {
+      title: "Root command: flags bound, services deferred",
+      nodes: [1, 2],
+      prose: `<p><code>newRootCommand</code> is the wiring hub. It creates one shared Viper config, binds the persistent <code>--db-url</code> / <code>--api-token</code> flags into it, and registers every subcommand. Each entity command (course, lesson, quiz…) receives a <code>deferredXxxService</code> — a thin proxy holding only the <code>containerScope</code>, not a live service.</p>
+      <p><code>PersistentPostRun</code> closes the scope after every command, so the pgx pool never outlives an invocation.</p>`,
+      code: [{ file: "cmd/course-cli/main.go", start: 30, id: "a2", lang: "go" }],
+    },
+    {
+      title: "Lazy DI: the containerScope",
+      nodes: [3],
+      prose: `<p>The container is built on <em>first use</em>, not at boot. <code>Container()</code> is mutex-guarded and memoized: the first service call triggers <code>LoadConfig</code> → <code>BuildContainer</code>; later calls reuse the cached container. This is why <code>course-cli --help</code> works with no database configured.</p>
+      <p>Every deferred service method follows the same two-line shape: resolve the container, delegate to the real usecase.</p>`,
+      code: [
+        { file: "cmd/course-cli/main.go", start: 122, id: "a3", lang: "go" },
+        { file: "cmd/course-cli/main.go", start: 158, id: "a3b", lang: "go" },
+      ],
+    },
+    {
+      title: "Config resolution: flags → env → YAML",
+      nodes: [2],
+      prose: `<p>Configuration is layered by Viper with this precedence: explicit CLI flags, then <code>COURSE_CLI_*</code> environment variables (dashes become underscores, so <code>db-url</code> → <code>COURSE_CLI_DB_URL</code>), then <code>~/.config/course-cli/config.yaml</code>. A missing config file is tolerated; a missing DB URL is not — it fails later in <code>BuildContainer</code>.</p>
+      <p>Three values come out of this: <code>DBURL</code>, <code>InstructorID</code> (a stand-in until auth exists), and <code>APIToken</code> (required by the REST edge).</p>`,
+      code: [{ file: "internal/course/app/config.go", start: 51, id: "a4", lang: "go" }],
+    },
+    {
+      title: "Composition root — BuildContainer",
+      nodes: [3, 4, 5],
+      prose: `<p>This is the single composition root for the whole bounded context. Order matters and reads like the hexagon from outside in: infrastructure (pgx pool) → outbound adapters (5 Postgres repositories) → providers (UUIDs, clock, zip import source) → usecase services. Services receive only <code>core</code> interfaces, never concrete adapters.</p>
+      <p><code>ImportService</code> is notable: it composes the <em>other five services</em> as collaborators, reusing their validation instead of duplicating it.</p>`,
+      code: [{ file: "internal/course/app/container.go", start: 30, id: "a5", lang: "go" }],
+    },
+    {
+      title: "Providers: identity and time as ports",
+      nodes: [5],
+      prose: `<p>ID generation and time are injected via the <code>core.IDGenerator</code> and <code>core.Clock</code> ports rather than called inline. Usecases therefore never touch <code>uuid.NewString()</code> or <code>time.Now()</code> directly — tests swap in deterministic fakes. The clock normalizes to UTC at the source.</p>`,
+      code: [{ file: "internal/course/app/providers.go", start: 11, id: "a6", lang: "go" }],
+    },
+    {
+      title: "The rest subcommand: container → served edge",
+      nodes: [6],
+      prose: `<p><code>course-cli rest</code> is where the boot trace turns toward the network. It resolves the lazy container and hands all six services — plus the API token and instructor ID from config — to <code>rest.NewServer</code>. The REST adapter is a pure consumer of <code>core</code> interfaces; it has no idea Postgres exists.</p>`,
+      code: [{ file: "cmd/course-cli/rest.go", start: 12, id: "a7", lang: "go" }],
+    },
+    {
+      title: "Server invariants: fail fast at construction",
+      nodes: [6],
+      prose: `<p><code>NewServer</code> refuses to construct a half-wired edge: every service must be present and the bearer token must be non-empty. Misconfiguration is a boot-time error, not a 500 at request time. Note <code>DefaultAddress = "127.0.0.1:8788"</code> — loopback by default, like the playground.</p>`,
+      code: [{ file: "internal/course/adapter/rest/server.go", start: 68, id: "a8", lang: "go" }],
+    },
+    {
+      title: "Handler chain and graceful shutdown",
+      nodes: [7, 8],
+      prose: `<p>The entire middleware stack is one line: <code>authenticate(route)</code>. <code>ListenAndServe</code> binds the TCP listener, serves on a goroutine, and races server errors against context cancellation — the same signal context created back in <code>main()</code>. On Ctrl-C it gets a 5-second graceful shutdown window.</p>`,
+      code: [{ file: "internal/course/adapter/rest/server.go", start: 101, id: "a9", lang: "go" }],
+    },
+    {
+      title: "Bearer auth at the edge",
+      nodes: [7],
+      prose: `<p>Every request — including learner reads — must carry <code>Authorization: Bearer &lt;token&gt;</code>. The comparison uses <code>subtle.ConstantTimeCompare</code> to avoid timing side channels. There is exactly one token for the whole API; per-user auth is future work (hence the configured <code>InstructorID</code>).</p>`,
+      code: [{ file: "internal/course/adapter/rest/server.go", start: 147, id: "a10", lang: "go" }],
+    },
+    {
+      title: "The routing table — hand-rolled, segment-matched",
+      nodes: [7],
+      prose: `<p>No router dependency: <code>route()</code> splits the URL path into segments and pattern-matches on count + literals. Everything lives under <code>/v1</code>. Each case delegates to a focused handler that decodes JSON into a <code>core</code> input DTO and calls one usecase method. This switch is the complete public surface of the Go backend.</p>`,
+      code: [{ file: "internal/course/adapter/rest/server.go", start: 167, id: "a11", lang: "go" }],
+    },
+    {
+      title: "Next.js boot: a server-only API client",
+      nodes: [9, 10],
+      prose: `<p>The web reader boots separately (<code>next start</code> in <code>web/</code>). At module load, <code>server.ts</code> instantiates the course-api client once, marked <code>server-only</code> so the bearer token can never leak into a client bundle. Settings come from <code>COURSE_CLI_API_TOKEN</code> (required) and <code>COURSE_API_BASE_URL</code> (defaults to <code>http://127.0.0.1:8788</code> in transport.ts).</p>
+      <p>Pages import named functions like <code>listPublishedCourses</code> — never raw <code>fetch</code>.</p>`,
+      code: [{ file: "web/src/lib/course-api/server.ts", start: 1, id: "a12", lang: "ts" }],
+    },
+    {
+      title: "Fetch cache boot + the revalidation edge",
+      nodes: [11],
+      prose: `<p>Every API read is <code>force-cache</code> with <code>revalidate: false</code> — cached indefinitely in the Next.js data cache, keyed by tags like <code>course-reader:catalog:published</code>. Freshness is push-based: an operator (or the Go side, eventually) POSTs to <code>/api/revalidate</code> with a shared secret, and the route expires the matching tags. This is the third served edge in the system, after the Go REST API and the HTML routes themselves.</p>`,
+      code: [
+        { file: "web/src/lib/course-api/cache.ts", start: 27, id: "a13", lang: "ts" },
+        { file: "web/src/app/api/revalidate/route.ts", start: 8, id: "a13b", lang: "ts" },
+      ],
+    },
+  ],
+},
+{
+  name: "B — Learner journey",
+  nodes: [
+    { t: "Browser", g: "entry" },
+    { t: "RSC page", g: "edge" },
+    { t: "course-api client", g: "adapter" },
+    { t: "HTTP :8788", g: "infra" },
+    { t: "bearer auth", g: "edge" },
+    { t: "route()", g: "edge" },
+    { t: "handler", g: "edge" },
+    { t: "learner projection", g: "edge" },
+    { t: "usecase", g: "core" },
+    { t: "domain", g: "domain" },
+    { t: "repository", g: "adapter" },
+    { t: "PostgreSQL", g: "infra" },
+  ],
+  steps: [
+    {
+      title: "GET / — the catalog page",
+      nodes: [0, 1],
+      prose: `<p>A learner opens the reader. The catalog page is an async React Server Component; <code>await connection()</code> opts out of prerendering so the catalog is fetched per request (subject to the tag cache). It makes exactly one API read and branches on the <code>Result</code> discriminated union — errors render <code>CourseCatalogError</code>, never throw.</p>`,
+      code: [{ file: "web/src/app/page.tsx", start: 16, id: "b1", lang: "ts" }],
+    },
+    {
+      title: "Transport: composing the read",
+      nodes: [2, 3],
+      prose: `<p><code>listPublishedCourses</code> builds <code>GET /v1/courses?status=published</code> and tags it for cache invalidation. The shared <code>request()</code> helper resolves base URL + token, attaches the Bearer header and the <code>force-cache</code> options, and converts every failure mode (network, non-2xx, bad JSON) into a typed <code>CourseApiError</code> — the UI never sees exceptions.</p>`,
+      code: [
+        { file: "web/src/lib/course-api/transport.ts", start: 159, id: "b2", lang: "ts" },
+        { file: "web/src/lib/course-api/transport.ts", start: 183, id: "b2b", lang: "ts" },
+      ],
+    },
+    {
+      title: "Go edge: auth → route → handleCourses",
+      nodes: [4, 5, 6],
+      prose: `<p>The request crosses into the Go process: bearer auth (Trace A, step 10), then <code>route()</code> matches <code>["v1","courses"]</code> and dispatches to <code>handleCourses</code>. The handler is deliberately thin — it lifts the <code>?status=</code> query into a <code>core.ListCoursesInput</code> DTO and calls the usecase. No domain logic at the edge.</p>`,
+      code: [{ file: "internal/course/adapter/rest/course_handlers.go", start: 10, id: "b3", lang: "go" }],
+    },
+    {
+      title: "Usecase: ListCourses validates, delegates, projects",
+      nodes: [8, 9],
+      prose: `<p>The usecase does three things: validate the raw status string into a <code>domain.CourseStatus</code> value object (invalid input fails before any I/O), call the <code>CourseRepository</code> port, and map domain entities to flat <code>core.CourseView</code> DTOs. Domain objects never escape the core — handlers only ever see views.</p>`,
+      code: [
+        { file: "internal/course/usecase/course_service.go", start: 73, id: "b4", lang: "go" },
+        { file: "internal/course/usecase/course_service.go", start: 237, id: "b4b", lang: "go" },
+      ],
+    },
+    {
+      title: "Adapter edge: the catalog SQL",
+      nodes: [10, 11],
+      prose: `<p>The Postgres adapter turns the filter into one of two queries. Rows are scanned and rehydrated through <code>domain.RestoreCourse</code>, so even data loaded from the database re-passes domain validation. This is the innermost point of the catalog read — from here the data retraces the same path back out: rows → entities → views → JSON → fetch cache → RSC.</p>`,
+      code: [
+        { file: "internal/course/adapter/postgres/course_repository.go", start: 93, id: "b5", lang: "go" },
+        { file: "internal/course/adapter/postgres/course_repository.go", start: 139, id: "b5b", lang: "go" },
+      ],
+    },
+    {
+      title: "Render and navigate",
+      nodes: [1, 0],
+      prose: `<p>Back in the web tier, <code>selectPublishedCourses</code> re-filters defensively (the API was already asked for published only) and <code>CourseCatalog</code> renders cards server-side; the learner receives HTML, not JSON. Each card links to <code>/courses/{id}</code> — the next hop in the journey.</p>`,
+      code: [{ file: "web/src/lib/catalog.ts", start: 9, id: "b6", lang: "ts" }],
+    },
+    {
+      title: "Course detail: parallel reads + the publish gate",
+      nodes: [1, 2],
+      prose: `<p>The syllabus page fires <code>getCourse</code> and <code>listCourseLessons</code> concurrently with <code>Promise.all</code>. Two gates protect learners: an API <code>not-found</code> becomes a Next.js 404, and — crucially — a course that exists but is <em>not published</em> is also 404'd. Draft content is invisible at this edge even though the API (with its instructor token) would happily return it.</p>`,
+      code: [{ file: "web/src/app/courses/[courseID]/page.tsx", start: 22, id: "b7", lang: "ts" }],
+    },
+    {
+      title: "Lessons for a course, in reading order",
+      nodes: [6, 8, 10],
+      prose: `<p>On the Go side, <code>ListLessons</code> first asserts the course exists (a <code>FindByID</code> against the course repo — cheap referential integrity at the usecase level), then loads lessons. The adapter orders by the domain's <code>"order"</code> column, so the syllabus arrives pre-sorted in reading order.</p>`,
+      code: [
+        { file: "internal/course/usecase/lesson_service.go", start: 68, id: "b8", lang: "go" },
+        { file: "internal/course/adapter/postgres/lesson_repository.go", start: 117, id: "b8b", lang: "go" },
+      ],
+    },
+    {
+      title: "Lesson reader: three dependent reads",
+      nodes: [1, 2],
+      prose: `<p>Unlike the course page, the lesson page is sequential by necessity: it needs the lesson to learn its <code>CourseID</code>, then the course to enforce the publish gate, then the blocks. Three round-trips to the Go API, each individually cached by tag. The publish gate repeats here — deep links to lessons of unpublished courses 404.</p>`,
+      code: [{ file: "web/src/app/lessons/[lessonID]/page.tsx", start: 26, id: "b9", lang: "ts" }],
+    },
+    {
+      title: "Blocks live inside the lesson aggregate",
+      nodes: [6, 8],
+      prose: `<p><code>GET /v1/lessons/{id}/blocks</code> shows the aggregate boundary clearly: there is no block repository. <code>ListLessonBlocks</code> loads the <em>lesson</em> entity and projects <code>blockViews(lesson)</code> from it — content blocks are owned by the lesson, ordered by position, and only reachable through it.</p>`,
+      code: [
+        { file: "internal/course/adapter/rest/server.go", start: 748, id: "b10", lang: "go" },
+        { file: "internal/course/usecase/lesson_service.go", start: 218, id: "b10b", lang: "go" },
+      ],
+    },
+    {
+      title: "Client-side projection: markdown, video, and stubs",
+      nodes: [1],
+      prose: `<p><code>lesson-reader.ts</code> shapes raw <code>BlockView</code>s for rendering: numbering, kind normalization, a hand-rolled markdown parser, and video embed resolution. Note the honest stub: quiz and practice blocks render <code>buildDummyActivity</code> placeholders badged <span class="warn">"Sample data"</span> — the real refs (<code>QuizRef</code>, <code>PracticeRef</code>) are carried but not yet fetched, even though <code>getLearnerQuiz</code>/<code>getLearnerPractice</code> already exist in the transport.</p>`,
+      code: [
+        { file: "web/src/lib/lesson-reader.ts", start: 88, id: "b11", lang: "ts" },
+        { file: "web/src/lib/lesson-reader.ts", start: 155, id: "b11b", lang: "ts" },
+      ],
+    },
+    {
+      title: "Course test page: a stubbed conclusion…",
+      nodes: [1],
+      prose: `<p>The journey's last page is the course test. Today it fetches only the course (for the publish gate and title) and renders <code>buildDummyCourseTest</code> — pure placeholder content, no test API call at all. The frontend edge for tests exists; the data behind it is fake.</p>`,
+      code: [
+        { file: "web/src/app/courses/[courseID]/test/page.tsx", start: 21, id: "b12", lang: "ts" },
+        { file: "web/src/lib/course-test.ts", start: 20, id: "b12b", lang: "ts" },
+      ],
+    },
+    {
+      title: "…but the real learner edge already exists",
+      nodes: [6, 7],
+      prose: `<p>The backend is ahead of the frontend here. <code>GET /v1/tests/{id}?view=learner</code> is fully implemented: <code>learnerReadRequested</code> parses the view param, <code>ensureLearnerCoursePublished</code> re-enforces the publish gate <em>server-side</em> (an unpublished course's test is a 404 for learners), and the response is serialized through a learner projection instead of the instructor DTO. The transport's <code>getLearnerTest</code> is wired to call exactly this.</p>`,
+      code: [
+        { file: "internal/course/adapter/rest/server.go", start: 440, id: "b13", lang: "go" },
+        { file: "internal/course/adapter/rest/learner_projection.go", start: 18, id: "b13b", lang: "go" },
+      ],
+    },
+    {
+      title: "Conclusion at the adapter edge: what the learner never sees",
+      nodes: [10, 11],
+      prose: `<p>End of the line. The test repository's SQL selects <em>everything</em> — including <code>choice_correct_indices</code>, <code>choice_explanation</code>, <code>coding_solution</code>, and <code>coding_test_cases</code>. Compare with <code>learnerTestItemView</code>: those fields simply don't exist on the learner DTO. Answer-stripping is a <em>projection at the REST boundary</em>, not a SQL-level filter — the full aggregate flows up through repo → usecase → handler, and the edge decides what each audience may see. That asymmetry is the whole hexagonal argument in one example.</p>`,
+      code: [
+        { file: "internal/course/adapter/postgres/test_repository.go", start: 253, id: "b14", lang: "go" },
+        { file: "internal/course/adapter/rest/learner_projection.go", start: 101, id: "b14b", lang: "go" },
+      ],
+    },
+  ],
+},
+];
+
+/* ---------------- flowchart data ----------------
+   coords are grid units: c (column, 200px pitch), r (row, 96px pitch).
+   steps[] are 1-based indices into the same trace's steps. */
+
+const FLOWS = [
+{
+  lanes: [
+    { r: 0, label: "process · served edge (cmd/course-cli, rest)" },
+    { r: 1, label: "app composition" },
+    { r: 2, label: "core · outbound adapters" },
+    { r: 3, label: "infrastructure" },
+    { r: 4, label: "web (next.js)" },
+  ],
+  nodes: [
+    { id: "main", c: 0, r: 0, label: "main()", sub: "signal ctx · exec", g: "entry", steps: [1],
+      desc: "Process entry. Installs a SIGINT/SIGTERM-aware context, builds the Cobra tree, runs it, and maps errors to exit codes. Nothing else exists yet — boot is lazy.",
+      files: ["cmd/course-cli/main.go"] },
+    { id: "root", c: 1, r: 0, label: "cobra root", sub: "flags → viper", g: "edge", steps: [2],
+      desc: "Wiring hub: one shared Viper config, persistent --db-url / --api-token flags bound into it, every subcommand registered. PersistentPostRun closes the container scope after each run.",
+      files: ["cmd/course-cli/main.go"] },
+    { id: "cmds", c: 2, r: 0, label: "entity commands", sub: "deferred services", g: "edge", steps: [2, 3],
+      desc: "course / lesson / quiz / practice / test / import commands. Each receives a deferredXxxService proxy that resolves the real usecase from the containerScope only when invoked.",
+      files: ["cmd/course-cli/main.go", "internal/course/adapter/cli/*.go"] },
+    { id: "restcmd", c: 3, r: 0, label: "rest subcommand", sub: "course-cli rest", g: "edge", steps: [7],
+      desc: "Turns the boot toward the network: resolves the lazy container and hands all six services plus APIToken and InstructorID to rest.NewServer.",
+      files: ["cmd/course-cli/rest.go"] },
+    { id: "server", c: 4, r: 0, label: "rest.NewServer", sub: "fail-fast invariants", g: "edge", steps: [8],
+      desc: "Refuses to construct a half-wired edge: every service must be present and the bearer token non-empty. Misconfiguration is a boot error, not a request-time 500.",
+      files: ["internal/course/adapter/rest/server.go"] },
+    { id: "edge", c: 5, r: 0, label: "auth → route()", sub: "middleware chain", g: "edge", steps: [9, 10, 11],
+      desc: "The whole middleware stack is authenticate(route): constant-time bearer check, then a hand-rolled path-segment router under /v1. This switch is the backend's entire public surface.",
+      files: ["internal/course/adapter/rest/server.go"] },
+    { id: "listen", c: 5, r: 1, label: "listener", sub: "127.0.0.1:8788", g: "infra", steps: [9],
+      desc: "TCP listener with graceful shutdown: server errors race against the signal context from main(); Ctrl-C gets a 5-second drain window.",
+      files: ["internal/course/adapter/rest/server.go"] },
+    { id: "config", c: 1, r: 1, label: "viper config", sub: "flags → env → yaml", g: "app", steps: [4],
+      desc: "Layered resolution: CLI flags, then COURSE_CLI_* env vars, then ~/.config/course-cli/config.yaml. Yields DBURL, InstructorID, APIToken.",
+      files: ["internal/course/app/config.go"] },
+    { id: "scope", c: 2, r: 1, label: "containerScope", sub: "lazy · memoized", g: "app", steps: [3],
+      desc: "Container() is mutex-guarded and built on first use: LoadConfig → BuildContainer, then cached. This is why --help works without a database.",
+      files: ["cmd/course-cli/main.go"] },
+    { id: "container", c: 3, r: 1, label: "BuildContainer", sub: "composition root", g: "app", steps: [5],
+      desc: "The single composition root: pgx pool → 5 Postgres repositories → providers → 6 usecase services. Services only ever see core interfaces.",
+      files: ["internal/course/app/container.go"] },
+    { id: "providers", c: 2, r: 2, label: "providers", sub: "uuid · clock", g: "core", steps: [6],
+      desc: "core.IDGenerator and core.Clock implementations. Usecases never call uuid.NewString() or time.Now() directly — tests inject deterministic fakes.",
+      files: ["internal/course/app/providers.go"] },
+    { id: "services", c: 3, r: 2, label: "usecase services", sub: "×6 · core ifaces", g: "core", steps: [5],
+      desc: "Course, Lesson, Quiz, Practice, Test, Import. ImportService composes the other five as collaborators, reusing their validation.",
+      files: ["internal/course/usecase/*.go", "internal/course/core/services.go"] },
+    { id: "repos", c: 4, r: 2, label: "postgres repos", sub: "×5 adapters", g: "adapter", steps: [5],
+      desc: "Outbound adapters implementing core repository ports (compile-checked with var _ core.CourseRepository = ...). Rows rehydrate through domain.RestoreXxx.",
+      files: ["internal/course/adapter/postgres/*.go", "internal/course/core/repositories.go"] },
+    { id: "pgpool", c: 4, r: 3, label: "pgx pool → PostgreSQL", sub: "COURSE_CLI_DB_URL", g: "infra", steps: [5],
+      desc: "One pgxpool shared by all repositories; closed by the scope's Close() after every CLI invocation or on server shutdown.",
+      files: ["internal/course/app/container.go"] },
+    { id: "next", c: 0, r: 4, label: "next start", sub: "RSC runtime", g: "entry", steps: [12],
+      desc: "The web reader boots as a separate process in web/. Pages are async React Server Components — all course data is fetched server-side.",
+      files: ["web/src/app/layout.tsx"] },
+    { id: "client", c: 1, r: 4, label: "course-api client", sub: "server-only", g: "adapter", steps: [12],
+      desc: "Instantiated once at module load, marked server-only so COURSE_CLI_API_TOKEN never reaches a client bundle. Base URL defaults to http://127.0.0.1:8788.",
+      files: ["web/src/lib/course-api/server.ts", "web/src/lib/course-api/transport.ts"] },
+    { id: "cache", c: 2, r: 4, label: "fetch cache", sub: "force-cache · tags", g: "infra", steps: [13],
+      desc: "Every read is cached indefinitely in the Next.js data cache, keyed by tags like course-reader:catalog:published. Freshness is push-based.",
+      files: ["web/src/lib/course-api/cache.ts"] },
+    { id: "revalidate", c: 3, r: 4, label: "/api/revalidate", sub: "tag expiry edge", g: "edge", steps: [13],
+      desc: "Secret-protected POST route that expires cache tags on demand — the third served edge in the system after the Go REST API and the HTML routes.",
+      files: ["web/src/app/api/revalidate/route.ts"] },
+  ],
+  edges: [
+    { from: "main", to: "root" },
+    { from: "root", to: "cmds" },
+    { from: "root", to: "restcmd", arc: true },
+    { from: "cmds", to: "scope", dashed: true, label: "first call" },
+    { from: "restcmd", to: "scope" },
+    { from: "scope", to: "config" },
+    { from: "scope", to: "container" },
+    { from: "container", to: "providers" },
+    { from: "container", to: "services" },
+    { from: "container", to: "repos" },
+    { from: "providers", to: "services", dashed: true },
+    { from: "repos", to: "services", dashed: true, label: "injected" },
+    { from: "repos", to: "pgpool" },
+    { from: "restcmd", to: "server" },
+    { from: "services", to: "server", dashed: true, via: [[4.4, 1.2]], label: "injected" },
+    { from: "server", to: "edge" },
+    { from: "edge", to: "listen" },
+    { from: "next", to: "client" },
+    { from: "client", to: "cache" },
+    { from: "revalidate", to: "cache", dashed: true, label: "expires tags" },
+    { from: "client", to: "listen", dashed: true, via: [[1, 4.85], [6.1, 4.85], [6.1, 1.28]], label: "GET /v1/* · Bearer" },
+  ],
+},
+{
+  lanes: [
+    { r: 0, label: "routes (RSC) · browser" },
+    { r: 1, label: "web lib (projections)" },
+    { r: 2, label: "course-api client" },
+    { r: 3, label: "go rest edge" },
+    { r: 4, label: "core · domain" },
+    { r: 5, label: "adapter · infrastructure" },
+  ],
+  nodes: [
+    { id: "browser", c: 0, r: 0, label: "Learner browser", sub: "receives HTML", g: "entry", steps: [1, 6],
+      desc: "The learner only ever receives rendered HTML — every API call happens server-side in the RSC layer. Navigation between pages drives the journey.",
+      files: [] },
+    { id: "pcat", c: 1.15, r: 0, label: "/", sub: "catalog page", g: "edge", steps: [1, 6],
+      desc: "Async RSC. One API read (published courses), Result-union error handling, renders CourseCatalog cards linking to /courses/{id}.",
+      files: ["web/src/app/page.tsx"] },
+    { id: "pcourse", c: 2.35, r: 0, label: "/courses/:id", sub: "syllabus", g: "edge", steps: [7],
+      desc: "Parallel getCourse + listCourseLessons via Promise.all. Two gates: API not-found → 404, and unpublished course → 404. Draft content is invisible here.",
+      files: ["web/src/app/courses/[courseID]/page.tsx"] },
+    { id: "plesson", c: 3.55, r: 0, label: "/lessons/:id", sub: "reader", g: "edge", steps: [9],
+      desc: "Three sequential reads by necessity: lesson → its course (publish gate) → blocks. Deep links into unpublished courses 404.",
+      files: ["web/src/app/lessons/[lessonID]/page.tsx"] },
+    { id: "ptest", c: 4.75, r: 0, label: "/courses/:id/test", sub: "test (stub)", g: "edge", steps: [12],
+      desc: "Fetches only the course (publish gate + title), then renders a placeholder test. No test API call happens today.",
+      files: ["web/src/app/courses/[courseID]/test/page.tsx"] },
+    { id: "libcat", c: 1.15, r: 1, label: "catalog.ts", sub: "filter · paths", g: "app", steps: [6],
+      desc: "Defensive re-filter to published, course detail path building, date formatting. Pure functions — easy to unit test.",
+      files: ["web/src/lib/catalog.ts"] },
+    { id: "libreader", c: 3.55, r: 1, label: "lesson-reader.ts", sub: "markdown · stubs", g: "app", steps: [11],
+      desc: "Shapes BlockViews for rendering: numbering, markdown parsing, video embeds — and buildDummyActivity placeholders for quiz/practice blocks (refs carried, not yet fetched).",
+      files: ["web/src/lib/lesson-reader.ts"] },
+    { id: "libtest", c: 4.75, r: 1, label: "course-test.ts", sub: "dummy test", g: "app", steps: [12],
+      desc: "buildDummyCourseTest fabricates a sample test shell badged \"Sample data\". The real learner test endpoint exists but is not called yet.",
+      files: ["web/src/lib/course-test.ts"] },
+    { id: "client", c: 2.35, r: 2, label: "course-api client", sub: "transport + cache", g: "adapter", steps: [2],
+      desc: "Builds endpoints, attaches Bearer + force-cache tag options, and converts every failure (network, non-2xx, bad JSON) into a typed CourseApiError. The UI never sees exceptions.",
+      files: ["web/src/lib/course-api/transport.ts", "web/src/lib/course-api/cache.ts"] },
+    { id: "auth", c: 1.6, r: 3, label: "bearer auth", sub: "constant-time", g: "edge", steps: [3],
+      desc: "Every request must carry Authorization: Bearer <token>; comparison uses subtle.ConstantTimeCompare. One token for the whole API today.",
+      files: ["internal/course/adapter/rest/server.go"] },
+    { id: "route", c: 2.6, r: 3, label: "route()", sub: "path segments", g: "edge", steps: [3],
+      desc: "Hand-rolled router: splits the path, matches on segment count + literals under /v1, dispatches to one focused handler per case.",
+      files: ["internal/course/adapter/rest/server.go"] },
+    { id: "handlers", c: 3.6, r: 3, label: "handlers", sub: "courses · lessons · tests", g: "edge", steps: [3, 8, 10, 13],
+      desc: "Thin translators: decode query/body into core input DTOs, call exactly one usecase method, write JSON. No domain logic at the edge.",
+      files: ["internal/course/adapter/rest/course_handlers.go", "internal/course/adapter/rest/server.go"] },
+    { id: "projection", c: 4.7, r: 3, label: "learner projection", sub: "?view=learner", g: "edge", steps: [13, 14],
+      desc: "For learner reads: re-enforces the publish gate server-side and reserializes through learner DTOs that simply lack answer fields (correct indices, solutions, explanations).",
+      files: ["internal/course/adapter/rest/learner_projection.go"] },
+    { id: "usecases", c: 3.6, r: 4, label: "usecase services", sub: "validate · delegate", g: "core", steps: [4, 8, 10],
+      desc: "Validate raw input into domain value objects before any I/O, call repository ports, map entities to flat core views. Domain objects never escape the core.",
+      files: ["internal/course/usecase/course_service.go", "internal/course/usecase/lesson_service.go", "internal/course/usecase/test_service.go"] },
+    { id: "domain", c: 4.7, r: 4, label: "domain", sub: "VOs · entities", g: "domain", steps: [4],
+      desc: "CourseStatus, Slug, IDs as value objects; Course/Lesson/Test entities with private fields. Blocks live inside the Lesson aggregate — no block repository exists.",
+      files: ["internal/course/domain/*.go"] },
+    { id: "repos", c: 3.6, r: 5, label: "postgres repos", sub: "SQL · rehydrate", g: "adapter", steps: [5, 8, 14],
+      desc: "Filtered SELECTs ordered by domain rules (created_at DESC, \"order\" ASC, position ASC). The test items query selects everything — including solutions the learner never sees.",
+      files: ["internal/course/adapter/postgres/course_repository.go", "internal/course/adapter/postgres/lesson_repository.go", "internal/course/adapter/postgres/test_repository.go"] },
+    { id: "pg", c: 4.7, r: 5, label: "PostgreSQL", sub: "courses · lessons · tests…", g: "infra", steps: [5, 14],
+      desc: "Schema from migrations/000001_create_course_schema.up.sql. The innermost point of every read in this journey.",
+      files: ["migrations/"] },
+  ],
+  edges: [
+    { from: "browser", to: "pcat" },
+    { from: "pcat", to: "pcourse", dashed: true, arc: true, label: "click course" },
+    { from: "pcourse", to: "plesson", dashed: true, arc: true, label: "open lesson" },
+    { from: "pcourse", to: "ptest", dashed: true, arc: true, label: "take test" },
+    { from: "pcat", to: "libcat" },
+    { from: "plesson", to: "libreader" },
+    { from: "ptest", to: "libtest" },
+    { from: "pcat", to: "client", via: [[1.5, 1.6]] },
+    { from: "pcourse", to: "client" },
+    { from: "plesson", to: "client", via: [[3.2, 1.6]] },
+    { from: "ptest", to: "client", via: [[4.2, 1.7]], label: "getCourse only" },
+    { from: "client", to: "auth", label: "GET /v1/* · Bearer" },
+    { from: "auth", to: "route" },
+    { from: "route", to: "handlers" },
+    { from: "handlers", to: "projection", dashed: true, label: "?view=learner" },
+    { from: "handlers", to: "usecases" },
+    { from: "usecases", to: "domain", label: "VOs validate" },
+    { from: "usecases", to: "repos" },
+    { from: "repos", to: "pg" },
+  ],
+},
+];
+
+/* ---------------- rendering ---------------- */
+
+const GROUP_COLOR = {
+  entry: "var(--c-entry)", edge: "var(--c-edge)", app: "var(--c-app)",
+  core: "var(--c-core)", domain: "var(--c-domain)",
+  adapter: "var(--c-adapter)", infra: "var(--c-infra)",
+};
+
+const GROUP_NAME = {
+  entry: "entry / runtime", edge: "served edge", app: "app wiring",
+  core: "usecase (core)", domain: "domain", adapter: "adapter", infra: "infrastructure",
+};
+
+const state = { trace: 0, step: [0, 0], view: "flow", sel: [null, null] };
+
+const elMap = document.getElementById("map");
+const elToc = document.getElementById("toc");
+const elMain = document.getElementById("main");
+const elPos = document.getElementById("pos");
+const btnPrev = document.getElementById("prev");
+const btnNext = document.getElementById("next");
+const elMapbar = document.querySelector(".mapbar");
+const elLayout = document.querySelector(".layout");
+const elFooter = document.querySelector("footer.nav");
+const elFlowview = document.getElementById("flowview");
+const elFsvgwrap = document.getElementById("fsvgwrap");
+const elFlowpanel = document.getElementById("flowpanel");
+
+function esc(s) {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+const GO_KW = /\b(func|return|if|else|for|range|switch|case|default|type|struct|interface|const|var|import|package|defer|go|select|chan|map|nil|err|error|string|int|bool|byte|any|float64|true|false)\b/g;
+const TS_KW = /\b(export|import|from|const|let|var|function|return|if|else|for|of|async|await|type|interface|extends|new|try|catch|default|switch|case|null|undefined|true|false|string|number|boolean|unknown|never|as|typeof)\b/g;
+
+function highlight(line, lang) {
+  let s = esc(line);
+  // comments first
+  const cm = s.match(/^(\s*)(\/\/.*)$/);
+  if (cm) return cm[1] + '<span class="tok-c">' + cm[2] + "</span>";
+  // strings
+  s = s.replace(/(&quot;.*?&quot;|`[^`]*`?|'[^']*')/g, '<span class="tok-s">$1</span>');
+  // keywords (skip inside spans crudely: apply only to segments outside tags)
+  const kw = lang === "go" ? GO_KW : TS_KW;
+  s = s.split(/(<span class="tok-s">.*?<\/span>)/g).map(seg =>
+    seg.startsWith('<span') ? seg : seg.replace(kw, '<span class="tok-k">$1</span>')
+  ).join("");
+  // trailing // comments
+  s = s.replace(/(\s)(\/\/(?:(?!&).)*)$/, '$1<span class="tok-c">$2</span>');
+  return s;
+}
+
+function codeBlock(ref) {
+  const node = document.getElementById(ref.id);
+  let text = node ? node.textContent : "(missing excerpt)";
+  text = text.replace(/^\n/, "").replace(/\n\s*$/, "");
+  const lines = text.split("\n");
+  const elided = text.includes("...");
+  const rows = lines.map((ln, i) =>
+    `<div class="row"><span class="gut">${elided && i > 0 ? "·" : ref.start + i}</span><span class="src">${highlight(ln, ref.lang)}</span></div>`
+  ).join("");
+  const range = elided ? `:${ref.start}… (trimmed)` : `:${ref.start}–${ref.start + lines.length - 1}`;
+  return `<div class="filechip">${esc(ref.file)} <span class="ln">${range}</span></div>
+  <pre class="code">${rows}</pre>`;
+}
+
+/* ---------------- flowchart rendering ---------------- */
+
+const NW = 176, NH = 54, PITCH = 200, RH = 96, MX = 44, MY = 30;
+const fX = c => MX + c * PITCH;          // node left
+const fCX = c => fX(c) + NW / 2;         // node center x
+const fY = r => MY + r * RH;             // node top
+const fCY = r => fY(r) + NH / 2;         // node center y
+
+function anchor(node, toward) {
+  const cx = fCX(node.c), cy = fCY(node.r);
+  const dx = toward.x - cx, dy = toward.y - cy;
+  if (Math.abs(dy) * (NW / 2) > Math.abs(dx) * (NH / 2)) {
+    return { x: cx, y: cy + Math.sign(dy) * (NH / 2) };
+  }
+  return { x: cx + Math.sign(dx) * (NW / 2), y: cy };
+}
+
+function edgeSVG(e, byId) {
+  const s = byId[e.from], t = byId[e.to];
+  const cls = "fedge" + (e.dashed ? " dash" : "");
+  let d, lx, ly;
+
+  if (e.arc) {
+    // same-row arc above the nodes
+    const sx = fCX(s.c) + NW / 2, sy = fCY(s.r);
+    const tx = fCX(t.c) - NW / 2, ty = fCY(t.r);
+    const lift = 52;
+    d = `M ${sx} ${sy} C ${sx + 40} ${sy - lift}, ${tx - 40} ${ty - lift}, ${tx} ${ty}`;
+    lx = (sx + tx) / 2; ly = sy - lift + 8;
+  } else {
+    const vias = (e.via || []).map(([c, r]) => ({ x: fCX(c), y: fCY(r) }));
+    const firstToward = vias[0] || { x: fCX(t.c), y: fCY(t.r) };
+    const lastToward = vias[vias.length - 1] || { x: fCX(s.c), y: fCY(s.r) };
+    const p0 = anchor(s, firstToward);
+    const pn = anchor(t, lastToward);
+    const pts = [p0, ...vias, pn];
+    d = "M " + pts.map(p => `${p.x} ${p.y}`).join(" L ");
+    const mi = Math.floor((pts.length - 1) / 2);
+    lx = (pts[mi].x + pts[mi + 1].x) / 2;
+    ly = (pts[mi].y + pts[mi + 1].y) / 2 - 6;
+  }
+
+  const label = e.label
+    ? `<text class="flabel" x="${lx}" y="${ly}" text-anchor="middle">${esc(e.label)}</text>`
+    : "";
+  return `<path class="${cls}" d="${d}" marker-end="url(#arr)"/>${label}`;
+}
+
+function renderFlow() {
+  const flow = FLOWS[state.trace];
+  const sel = state.sel[state.trace];
+  const byId = {};
+  flow.nodes.forEach(n => { byId[n.id] = n; });
+
+  const maxC = Math.max(...flow.nodes.map(n => n.c),
+    ...flow.edges.flatMap(e => (e.via || []).map(v => v[0])));
+  const maxR = Math.max(...flow.nodes.map(n => n.r),
+    ...flow.edges.flatMap(e => (e.via || []).map(v => v[1])));
+  const W = fX(maxC) + NW + MX;
+  const H = fY(maxR) + NH + MY + 10;
+
+  const bands = flow.lanes.map(l =>
+    `<rect class="lane-band" x="0" y="${fY(l.r) - 17}" width="${W}" height="${NH + 34}" ${l.r % 2 ? "" : 'opacity="0"'}/>
+     <text class="lane-label" x="10" y="${fY(l.r) - 4}">${esc(l.label)}</text>`
+  ).join("");
+
+  const edges = flow.edges.map(e => edgeSVG(e, byId)).join("");
+
+  const nodes = flow.nodes.map(n => {
+    const x = fX(n.c), y = fY(n.r);
+    const subT = n.sub
+      ? `<text class="sub" x="${x + NW / 2}" y="${y + 40}" text-anchor="middle">${esc(n.sub)}</text>`
+      : "";
+    const labelY = n.sub ? y + 23 : y + 32;
+    return `<g class="fnode${n.id === sel ? " sel" : ""}" data-id="${n.id}">
+      <rect x="${x}" y="${y}" width="${NW}" height="${NH}" rx="9" stroke="${GROUP_COLOR[n.g]}"/>
+      <text x="${x + NW / 2}" y="${labelY}" text-anchor="middle">${esc(n.label)}</text>${subT}</g>`;
+  }).join("");
+
+  elFsvgwrap.innerHTML =
+    `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
+      <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#52617f"/></marker></defs>
+      ${bands}${edges}${nodes}</svg>`;
+
+  elFsvgwrap.querySelectorAll(".fnode").forEach(g =>
+    g.addEventListener("click", ev => {
+      ev.stopPropagation();
+      state.sel[state.trace] = g.dataset.id;
+      render();
+    }));
+
+  renderFlowPanel(byId);
+}
+
+function renderFlowPanel(byId) {
+  const sel = state.sel[state.trace];
+  const trace = TRACES[state.trace];
+  const node = sel ? byId[sel] : null;
+
+  if (!node) {
+    elFlowpanel.innerHTML = `<p class="fp-hint">Click any node in the flowchart to see what it does, which files implement it, and jump to the matching walkthrough step.</p>`;
+    return;
+  }
+
+  const files = node.files.length
+    ? `<div class="fp-files">${node.files.map(f => `<div>${esc(f)}</div>`).join("")}</div>`
+    : "";
+  const steps = node.steps.map(i =>
+    `<button data-step="${i - 1}"><span class="sn">${String(i).padStart(2, "0")}</span>${esc(trace.steps[i - 1].title)} →</button>`
+  ).join("");
+
+  elFlowpanel.innerHTML =
+    `<span class="fp-group" style="--fp-c:${GROUP_COLOR[node.g]}">${esc(GROUP_NAME[node.g])}</span>
+     <h3>${esc(node.label)}</h3>
+     <div class="fp-desc"><p>${esc(node.desc)}</p></div>
+     ${files}
+     <div class="fp-steps">${steps}</div>`;
+
+  elFlowpanel.querySelectorAll("[data-step]").forEach(b =>
+    b.addEventListener("click", () => {
+      state.view = "steps";
+      state.step[state.trace] = parseInt(b.dataset.step, 10);
+      render();
+    }));
+}
+
+/* ---------------- main render ---------------- */
+
+function render() {
+  const trace = TRACES[state.trace];
+  const si = state.step[state.trace];
+  const step = trace.steps[si];
+  const isFlow = state.view === "flow";
+
+  // tabs + view toggle
+  document.querySelectorAll(".tab").forEach((b, i) =>
+    b.classList.toggle("active", i === state.trace));
+  document.querySelectorAll(".vtoggle button").forEach(b =>
+    b.classList.toggle("on", b.dataset.view === state.view));
+
+  // view visibility
+  elFlowview.hidden = !isFlow;
+  elMapbar.hidden = isFlow;
+  elLayout.hidden = isFlow;
+  elFooter.hidden = isFlow;
+
+  if (isFlow) {
+    if (!state.sel[state.trace]) state.sel[state.trace] = FLOWS[state.trace].nodes[0].id;
+    renderFlow();
+    return;
+  }
+
+  // map
+  elMap.innerHTML = trace.nodes.map((n, i) => {
+    const on = step.nodes.includes(i);
+    const lane = n.lane ? " lane" : "";
+    const sep = i === 0 ? "" : (n.lane ? '<span class="arrow">‖</span>' : '<span class="arrow">→</span>');
+    return `${sep}<span class="node${on ? " on" : ""}${lane}" style="--node-c:${GROUP_COLOR[n.g]}">${esc(n.t)}</span>`;
+  }).join("");
+
+  // toc
+  elToc.innerHTML = trace.steps.map((s, i) =>
+    `<button class="${i === si ? "cur" : ""}" data-i="${i}"><span class="num">${String(i + 1).padStart(2, "0")}</span>${esc(s.title)}</button>`
+  ).join("");
+  elToc.querySelectorAll("button").forEach(b =>
+    b.addEventListener("click", () => go(parseInt(b.dataset.i, 10))));
+
+  // main
+  elMain.innerHTML =
+    `<div class="stepkicker">Trace ${trace.name} · Step ${si + 1} of ${trace.steps.length}</div>
+     <h2>${esc(step.title)}</h2>
+     <div class="prose">${step.prose}</div>
+     ${step.code.map(codeBlock).join("")}`;
+
+  elPos.textContent = `${si + 1} / ${trace.steps.length}`;
+  btnPrev.disabled = si === 0;
+  btnNext.disabled = si === trace.steps.length - 1;
+  window.scrollTo({ top: 0 });
+}
+
+function go(i) {
+  const max = TRACES[state.trace].steps.length - 1;
+  state.step[state.trace] = Math.max(0, Math.min(max, i));
+  render();
+}
+
+document.querySelectorAll(".tab").forEach((b, i) =>
+  b.addEventListener("click", () => { state.trace = i; render(); }));
+document.querySelectorAll(".vtoggle button").forEach(b =>
+  b.addEventListener("click", () => { state.view = b.dataset.view; render(); }));
+btnPrev.addEventListener("click", () => go(state.step[state.trace] - 1));
+btnNext.addEventListener("click", () => go(state.step[state.trace] + 1));
+document.addEventListener("keydown", e => {
+  if (state.view !== "steps") {
+    if (e.key === "Escape") { state.sel[state.trace] = null; render(); }
+    return;
+  }
+  if (e.key === "ArrowRight") go(state.step[state.trace] + 1);
+  if (e.key === "ArrowLeft") go(state.step[state.trace] - 1);
+});
+
+render();
+</script>
+</body>
+</html>

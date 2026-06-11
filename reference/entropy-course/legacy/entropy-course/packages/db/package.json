@@ -1,0 +1,37 @@
+{
+  "name": "@entropy-course/db",
+  "type": "module",
+  "exports": {
+    ".": {
+      "default": "./src/index.ts"
+    },
+    "./*": {
+      "default": "./src/*.ts"
+    }
+  },
+  "scripts": {
+    "db:push": "drizzle-kit push",
+    "db:generate": "drizzle-kit generate",
+    "db:studio": "drizzle-kit studio",
+    "db:migrate": "drizzle-kit migrate",
+    "db:seed": "bun run src/seed.ts",
+    "db:start": "docker compose -f ../../docker-compose.yml up -d postgres",
+    "db:watch": "docker compose -f ../../docker-compose.yml up postgres",
+    "db:stop": "docker compose -f ../../docker-compose.yml stop postgres",
+    "db:down": "docker compose -f ../../docker-compose.yml down"
+  },
+  "dependencies": {
+    "@entropy-course/env": "workspace:*",
+    "better-auth": "catalog:",
+    "dotenv": "catalog:",
+    "drizzle-orm": "^0.45.1",
+    "pg": "^8.17.1",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@entropy-course/config": "workspace:*",
+    "@types/pg": "^8.16.0",
+    "drizzle-kit": "^0.31.8",
+    "typescript": "catalog:"
+  }
+}
