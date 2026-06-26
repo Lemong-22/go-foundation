@@ -1,10 +1,25 @@
-// Package main is a sanity-check program. It prints "Hello from Go" and exits.
-// This is the first code we write in go-foundation. If this runs, Go is installed correctly.
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"net/http"
+)
 
 func main() {
-	fmt.Println("Hello from Go on canister23")
-	fmt.Println("Go version: see `go version`")
+	//1.handler untuk path "/"
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprint(w, "Hello from Go")
+	})
+
+	//2. handler untuk path "/healthz"
+	http.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		fmt.Fprint(w, "OK")
+	})
+
+	//3. run server di port 8080
+	err := http.ListenAndServe(":8080", nil)
+	if err != nil {
+		fmt.Println("Waduh error:", err)
+	}
 }
