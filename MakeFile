@@ -1,0 +1,11 @@
+# Jalankan aplikasi pgping ke database
+ping:
+	go run ./cmd/pgping
+
+# Bikin course baru (in-memory)
+course-create:
+	go run ./cmd/course-cli course create --title "Intro to Go" --slug "intro-go"
+
+# Tampilkan daftar course (in-memory)
+course-list:
+	go run ./cmd/course-cli course list
