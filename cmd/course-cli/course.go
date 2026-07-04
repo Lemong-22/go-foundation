@@ -1,71 +1,172 @@
 package main
 
 import (
+	"context"
+	"errors"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/lemong-22/go-foundation/internal/course"
 	"github.com/spf13/cobra"
 )
 
-// Ini adalah "Database Palsu" kita di RAM
-var dbInMemory []course.Course
+// Flag variabel untuk menampung input user.
+var (
+	titleFlag string
+	slugFlag  string
+	idFlag    string
+)
 
-// Flag variabel untuk menampung input user
-var titleFlag string
-var slugFlag string
+// newRepo adalah helper yang bikin repository Course dari dbPool global.
+// Return error kalau dbPool belum dibuka (DATABASE_URL gak di-set).
+func newRepo() (course.CourseRepository, error) {
+	if dbPool == nil {
+		return nil, errors.New("DATABASE_URL belum di-set; tidak bisa pakai repository. " +
+			"Export DATABASE_URL lalu jalankan ulang.")
+	}
+	return course.NewPostgresCourseRepository(dbPool), nil
+}
+
+// newIDgenerator bikin ID sederhana berbasis timestamp.
+// Format: CRSM-<unix-nano>. Bukan UUID tapi cukup unik untuk CLI local.
+func newID() string {
+	return fmt.Sprintf("CRSM-%d", time.Now().UnixNano())
+}
+
+// slugify: rapikan spasi jadi dash, fallback kalau kosong.
+func slugify(s string) string {
+	s = strings.TrimSpace(s)
+	s = strings.ReplaceAll(s, " ", "-")
+	return strings.ToLower(s)
+}
 
 func init() {
-	// 1. Bikin sub-command utama bernama "course"
+	// 1. Sub-command utama "course".
 	courseCmd := &cobra.Command{
 		Use:   "course",
 		Short: "Manajemen data course",
 	}
 
-	// 2. Bikin aksi "create"
+	// 2. create — bikin course baru, simpan ke Postgres.
 	createCmd := &cobra.Command{
 		Use:   "create",
-		Short: "Bikin course baru",
-		Run: func(cmd *cobra.Command, args []string) {
-			// Bikin objek course baru dari input flag
-			newCourse := course.Course{
-				ID:        fmt.Sprintf("CRSM-%d", len(dbInMemory)+1), // ID palsu urutan
-				Title:     titleFlag,
-				Slug:      slugFlag,
-				Status:    "draft",
-				CreatedAt: time.Now(),
-				UpdatedAt: time.Now(),
+		Short: "Bikin course baru (persist ke Postgres)",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			repo, err := newRepo()
+			if err != nil {
+				return err
+			}
+			ctx := cmd.Context()
+			if ctx == nil {
+				ctx = context.Background()
 			}
 
-			// Simpan ke database RAM (append kayak push di JS)
-			dbInMemory = append(dbInMemory, newCourse)
+			now := time.Now().UTC()
+			newCourse := course.Course{
+				ID:          newID(),
+				Title:       titleFlag,
+				Slug:        slugify(slugFlag),
+				Description: "", // belum ada flag-nya, default kosong
+				Status:      "draft",
+				CreatedAt:   now,
+				UpdatedAt:   now,
+			}
+
+			if err := repo.Save(ctx, &newCourse); err != nil {
+				return fmt.Errorf("gagal save course: %w", err)
+			}
 			fmt.Printf("Mantap! Course sukses dibuat dengan ID: %s\n", newCourse.ID)
+			return nil
 		},
 	}
-
-	// Daftarin input wajib (--title dan --slug) ke command create
 	createCmd.Flags().StringVar(&titleFlag, "title", "", "Judul course")
 	createCmd.Flags().StringVar(&slugFlag, "slug", "", "Slug url course")
-	createCmd.MarkFlagRequired("title")
-	createCmd.MarkFlagRequired("slug")
+	_ = createCmd.MarkFlagRequired("title")
+	_ = createCmd.MarkFlagRequired("slug")
 
-	// 3. Bikin aksi "list"
+	// 3. list — tampilkan semua course dari Postgres.
 	listCmd := &cobra.Command{
 		Use:   "list",
 		Short: "Tampilkan semua course",
-		Run: func(cmd *cobra.Command, args []string) {
-			if len(dbInMemory) == 0 {
-				fmt.Println("Belum ada course yang dibuat. Kosong melompong!")
-				return
+		RunE: func(cmd *cobra.Command, args []string) error {
+			repo, err := newRepo()
+			if err != nil {
+				return err
+			}
+			ctx := cmd.Context()
+			if ctx == nil {
+				ctx = context.Background()
 			}
 
-			for _, c := range dbInMemory {
-				fmt.Printf("[%s] %s (Slug: %s) - Status: %s\n", c.ID, c.Title, c.Slug, c.Status)
+			items, err := repo.FindAll(ctx)
+			if err != nil {
+				return fmt.Errorf("gagal FindAll: %w", err)
 			}
+			if len(items) == 0 {
+				fmt.Println("Belum ada course yang dibuat. Kosong melompong!")
+				return nil
+			}
+			for _, c := range items {
+				fmt.Printf("[%s] %s (Slug: %s) - Status: %s\n",
+					c.ID, c.Title, c.Slug, c.Status)
+			}
+			return nil
 		},
 	}
 
-	// Gabungin semua potongan perintah ke root utama
-	courseCmd.AddCommand(createCmd, listCmd)
+	// 4. find — ambil 1 course by id.
+	findCmd := &cobra.Command{
+		Use:   "find",
+		Short: "Cari course by id",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			repo, err := newRepo()
+			if err != nil {
+				return err
+			}
+			ctx := cmd.Context()
+			if ctx == nil {
+				ctx = context.Background()
+			}
+
+			found, err := repo.FindByID(ctx, idFlag)
+			if err != nil {
+				return fmt.Errorf("FindByID(%q): %w", idFlag, err)
+			}
+			fmt.Printf("Found: [%s] %s\n  Slug:        %s\n  Status:      %s\n  Description: %s\n  CreatedAt:   %s\n  UpdatedAt:   %s\n",
+				found.ID, found.Title, found.Slug, found.Status,
+				found.Description, found.CreatedAt, found.UpdatedAt)
+			return nil
+		},
+	}
+	findCmd.Flags().StringVar(&idFlag, "id", "", "ID course (e.g. CRSM-1234567890)")
+	_ = findCmd.MarkFlagRequired("id")
+
+	// 5. delete — hapus course by id.
+	deleteCmd := &cobra.Command{
+		Use:   "delete",
+		Short: "Hapus course by id",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			repo, err := newRepo()
+			if err != nil {
+				return err
+			}
+			ctx := cmd.Context()
+			if ctx == nil {
+				ctx = context.Background()
+			}
+
+			if err := repo.Delete(ctx, idFlag); err != nil {
+				return fmt.Errorf("Delete(%q): %w", idFlag, err)
+			}
+			fmt.Printf("Berhasil hapus course %s\n", idFlag)
+			return nil
+		},
+	}
+	deleteCmd.Flags().StringVar(&idFlag, "id", "", "ID course (e.g. CRSM-1234567890)")
+	_ = deleteCmd.MarkFlagRequired("id")
+
+	// Gabungin semua sub-command ke root.
+	courseCmd.AddCommand(createCmd, listCmd, findCmd, deleteCmd)
 	rootCmd.AddCommand(courseCmd)
 }
