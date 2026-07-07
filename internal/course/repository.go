@@ -14,4 +14,6 @@ type CourseRepository interface {
 	FindByID(ctx context.Context, id string) (*Course, error)
 	FindAll(ctx context.Context) ([]Course, error)
 	Delete(ctx context.Context, id string) error
+	SaveLesson(ctx context.Context, l *Lesson) error
+	FindLessonsByCourseID(ctx context.Context, courseID string) ([]Lesson, error)
 }
