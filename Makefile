@@ -19,8 +19,30 @@ course-find:
 
 # Hapus course by id
 course-delete:
-	DATABASE_URL="postgres://go_foundation:go_foundation@localhost:5432/go_foundation?sslmode=disable" \
+	DATABASE_URL="postgres://go_foundation:***@localhost:5432/go_foundation?sslmode=disable" \
 		go run ./cmd/course-cli course delete --id "$(ID)"
+
+# Bikin lesson baru di bawah course tertentu (persist ke Postgres).
+# Contoh pakai:
+#   make lesson-create COURSE=CRSM-1783154565172307654 TITLE="Bab 1" SLUG="bab-1" ORDER=0
+lesson-create:
+	DATABASE_URL="postgres://go_foundation:***@localhost:5432/go_foundation?sslmode=disable" \
+		go run ./cmd/course-cli lesson create \
+			--course-id "$(COURSE)" --title "$(TITLE)" --slug "$(SLUG)" --order "$(ORDER)"
+
+# Tampilkan semua lesson milik course tertentu.
+# Contoh pakai:
+#   make lesson-list COURSE=CRSM-1783154565172307654
+lesson-list:
+	DATABASE_URL="postgres://go_foundation:***@localhost:5432/go_foundation?sslmode=disable" \
+		go run ./cmd/course-cli lesson list --course-id "$(COURSE)"
+
+# Hapus lesson by id.
+# Contoh pakai:
+#   make lesson-delete LESSON=LES-1234567890
+lesson-delete:
+	DATABASE_URL="postgres://go_foundation:***@localhost:5432/go_foundation?sslmode=disable" \
+		go run ./cmd/course-cli lesson delete --id "$(LESSON)"
 
 # Apply migrasi schema courses ke Postgres
 migrate-up:

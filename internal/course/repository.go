@@ -16,4 +16,5 @@ type CourseRepository interface {
 	Delete(ctx context.Context, id string) error
 	SaveLesson(ctx context.Context, l *Lesson) error
 	FindLessonsByCourseID(ctx context.Context, courseID string) ([]Lesson, error)
+	DeleteLesson(ctx context.Context, id string) error
 }
