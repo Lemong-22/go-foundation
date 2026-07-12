@@ -44,6 +44,11 @@ lesson-delete:
 	DATABASE_URL="postgres://go_foundation:***@localhost:5432/go_foundation?sslmode=disable" \
 		go run ./cmd/course-cli lesson delete --id "$(LESSON)"
 
+# Jalanin HTTP REST API server di port 8080
+api-start:
+	DATABASE_URL="postgres://go_foundation:***@localhost:5432/go_foundation?sslmode=disable" \
+		go run ./cmd/course-api
+
 # Apply migrasi schema courses ke Postgres
 migrate-up:
 	psql "postgres://go_foundation:go_foundation@localhost:5432/go_foundation?sslmode=disable" \

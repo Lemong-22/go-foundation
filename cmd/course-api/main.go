@@ -38,6 +38,8 @@ func main() {
 	// 4. Daftarin Rute HTTP (Routing bawaan Go 1.22)
 	http.HandleFunc("POST /courses", handler.CreateCourseHandler)
 	http.HandleFunc("GET /courses", handler.ListCoursesHandler)
+	http.HandleFunc("POST /courses/{id}/lessons", handler.CreateLessonHandler)
+	http.HandleFunc("GET /courses/{id}/lessons", handler.ListLessonsHandler)
 
 	fmt.Println("Server course-api mengudara di port 8080...")
 	// 5. Nyalain server
