@@ -2,8 +2,10 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"os"
 	"strings"
 	"time"
 
@@ -13,9 +15,10 @@ import (
 
 // Flag variabel untuk menampung input user.
 var (
-	titleFlag string
-	slugFlag  string
-	idFlag    string
+	titleFlag      string
+	slugFlag       string
+	idFlag         string
+	outputFlagCourse string // "json" atau "" (default human-readable)
 )
 
 // newRepo adalah helper yang bikin repository Course dari dbPool global.
@@ -55,7 +58,8 @@ func init() {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			repo, err := newRepo()
 			if err != nil {
-				return err
+				fmt.Fprintln(os.Stderr, err)
+				os.Exit(1)
 			}
 			ctx := cmd.Context()
 			if ctx == nil {
@@ -74,14 +78,22 @@ func init() {
 			}
 
 			if err := repo.Save(ctx, &newCourse); err != nil {
-				return fmt.Errorf("gagal save course: %w", err)
+				fmt.Fprintf(os.Stderr, "gagal save course: %v\n", err)
+				os.Exit(1)
 			}
-			fmt.Printf("Mantap! Course sukses dibuat dengan ID: %s\n", newCourse.ID)
+
+			if outputFlagCourse == "json" {
+				json.NewEncoder(os.Stdout).Encode(newCourse)
+			} else {
+				fmt.Printf("Mantap! Course sukses dibuat dengan ID: %s\n", newCourse.ID)
+			}
+			os.Exit(0)
 			return nil
 		},
 	}
 	createCmd.Flags().StringVar(&titleFlag, "title", "", "Judul course")
 	createCmd.Flags().StringVar(&slugFlag, "slug", "", "Slug url course")
+	createCmd.Flags().StringVar(&outputFlagCourse, "output", "", "Format output: json")
 	_ = createCmd.MarkFlagRequired("title")
 	_ = createCmd.MarkFlagRequired("slug")
 
@@ -92,7 +104,8 @@ func init() {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			repo, err := newRepo()
 			if err != nil {
-				return err
+				fmt.Fprintln(os.Stderr, err)
+				os.Exit(1)
 			}
 			ctx := cmd.Context()
 			if ctx == nil {
@@ -101,19 +114,28 @@ func init() {
 
 			items, err := repo.FindAll(ctx)
 			if err != nil {
-				return fmt.Errorf("gagal FindAll: %w", err)
+				fmt.Fprintf(os.Stderr, "gagal FindAll: %v\n", err)
+				os.Exit(1)
 			}
+
+			if outputFlagCourse == "json" {
+				json.NewEncoder(os.Stdout).Encode(items)
+				os.Exit(0)
+			}
+
 			if len(items) == 0 {
 				fmt.Println("Belum ada course yang dibuat. Kosong melompong!")
-				return nil
+				os.Exit(0)
 			}
 			for _, c := range items {
 				fmt.Printf("[%s] %s (Slug: %s) - Status: %s\n",
 					c.ID, c.Title, c.Slug, c.Status)
 			}
+			os.Exit(0)
 			return nil
 		},
 	}
+	listCmd.Flags().StringVar(&outputFlagCourse, "output", "", "Format output: json")
 
 	// 4. find — ambil 1 course by id.
 	findCmd := &cobra.Command{
@@ -122,7 +144,8 @@ func init() {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			repo, err := newRepo()
 			if err != nil {
-				return err
+				fmt.Fprintln(os.Stderr, err)
+				os.Exit(1)
 			}
 			ctx := cmd.Context()
 			if ctx == nil {
@@ -131,15 +154,23 @@ func init() {
 
 			found, err := repo.FindByID(ctx, idFlag)
 			if err != nil {
-				return fmt.Errorf("FindByID(%q): %w", idFlag, err)
+				fmt.Fprintf(os.Stderr, "FindByID(%q): %v\n", idFlag, err)
+				os.Exit(1)
 			}
-			fmt.Printf("Found: [%s] %s\n  Slug:        %s\n  Status:      %s\n  Description: %s\n  CreatedAt:   %s\n  UpdatedAt:   %s\n",
-				found.ID, found.Title, found.Slug, found.Status,
-				found.Description, found.CreatedAt, found.UpdatedAt)
+
+			if outputFlagCourse == "json" {
+				json.NewEncoder(os.Stdout).Encode(found)
+			} else {
+				fmt.Printf("Found: [%s] %s\n  Slug:        %s\n  Status:      %s\n  Description: %s\n  CreatedAt:   %s\n  UpdatedAt:   %s\n",
+					found.ID, found.Title, found.Slug, found.Status,
+					found.Description, found.CreatedAt, found.UpdatedAt)
+			}
+			os.Exit(0)
 			return nil
 		},
 	}
 	findCmd.Flags().StringVar(&idFlag, "id", "", "ID course (e.g. CRSM-1234567890)")
+	findCmd.Flags().StringVar(&outputFlagCourse, "output", "", "Format output: json")
 	_ = findCmd.MarkFlagRequired("id")
 
 	// 5. delete — hapus course by id.
@@ -149,7 +180,8 @@ func init() {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			repo, err := newRepo()
 			if err != nil {
-				return err
+				fmt.Fprintln(os.Stderr, err)
+				os.Exit(1)
 			}
 			ctx := cmd.Context()
 			if ctx == nil {
@@ -157,9 +189,11 @@ func init() {
 			}
 
 			if err := repo.Delete(ctx, idFlag); err != nil {
-				return fmt.Errorf("Delete(%q): %w", idFlag, err)
+				fmt.Fprintf(os.Stderr, "Delete(%q): %v\n", idFlag, err)
+				os.Exit(1)
 			}
 			fmt.Printf("Berhasil hapus course %s\n", idFlag)
+			os.Exit(0)
 			return nil
 		},
 	}

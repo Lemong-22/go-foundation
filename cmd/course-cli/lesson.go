@@ -2,8 +2,10 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"os"
 	"strings"
 	"time"
 
@@ -13,11 +15,12 @@ import (
 
 // Flag variabel untuk sub-command lesson.
 var (
-	lessonCourseIDFlag string
-	lessonTitleFlag    string
-	lessonSlugFlag     string
-	lessonOrderFlag    int
-	lessonIDFlag       string
+	lessonCourseIDFlag  string
+	lessonTitleFlag     string
+	lessonSlugFlag      string
+	lessonOrderFlag     int
+	lessonIDFlag        string
+	outputFlagLesson    string // "json" atau "" (default human-readable)
 )
 
 // newLessonIDgenerator bikin ID sederhana berbasis timestamp.
@@ -49,7 +52,8 @@ func init() {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			repo, err := newRepo()
 			if err != nil {
-				return err
+				fmt.Fprintln(os.Stderr, err)
+				os.Exit(1)
 			}
 			ctx := cmd.Context()
 			if ctx == nil {
@@ -60,10 +64,12 @@ func init() {
 			// nolak dengan error cryptic. Lebih baik fail-fast dengan pesan jelas.
 			if _, err := repo.FindByID(ctx, lessonCourseIDFlag); err != nil {
 				if errors.Is(err, course.ErrNotFound) {
-					return fmt.Errorf("course %q tidak ditemukan — bikin course dulu sebelum tambah lesson",
+					fmt.Fprintf(os.Stderr, "course %q tidak ditemukan — bikin course dulu sebelum tambah lesson\n",
 						lessonCourseIDFlag)
+				} else {
+					fmt.Fprintf(os.Stderr, "gagal verifikasi course: %v\n", err)
 				}
-				return fmt.Errorf("gagal verifikasi course: %w", err)
+				os.Exit(1)
 			}
 
 			now := time.Now().UTC()
@@ -79,9 +85,16 @@ func init() {
 			}
 
 			if err := repo.SaveLesson(ctx, &newLesson); err != nil {
-				return fmt.Errorf("gagal save lesson: %w", err)
+				fmt.Fprintf(os.Stderr, "gagal save lesson: %v\n", err)
+				os.Exit(1)
 			}
-			fmt.Printf("Mantap! Lesson sukses dibuat dengan ID: %s\n", newLesson.ID)
+
+			if outputFlagLesson == "json" {
+				json.NewEncoder(os.Stdout).Encode(newLesson)
+			} else {
+				fmt.Printf("Mantap! Lesson sukses dibuat dengan ID: %s\n", newLesson.ID)
+			}
+			os.Exit(0)
 			return nil
 		},
 	}
@@ -91,6 +104,7 @@ func init() {
 	createLessonCmd.Flags().StringVar(&lessonSlugFlag, "slug", "", "Slug url lesson")
 	createLessonCmd.Flags().IntVar(&lessonOrderFlag, "order", 0,
 		"Urutan lesson dalam course (0 = pertama)")
+	createLessonCmd.Flags().StringVar(&outputFlagLesson, "output", "", "Format output: json")
 	_ = createLessonCmd.MarkFlagRequired("course-id")
 	_ = createLessonCmd.MarkFlagRequired("title")
 	_ = createLessonCmd.MarkFlagRequired("slug")
@@ -102,7 +116,8 @@ func init() {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			repo, err := newRepo()
 			if err != nil {
-				return err
+				fmt.Fprintln(os.Stderr, err)
+				os.Exit(1)
 			}
 			ctx := cmd.Context()
 			if ctx == nil {
@@ -111,22 +126,31 @@ func init() {
 
 			items, err := repo.FindLessonsByCourseID(ctx, lessonCourseIDFlag)
 			if err != nil {
-				return fmt.Errorf("gagal FindLessonsByCourseID: %w", err)
+				fmt.Fprintf(os.Stderr, "gagal FindLessonsByCourseID: %v\n", err)
+				os.Exit(1)
 			}
+
+			if outputFlagLesson == "json" {
+				json.NewEncoder(os.Stdout).Encode(items)
+				os.Exit(0)
+			}
+
 			if len(items) == 0 {
 				fmt.Printf("Course %q belum punya lesson. Kosong melompong!\n", lessonCourseIDFlag)
-				return nil
+				os.Exit(0)
 			}
 			fmt.Printf("Lessons untuk course %s:\n", lessonCourseIDFlag)
 			for _, l := range items {
 				fmt.Printf("  [%d] [%s] %s (Slug: %s)\n",
 					l.OrderIndex, l.ID, l.Title, l.Slug)
 			}
+			os.Exit(0)
 			return nil
 		},
 	}
 	listLessonCmd.Flags().StringVar(&lessonCourseIDFlag, "course-id", "",
 		"ID course induk (e.g. CRSM-1234567890)")
+	listLessonCmd.Flags().StringVar(&outputFlagLesson, "output", "", "Format output: json")
 	_ = listLessonCmd.MarkFlagRequired("course-id")
 
 	// 4. delete — hapus lesson berdasarkan id.
@@ -136,7 +160,8 @@ func init() {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			repo, err := newRepo()
 			if err != nil {
-				return err
+				fmt.Fprintln(os.Stderr, err)
+				os.Exit(1)
 			}
 			ctx := cmd.Context()
 			if ctx == nil {
@@ -144,9 +169,11 @@ func init() {
 			}
 
 			if err := repo.DeleteLesson(ctx, lessonIDFlag); err != nil {
-				return fmt.Errorf("DeleteLesson(%q): %w", lessonIDFlag, err)
+				fmt.Fprintf(os.Stderr, "DeleteLesson(%q): %v\n", lessonIDFlag, err)
+				os.Exit(1)
 			}
 			fmt.Printf("Berhasil hapus lesson %s\n", lessonIDFlag)
+			os.Exit(0)
 			return nil
 		},
 	}
